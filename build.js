@@ -18,6 +18,16 @@ const DIST = path.join(ROOT, "dist");
 
 const SITE_URL = "https://www.heattransfertech.com";
 
+// BASE_PATH lets the exact same source build for two different situations:
+//  - production on the real domain, served from "/" (BASE_PATH = "")
+//  - a GitHub Pages *project* preview, served from "/<repo-name>/"
+//    (BASE_PATH = "/<repo-name>", passed in via the SITE_BASE env var by
+//    .github/workflows/pages.yml — see that file for where it comes from)
+// Every internal absolute link/asset path (anything starting href="/ or
+// src="/) gets this prefixed on. Production leaves it empty, so nothing
+// changes for the real deploy.
+const BASE_PATH = (process.env.SITE_BASE || "").replace(/\/$/, "");
+
 // One entry per page. `path` is the clean URL path (with trailing slash).
 // `nav` matches a data-nav value in layout.html for active-state styling.
 const PAGES = [
@@ -132,6 +142,15 @@ function build() {
       html = html.replace(re, `$1 class="active" aria-current="page"`);
     }
 
+    // Prefix every internal absolute link/asset path with BASE_PATH.
+    // A no-op when BASE_PATH is "" (production). Only touches href="/..."
+    // and src="/..." — external links (https://...), mailto:, tel:, and
+    // in-page "#anchor" links never start with a bare "/" so they're
+    // untouched.
+    if (BASE_PATH) {
+      html = html.replace(/(href|src)="\//g, `$1="${BASE_PATH}/`);
+    }
+
     // Determine output file path
     let outFile;
     if (page.urlPath.endsWith(".html")) {
@@ -161,6 +180,7 @@ function build() {
   }
 
   console.log("\nBuild complete ->", DIST);
+  if (BASE_PATH) console.log(`(built with BASE_PATH="${BASE_PATH}" for a subpath deploy, e.g. GitHub Pages)`);
 }
 
 function copyDir(src, dest) {

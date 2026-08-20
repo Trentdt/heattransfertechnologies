@@ -5,6 +5,36 @@ script. No framework, no npm install required, no vendor lock-in — the
 output in `dist/` is flat static files that will run on literally any web
 host.
 
+## Previewing without Netlify (GitHub Pages)
+
+This includes `.github/workflows/pages.yml`, which builds and publishes the
+site to GitHub Pages automatically on every push — completely separate from
+Netlify, and doesn't touch heattransfertech.com. One-time setup:
+
+1. Push this repo (including the `.github` folder) to GitHub.
+2. On GitHub: repo → **Settings → Pages** → under "Build and deployment,"
+   set **Source** to **GitHub Actions** (not "Deploy from a branch").
+3. That's it. The workflow runs automatically on the next push — watch it
+   under the repo's **Actions** tab. When it finishes, your preview is live
+   at `https://<your-github-username>.github.io/<this-repo-name>/`
+   (GitHub shows the exact URL on the Settings → Pages screen once it's
+   deployed).
+
+Two things worth knowing about this preview:
+- It's reachable by anyone with the link — not listed anywhere, not linked
+  from your real site, but not password-protected either. Fine for
+  work-in-progress review, just not a secret.
+- The contact form won't actually send anywhere on this preview. Form
+  submission handling (Netlify Forms) only works once the site is actually
+  deployed on Netlify — on the GitHub Pages preview, clicking "Send
+  Request" will show the error message, which is expected here, not a bug.
+
+Every other page, all the styling, icons, and animations look and work
+identically to the real deployment — GitHub Pages project sites are served
+from a subfolder (`/<repo-name>/`) rather than the domain root, and
+`build.js` automatically accounts for that (see the `SITE_BASE` env var
+near the top of the file) so no links break under that setup.
+
 ## What's new in this update
 
 Same architecture and file layout as before (this drops straight into your
@@ -28,6 +58,10 @@ with a visual and interaction upgrade on top:
   focus-visible states added for accessibility
 - Respects `prefers-reduced-motion` — users with that OS setting see no
   animation at all, content is simply present
+- Added the GitHub Pages preview workflow described above, plus a
+  `SITE_BASE` build option so the exact same source works at the domain
+  root (production) or under a subfolder (the Pages preview) with no
+  manual link-fixing
 
 Before packaging this, I ran it through an automated check (link/anchor
 integrity, HTML tag balance, icon-reference integrity, JS behavior with a

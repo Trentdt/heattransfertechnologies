@@ -25,7 +25,10 @@
   /* ---------- Sticky "Request a Quote" + back-to-top ---------- */
   var cta = document.getElementById("htt-sticky-cta");
   var toTop = document.getElementById("htt-back-to-top");
-  var onContact = window.location.pathname.indexOf("/contact") === 0;
+  // .includes rather than a strict prefix match so this still works when
+  // the site is served from a subpath (e.g. a GitHub Pages preview at
+  // /repo-name/contact/) and not just at the domain root.
+  var onContact = window.location.pathname.includes("/contact");
   if (cta && onContact) cta.style.display = "none";
 
   function onScroll() {
