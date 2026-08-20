@@ -1,0 +1,9 @@
+{
+  "name": "heat-transfer-technologies-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site source for heattransfertech.com",
+  "scripts": {
+    "build": "node build.js"
+  }
+}
