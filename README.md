@@ -1,227 +1,144 @@
 # Heat Transfer Technologies — Website Source
 
-Plain HTML/CSS/JS site, assembled by a small zero-dependency Node build
-script. No framework, no npm install required, no vendor lock-in — the
-output in `dist/` is flat static files that will run on literally any web
-host.
+This is a single self-contained file: `index.html`. There's no build step,
+no `npm install`, no framework — everything (styles, the icon set, the
+company logo, and all page navigation) lives in that one file. This is a
+different, more capable version of the site than the multi-page build that
+was here before, and it replaces it.
 
-## Previewing without Netlify (GitHub Pages)
+## What changed from the previous version
 
-This includes `.github/workflows/pages.yml`, which builds and publishes the
-site to GitHub Pages automatically on every push — completely separate from
-Netlify, and doesn't touch heattransfertech.com. One-time setup:
+The earlier version of this repo used a small Node build script
+(`build.js`) to assemble multiple HTML pages with clean URLs
+(`/about/`, `/equipment/`, etc.). This version is a single-page app: one
+`index.html` that swaps visible sections in and out as you navigate, using
+URL hashes (`#/about`, `#/equipment/cooling-towers`) instead of separate
+pages. It also adds a lot that the previous version didn't have:
 
-1. Push this repo (including the `.github` folder) to GitHub.
-2. On GitHub: repo → **Settings → Pages** → under "Build and deployment,"
-   set **Source** to **GitHub Actions** (not "Deploy from a branch").
-3. That's it. The workflow runs automatically on the next push — watch it
-   under the repo's **Actions** tab. When it finishes, your preview is live
-   at `https://<your-github-username>.github.io/<this-repo-name>/`
-   (GitHub shows the exact URL on the Settings → Pages screen once it's
-   deployed).
+- Sub-pages for every equipment category and every market served
+- A live heat-transfer equations reference with a working unit converter
+- A selection tool that calculates heat load, tower approach, exchanger
+  duty (with LMTD and TEMA F-correction), and chiller sizing from your
+  inputs, accounting for glycol concentration
+- An interactive, clickable US map for territory/coverage lookup
+- A left sidebar navigation with expandable equipment/markets submenus
 
-Two things worth knowing about this preview:
-- It's reachable by anyone with the link — not listed anywhere, not linked
-  from your real site, but not password-protected either. Fine for
-  work-in-progress review, just not a secret.
-- The contact form won't actually send anywhere on this preview. Form
-  submission handling (Netlify Forms) only works once the site is actually
-  deployed on Netlify — on the GitHub Pages preview, clicking "Send
-  Request" will show the error message, which is expected here, not a bug.
+Because it's one static file with everything inlined (including the logo,
+as embedded image data — no external image files to lose track of), it's
+actually *simpler* to host than the old multi-page build. See "Going live"
+below — it fixes the GitHub Pages issue you were running into, because
+there's no build step for GitHub to run in the first place.
 
-Every other page, all the styling, icons, and animations look and work
-identically to the real deployment — GitHub Pages project sites are served
-from a subfolder (`/<repo-name>/`) rather than the domain root, and
-`build.js` automatically accounts for that (see the `SITE_BASE` env var
-near the top of the file) so no links break under that setup.
+## Previewing it
 
-## What's new in this update
+Two ways, both work with zero setup:
 
-Same architecture and file layout as before (this drops straight into your
-existing repo — see "Uploading this into your existing GitHub repo" below),
-with a visual and interaction upgrade on top:
+1. **Just double-click `index.html`.** Because navigation uses URL
+   hashes rather than server routes, the whole site — including page
+   switching — works straight off your local disk with no server needed.
+2. Or serve it locally: `npx serve .` (or `python3 -m http.server 8080`)
+   from this folder, then open the printed URL. Only meaningfully
+   different from option 1 if you want to test it the way a real host
+   will serve it.
 
-- A hand-built inline SVG icon set (no external icon library/CDN) used
-  across feature cards, equipment categories, market sections, and the new
-  process steps
-- A more detailed hero treatment (layered gradient + subtle blueprint-grid
-  texture) and a qualitative capability badge row
-- A new "How We Work" 3-step section on the Home page
-- Scroll-reveal animations as sections come into view — implemented so
-  content is **fully visible by default**; the animation only activates
-  once JS confirms it can run, so a slow network, blocked script, or
-  disabled JS never hides real content (verified — see note below)
-- The contact form now submits via JS (fetch) with an inline success/error
-  message instead of a full-page reload, while still falling back to a
-  normal POST if JS is unavailable
-- A back-to-top button, a scroll-elevated header, and `aria-current`/
-  focus-visible states added for accessibility
-- Respects `prefers-reduced-motion` — users with that OS setting see no
-  animation at all, content is simply present
-- Added the GitHub Pages preview workflow described above, plus a
-  `SITE_BASE` build option so the exact same source works at the domain
-  root (production) or under a subfolder (the Pages preview) with no
-  manual link-fixing
+## Going live
 
-Before packaging this, I ran it through an automated check (link/anchor
-integrity, HTML tag balance, icon-reference integrity, JS behavior with a
-headless browser) including a specific test with JavaScript **disabled
-entirely** to confirm no content depends on JS to be visible or readable.
+### On GitHub Pages (what you were setting up)
 
-## Uploading this into your existing GitHub repo
+This fixes the "preview shows only the README" problem you hit, because
+that was caused by GitHub Pages needing a build step it wasn't finding —
+there is no build step now.
 
-You already have a repo connected to Netlify. This zip mirrors that same
-file structure exactly, so updating is a straight overwrite:
+1. Push this folder's contents to your repo (`index.html`, `robots.txt`,
+   `sitemap.xml`, this `README.md`).
+2. Repo → **Settings → Pages** → under "Build and deployment," set
+   **Source** to **Deploy from a branch**, branch **main**, folder **/
+   (root)**.
+3. Save. GitHub builds nothing — it just serves `index.html` — so it
+   should go live within a minute or two. The URL will be
+   `https://<your-github-username>.github.io/<this-repo-name>/`.
+4. If you still have `.github/workflows/pages.yml` in the repo from the
+   previous version, you can delete it — it's for the old build-based
+   setup and isn't needed anymore. It won't break anything if you leave
+   it, it'll just run pointlessly on every push.
 
-1. Extract this zip somewhere on your computer.
-2. On GitHub, open your repo and delete the old `src/`, `assets/`,
-   `build.js`, `package.json`, `netlify.toml`, `robots.txt`, and
-   `sitemap.xml` (or just skip this — uploading files with the same path
-   replaces them in place, so deleting first isn't strictly necessary).
-3. Use "Add file → Upload files" at the repo root and drag in everything
-   from the extracted folder **except `dist/`** (Netlify rebuilds that
-   fresh on every deploy from source, so it doesn't need to live in the
-   repo). GitHub will show you it's replacing the matching existing files.
-4. Commit directly to `main`.
-5. Netlify picks up the push automatically and redeploys — no settings to
-   change, since `netlify.toml` (build command `node build.js`, publish
-   `dist`) is identical to what's already there.
+### On Netlify (when you're ready to point the real domain at it)
 
-If GitHub Desktop is easier for you than the web uploader, same idea: pull
-your existing repo, copy these files over the old ones, commit, push.
+1. **Drag-and-drop (fastest):** go to `app.netlify.com/drop` and drag
+   this folder onto the page. You get a live `*.netlify.app` URL
+   immediately.
+2. **Or connect GitHub** (auto-deploys on every push): Netlify → Add new
+   site → Import an existing project → GitHub → select this repo. No
+   build command needed — set the publish directory to `/` (repo root)
+   since there's nothing to build.
+3. When you're ready, Netlify's domain settings will show the exact DNS
+   records to point `heattransfertech.com` at it.
 
-## What's in here
+### Anywhere else
 
-```
-src/layout.html          Shared header/nav/footer template + icon sprite
-src/pages/*.content.html One file per page's body content
-assets/css/styles.css    All site styling (brand colors as CSS variables)
-assets/js/main.js        Mobile nav, sticky CTA, back-to-top, scroll-reveal,
-                          AJAX contact form submission
-build.js                 Assembles layout + content -> dist/
-robots.txt, sitemap.xml  Copied into dist/ as-is
-netlify.toml             Build config if you deploy via Netlify + Git
-```
+It's plain HTML/CSS/JS with no server requirements — Vercel, Cloudflare
+Pages, S3+CloudFront, or literally any static file host works by just
+uploading `index.html`.
 
-## Build it
+## Before this is fully publish-ready
 
-```
-node build.js
-```
+The site is functionally complete, but several places intentionally show
+an orange-flagged **[PLACEHOLDER]** rather than invented information —
+impossible to miss if you preview the site. Send me the real details for
+any of these and I'll drop them straight in:
 
-That's the whole build — no `npm install` needed, it only uses Node's
-built-in `fs`/`path`. Output lands in `dist/`, one folder per page with
-clean URLs (`dist/about/index.html` → served at `/about/`).
+1. **Company contact info** — street address, city/state/ZIP, main
+   phone, email, hours (Contact page, and repeated in the footer).
+2. **Leadership bios** — the About page has one sample entry using your
+   name; needs a real title and background, plus any other leaders you
+   want listed.
+3. **Territory assignments** — the coverage map currently has a working
+   *guess* at which states belong to which of four regions (Mid-Atlantic,
+   Great Lakes, Northeast, Southeast), with your name as a placeholder
+   rep for all four and `[PLACEHOLDER]` phone/email on each. This needs
+   real territory boundaries and real rep names/contact info — it all
+   lives in one editable list near the top of the `<script>` block
+   (search for `TERRITORIES` and `STATES`), so updating it is a quick
+   edit once you send the real assignments.
+4. **Project case studies** — currently three scaffolded template cards;
+   needs real project details (client/industry — can be anonymized,
+   challenge, equipment supplied, outcome).
+5. **Contact form backend** — the form on the Contact page is UI-only
+   right now (it shows a note that it isn't connected to anything).
+   Once you pick a host, I can wire it to that host's form handling
+   (Netlify Forms is free and simplest if you deploy there) or to a
+   service like Formspree.
+6. **Supplier/brand names** — a couple of equipment pages note that
+   naming specific manufacturer lines you have rights to display would
+   strengthen the page; send those once confirmed.
 
-To preview locally before deploying:
+## A structural tradeoff worth knowing about
 
-```
-npx serve dist
-```
+Because every "page" is really one file with JavaScript swapping which
+section is visible, search engines and social-share previews only ever
+see the Home page's `<title>` and meta description — there's no
+per-page SEO metadata the way the old multi-page build had (each page
+there got its own title, meta description, and URL that Google could
+index separately). For a small industrial B2B site where most traffic
+will come from direct referral, word of mouth, and the domain itself
+rather than long-tail search, that's a reasonable tradeoff for what you
+gain in interactivity and content depth — but if organic search ranking
+for specific equipment/market terms becomes a priority later, that's the
+first thing to revisit (either by adding routes with real URLs and
+server-rendered metadata per page, or by generating a set of lightweight
+static landing pages that link into this app for the pages that matter
+most for SEO). Flagging it now rather than after the fact.
 
-(or `python3 -m http.server --directory dist 8080`) — then open the
-printed local URL. Don't just double-click `dist/index.html`; the
-clean-URL links between pages need an actual server to resolve correctly.
+## Editing content or data
 
-## Deploying to go live
+Everything is inline in `index.html`:
 
-You said you want this fully code-driven rather than pasted into a page
-builder — here's the realistic fastest path, plus the more durable one.
-
-### Fastest: Netlify, drag-and-drop (no git required)
-
-1. Run `node build.js` to produce `dist/`.
-2. Go to **app.netlify.com/drop** and drag the `dist` folder onto the page.
-3. Netlify gives you a live URL immediately (something like
-   `random-name-123.netlify.app`) — the site is already publicly live at
-   that URL.
-4. Create a free Netlify account if you don't have one (needed to keep the
-   site and attach your real domain — an anonymous drop expires).
-5. In the Netlify site dashboard: **Domain settings → Add a domain** →
-   enter `heattransfertech.com`.
-6. Point your domain at Netlify (see DNS section below).
-
-Every time you want to update the live site after this: rebuild
-(`node build.js`) and drag the new `dist` folder onto the same site in
-Netlify again, or switch to the git-based method below so updates deploy
-automatically on every push.
-
-### More durable: Netlify + GitHub (auto-deploys on every change)
-
-1. Push this whole folder to a new GitHub repository.
-2. In Netlify: **Add new site → Import an existing project → GitHub** →
-   select the repo.
-3. Netlify reads `netlify.toml` automatically: build command
-   `node build.js`, publish directory `dist`. You don't need to type
-   anything in.
-4. Every `git push` after that rebuilds and redeploys automatically —
-   this is the version I'd recommend once the site is past initial launch,
-   since it gives you a history of every change and rollback with one click.
-
-### Alternatives to Netlify
-
-Vercel and Cloudflare Pages both work the same way (drag-and-drop or
-git-connected, same `node build.js` / `dist` build settings) if you'd
-rather use one of those instead — the site has zero Netlify-specific code
-except the contact form (see below), which is a one-line swap.
-
-## Pointing heattransfertech.com at the new host
-
-Your domain is currently pointed at Squarespace's placeholder site. To go
-live on Netlify (or any other host) instead:
-
-1. **Find out where the domain is registered.** If you bought it *through*
-   Squarespace (Squarespace Domains), you manage DNS from Squarespace's
-   Domains panel even though the site itself will no longer be on
-   Squarespace. If you registered it elsewhere (GoDaddy, Namecheap, etc.)
-   and only pointed it at Squarespace, you manage DNS at that registrar.
-   Tell me which one it is and I can give exact click-by-click steps.
-2. In Netlify's domain settings for this site, it will show you the exact
-   DNS records to add — typically an `A` record for the bare domain
-   pointing to Netlify's load balancer, and a `CNAME` for `www` pointing to
-   your `*.netlify.app` address (or you can delegate nameservers to Netlify
-   DNS entirely, which is simpler but hands Netlify full DNS control).
-3. DNS changes typically go live within a few hours, sometimes up to 24-48
-   hours depending on the registrar's TTL settings.
-4. Until step 2 is done, the site is fully live and testable at its
-   `*.netlify.app` URL — you don't need to touch DNS to start reviewing it.
-
-## Contact form
-
-The Contact page form is wired for **Netlify Forms** (`data-netlify="true"`
-in `src/pages/contact.content.html`) — zero backend code, submissions show
-up in the Netlify dashboard and can forward to email. This only works if
-you deploy on Netlify.
-
-If you deploy somewhere else (Vercel, Cloudflare Pages, GitHub Pages),
-swap the `<form>` tag for a form backend like Formspree (free tier, one
-line: `<form action="https://formspree.io/f/YOUR_ID" method="POST">`) —
-tell me which host you land on and I'll make that swap.
-
-## Before this site is fully publish-ready
-
-Three pages still contain bracketed placeholders that need real
-information before launch — flagged in-page with an orange dashed
-"placeholder" style so they're impossible to miss if you preview the site:
-
-1. **About** (`src/pages/about.content.html`) — merger year, combined
-   years of experience, why the merger happened, leadership bios.
-2. **Contact** (`src/pages/contact.content.html`) — address(es) and phone
-   number(s).
-3. **Projects** (`src/pages/projects.content.html`) — currently one
-   template case study; needs real project content.
-4. **Structured data** (`build.js`, the `extraHead` block for the home
-   page) — same address/phone placeholders, used by search engines.
-
-Send me the real details whenever you have them and I'll drop them
-straight into these files — no other rewriting needed, then re-run
-`node build.js` and redeploy.
-
-## No logo / brand colors yet
-
-`assets/css/styles.css` defines the whole palette as CSS variables at the
-top of the file (`--navy`, `--steel-blue`, `--safety-orange`, etc.).
-Once you have real brand colors, updating those four or five hex values
-re-themes the entire site in one edit. The header currently uses a text
-logotype ("HT" mark + wordmark) as a placeholder — swap in a real logo
-image inside `src/layout.html` (`.logo` block) once you have one.
+- **Page copy** — search for the page's heading text or its `id="p-..."`
+  wrapper `<div>` to jump to that section.
+- **Colors/branding** — CSS custom properties at the top of the
+  `<style>` block (`--navy`, `--red`, etc.).
+- **Site data that drives the tools** (unit converter rows, fluid
+  properties, equipment/selection-tool fields, territories, state
+  assignments) — one clearly labeled configuration block near the top of
+  the `<script>` at the bottom of the file. Comments there explain each
+  section.
