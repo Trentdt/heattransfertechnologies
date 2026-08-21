@@ -1,0 +1,67 @@
+name: Preview on GitHub Pages
+
+# Builds the site with build.js and publishes it to GitHub Pages on every
+# push to main. This is a PREVIEW path only — it has nothing to do with
+# Netlify and does not touch heattransfertech.com. It publishes to
+# https://<your-username>.github.io/<this-repo-name>/
+#
+# One-time setup required (can't be done from a workflow file):
+#   Repo -> Settings -> Pages -> Build and deployment -> Source:
+#   select "GitHub Actions" (not "Deploy from a branch").
+# After that, every push to main re-publishes the preview automatically.
+#
+# GitHub Pages project sites are served from a subpath
+# (/<repo-name>/, not /), so this passes that as SITE_BASE to build.js,
+# which prefixes every internal link/asset path accordingly. Nothing about
+# this affects the production build for Netlify, which always uses
+# SITE_BASE="" (the default) and serves from the domain root.
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: # lets you manually re-run it from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Build site (with GitHub Pages subpath)
+        run: node build.js
+        env:
+          SITE_BASE: /${{ github.event.repository.name }}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
