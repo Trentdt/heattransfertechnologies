@@ -285,19 +285,28 @@ a.card:hover .goto{gap:11px}
 
 /* ------------------------------------------------------------ equations */
 
-.eq-group-title{margin:76px 0 30px;padding:0 0 16px;border-bottom:1px solid var(--hair)}
+/* .eq-page turns the equations reference into a multi-column card grid so
+   several equations are visible at once instead of one long single-column
+   scroll. Group headings, the converter tool, and the trailing engineering
+   note are pulled out of the column flow to span the full width. */
+.eq-page{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:14px 20px;align-items:start}
+.eq-page > .eq-group-title,.eq-page > #converters,.eq-page > .placeholder{grid-column:1/-1}
+
+.eq-group-title{margin:40px 0 16px;padding:0 0 12px;border-bottom:1px solid var(--hair)}
 .eq-group-title:first-of-type{margin-top:0}
-.eq{border:none;background:transparent;padding:0;margin:0 0 8px;border-radius:0}
-.eq + .eq{border-top:1px solid var(--hair-soft)}
-.eq .eq-body{padding:30px 0}
-.eq h3{margin-bottom:14px;font-size:1.16rem}
-.eq .formula{font-family:var(--fm);font-size:1.06rem;font-weight:500;color:var(--navy);
-  background:var(--surface);padding:20px 24px;margin:0 0 18px;overflow-x:auto;white-space:nowrap;
-  border-left:3px solid var(--red);border-radius:0 var(--r) var(--r) 0;letter-spacing:-.01em}
-.eq .where{font-size:.92rem;color:var(--muted);margin-bottom:0}
-.eq .where b{font-family:var(--fm);color:var(--navy);font-weight:500;font-size:.88rem}
-.eq .note{font-size:.9rem;color:var(--muted);border:none;padding:14px 0 0;margin:14px 0 0;
-  border-top:1px solid var(--hair-soft)}
+.eq{border:1px solid var(--hair);background:var(--paper);padding:0;margin:0;border-radius:10px;
+  height:100%}
+.eq .eq-body{padding:16px 18px}
+.eq h3{margin:0 0 8px;font-size:.98rem;line-height:1.3}
+.eq .formula{font-family:var(--fm);font-size:.85rem;font-weight:500;color:var(--navy);
+  background:var(--surface);padding:9px 12px;margin:0 0 10px;overflow-x:auto;white-space:normal;
+  line-height:1.45;border-left:3px solid var(--red);border-radius:0 6px 6px 0;letter-spacing:-.01em}
+.eq .where{font-size:.78rem;color:var(--muted);margin-bottom:0;line-height:1.5}
+.eq .where b{font-family:var(--fm);color:var(--navy);font-weight:500;font-size:.76rem}
+.eq .note{font-size:.76rem;color:var(--muted);border:none;padding:10px 0 0;margin:10px 0 0;
+  border-top:1px solid var(--hair-soft);line-height:1.5}
+@media (max-width:560px){.eq-page{grid-template-columns:1fr}}
 
 /* ---------------------------------------------------------------- tables */
 
@@ -568,7 +577,7 @@ html.js .reveal.in{opacity:1;transform:none;
    ========================================================================== */
 .usmap-wrap{width:100%}
 #usmap{width:100%;height:auto;display:block}
-#usmap path.st{fill:#DFE5EB;stroke:#fff;stroke-width:1.1;stroke-linejoin:round;transition:filter .14s}
+#usmap path.st{fill:#DFE5EB;stroke:#fff;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round;paint-order:stroke;transition:filter .14s}
 #usmap path.st-active{cursor:pointer}
 #usmap path.st-active:hover{filter:brightness(1.15)}
 #usmap path.st-sel,#usmap path.st-active:focus{stroke:var(--ink);stroke-width:2.2;outline:none}
@@ -630,7 +639,7 @@ html.js .reveal.in{opacity:1;transform:none;
     <ul>
       <li><a href="#/" data-nav>Home</a></li>
       <li><a href="#/about" data-nav>About</a></li>
-      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li></ul></li>
+      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li></ul></li>
       <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/power" data-nav>Power Generation</a></li><li><a href="#/markets/steel" data-nav>Steel</a></li><li><a href="#/markets/oil-gas" data-nav>Oil &amp; Gas</a></li><li><a href="#/markets/process" data-nav>Process Industries</a></li><li><a href="#/markets/hydrogen" data-nav>Hydrogen</a></li><li><a href="#/markets/carbon-capture" data-nav>Carbon Capture</a></li></ul></li>
     </ul>
     <p class="sn-label">Engineering Tools</p>
@@ -695,7 +704,7 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="plate">Section B &mdash; Equipment</div>
   <h2>Equipment for every application</h2>
   <p class="lede">From cooling towers to filtration systems, we supply and support the equipment that keeps your operation running.</p>
-  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a></div>
+  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a></div>
   <div class="btn-row"><a class="btn btn-outline" href="#/equipment" data-nav>View All Equipment</a></div>
 </div></section>
 
@@ -793,7 +802,7 @@ html.js .reveal.in{opacity:1;transform:none;
   <p class="lede">We supply and support the full range of equipment your facility depends on for reliable heat rejection &mdash; backed by deep application experience across Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture markets.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section>
-<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
 <section class="section text-center"><div class="wrap">
   <h2>Not sure which equipment fits your application?</h2>
   <p class="lede" style="margin:0 auto 8px">Our team will work with your specs, plant conditions, and performance requirements to recommend the right solution. Or start by roughing out a heat load with our selection tool.</p>
@@ -880,6 +889,21 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="section"><div class="wrap"><h2>Process chilling vs. comfort cooling</h2><p>Process chilling has different demands than building comfort cooling: tighter temperature control, continuous duty cycles, and often more aggressive fluid chemistry. We make sure the chiller you specify is built for the duty it&rsquo;s actually going to see.</p></div></section>
 <section class="section section-light"><div class="wrap"><h2>Sizing for your load</h2><p>Undersized chillers strain to keep up and wear out faster; oversized units cost more upfront and run inefficiently. We work through your actual heat load, ambient conditions, and process requirements to land on the right capacity.</p></div></section>
 <section class="section"><div class="wrap"><h2>Ongoing support</h2><p>Once installed, chillers need periodic performance evaluation to catch efficiency losses before they become failures. Our parts and service team supports chillers through their full operating life.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-eq-direct-steam-injection">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Direct Steam Injection</b></nav>
+  <div class="plate">Equipment / Direct Steam Injection</div>
+  <h1 tabindex="-1">Direct steam injection heaters</h1>
+  <p class="lede">For fast, efficient heating of process water and fluids, direct steam injection puts steam straight into the flow &mdash; no heat exchanger surface between the steam and the fluid being heated.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>How direct steam injection works</h2><p>Steam is injected directly into the flowing liquid through a nozzle or sparger and condenses as it transfers heat, so essentially all of the steam&rsquo;s latent energy goes straight into the fluid &mdash; near-instant temperature rise with no exchanger surface to foul, scale, or eventually need replacing.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Where it fits</h2><p>Process and wash-down water heating, tank and vessel heating, and any application where fast response or tight temperature control matters more than the simplicity of an indirect exchanger. Because there&rsquo;s no heat transfer surface, thermal efficiency runs close to 100% &mdash; all the steam&rsquo;s energy ends up in the fluid rather than partly lost across an exchanger wall.</p></div></section>
+<section class="section"><div class="wrap"><h2>Selecting the right injector</h2><p>A basic sparger is often enough for simple tank heating. Where noise and water hammer from steam collapsing in cooler liquid need to be controlled &mdash; or where thorough in-line mixing matters &mdash; an engineered injector is the better fit. Sizing comes down to flow rate, required temperature rise, and available steam pressure.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer lines here once you confirm which brands you have rights to display &mdash; this page reads notably stronger with named suppliers.</div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
@@ -1048,7 +1072,7 @@ html.js .reveal.in{opacity:1;transform:none;
     <a href="#g-flow">Flow &amp; Power</a>
   </nav>
 </div></section>
-<section class="section"><div class="wrap">
+<section class="section"><div class="wrap eq-page">
 <h2 class="eq-group-title" id="g-conversions">Unit converter</h2>
 <p class="lede" style="margin-bottom:26px">Type a value into either side of any row &mdash; the other side updates as you type. Rows are independent.</p>
 <div id="converters"></div>
@@ -1302,6 +1326,7 @@ window.HTT.ROUTES = {
   '/equipment/closed-loop-coolers':'p-eq-closed-loop-coolers',
   '/equipment/heat-exchangers':'p-eq-heat-exchangers',
   '/equipment/chillers':'p-eq-chillers',
+  '/equipment/direct-steam-injection':'p-eq-direct-steam-injection',
   '/equipment/air-cooled':'p-eq-air-cooled',
   '/equipment/filtration':'p-eq-filtration',
   '/equipment/pumps':'p-eq-pumps',
