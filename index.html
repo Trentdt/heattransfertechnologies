@@ -683,6 +683,53 @@ html.js .reveal.in{opacity:1;transform:none;
 .res-head{font-family:var(--fb);font-size:.68rem;font-weight:700;letter-spacing:.13em;
   text-transform:uppercase;color:var(--red);padding-bottom:12px;margin-bottom:4px;
   border-bottom:1px solid var(--hair-soft)}
+.res-head + .checks,.res-head + .result-line{margin-top:14px}
+.res-grp{font-family:var(--fb);font-size:.66rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin:22px 0 2px;padding-bottom:6px;
+  border-bottom:1px solid var(--hair-soft)}
+
+/* ------------------------------------------------------------- verdict
+   The headline answer: is this a design point anyone can actually build?
+   Colour-coded, but never colour alone — each state carries its own mark
+   and its own wording, so it reads the same without colour vision. */
+.verdict{border-radius:var(--r);padding:16px 18px;margin-bottom:26px;border-left:3px solid}
+.v-top{display:flex;align-items:center;gap:10px}
+.v-mark{width:22px;height:22px;border-radius:50%;flex:0 0 auto;display:flex;
+  align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;
+  font-family:var(--fb);line-height:1}
+.v-head{font-family:var(--fh);font-size:1.06rem;font-weight:700;color:var(--ink);
+  letter-spacing:-.01em}
+.v-sub{margin:9px 0 0;font-size:.85rem;line-height:1.55;color:var(--body)}
+.verdict--ok{background:#F1F8F3;border-left-color:#2E7D48}
+.verdict--ok .v-mark{background:#2E7D48}
+.verdict--caution{background:#FFFBF2;border-left-color:#C9880F}
+.verdict--caution .v-mark{background:#C9880F}
+.verdict--fail{background:#FDF3F3;border-left-color:var(--red)}
+.verdict--fail .v-mark{background:var(--red)}
+
+/* --------------------------------------------------------- design checks */
+.checks{margin-bottom:8px}
+.chk{display:grid;grid-template-columns:18px 1fr auto;gap:2px 10px;align-items:baseline;
+  padding:11px 0;border-bottom:1px solid var(--hair-soft)}
+.chk:last-child{border-bottom:none}
+.chk-mark{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:.6rem;font-weight:700;color:#fff;font-family:var(--fb);
+  align-self:center;line-height:1}
+.chk--ok .chk-mark{background:#2E7D48}
+.chk--caution .chk-mark{background:#C9880F}
+.chk--fail .chk-mark{background:var(--red)}
+.chk-label{font-size:.87rem;color:var(--ink);font-weight:500}
+.chk-value{font-family:var(--fm);font-size:.83rem;color:var(--ink);text-align:right;
+  white-space:nowrap}
+.chk--caution .chk-value{color:#96650B}
+.chk--fail .chk-value{color:var(--red);font-weight:600}
+.chk-band{grid-column:2/-1;font-size:.75rem;color:var(--muted);font-family:var(--fb)}
+.chk-note{grid-column:2/-1;margin:6px 0 0;font-size:.79rem;line-height:1.5;color:var(--body)}
+.chk--ok .chk-note{color:var(--muted)}
+@media (max-width:600px){
+  .chk{grid-template-columns:18px 1fr}
+  .chk-value{grid-column:2;text-align:left;padding-top:2px}
+}
 
 /* ---------------------------------------------------------- solve-for panel
    The calculator's core control: one row per variable, a radio marking the
@@ -1721,14 +1768,21 @@ window.HTT.CONVERTERS = [
 /* -------------------------------------------------------------- 3. FLUIDS
    [pct, specific gravity, specific heat, (reserved), (reserved), (reserved)]
    Typical published solution properties at normal loop temperatures.       */
+/* [pct by volume, specific gravity, specific heat, freeze point °F]
+   Freeze points are the published solution freeze curves. Note that the
+   BURST point of a glycol solution sits well below its freeze point — a
+   slushy loop is not necessarily a split pipe — but freeze point is the
+   correct number to design against, so that's what the calculator checks. */
 window.HTT.FLUIDS = {
-  water:  {name:'Water', glycol:false, pts:[[0,1.000,1.000]]},
+  water:  {name:'Water', glycol:false, pts:[[0,1.000,1.000,32]]},
   eg:     {name:'Ethylene Glycol', glycol:true, pts:[
-            [0,1.000,1.000],[10,1.013,0.965],[20,1.026,0.930],[30,1.039,0.895],
-            [40,1.052,0.855],[50,1.064,0.815],[60,1.075,0.775]]},
+            [0,1.000,1.000, 32],[10,1.013,0.965, 26],[20,1.026,0.930, 18],
+            [30,1.039,0.895,  7],[40,1.052,0.855,-12],[50,1.064,0.815,-34],
+            [60,1.075,0.775,-55]]},
   pg:     {name:'Propylene Glycol', glycol:true, pts:[
-            [0,1.000,1.000],[10,1.006,0.978],[20,1.013,0.951],[30,1.020,0.920],
-            [40,1.027,0.885],[50,1.034,0.850],[60,1.040,0.815]]},
+            [0,1.000,1.000, 32],[10,1.006,0.978, 26],[20,1.013,0.951, 19],
+            [30,1.020,0.920,  9],[40,1.027,0.885, -6],[50,1.034,0.850,-28],
+            [60,1.040,0.815,-55]]},
   custom: {name:'Custom fluid', glycol:false, custom:true}
 };
 
@@ -2111,12 +2165,13 @@ window.HTT.ZIP3_RANGES = [
   function fluidProps(kind, pct, cSG, cCP){
     if(kind === 'custom'){
       var sg = isFinite(cSG) ? cSG : 1.0, cp = isFinite(cCP) ? cCP : 1.0;
-      return {name:'Custom fluid', sg:sg, cp:cp, K:sg*8.337*60*cp};
+      return {name:'Custom fluid', sg:sg, cp:cp, K:sg*8.337*60*cp, fz:null, glycol:false, pct:0};
     }
     var f = H.FLUIDS[kind] || H.FLUIDS.water, pts = f.pts;
     if(!f.glycol || !(pct > 0)){
       var p0 = pts[0];
-      return {name:'Water', sg:p0[1], cp:p0[2], K:p0[1]*8.337*60*p0[2]};
+      return {name:'Water', sg:p0[1], cp:p0[2], K:p0[1]*8.337*60*p0[2],
+              fz:p0[3], glycol:false, pct:0};
     }
     if(pct > 60) pct = 60;
     var lo = pts[0], hi = pts[pts.length-1];
@@ -2125,7 +2180,9 @@ window.HTT.ZIP3_RANGES = [
     }
     var span = hi[0]-lo[0], t = span === 0 ? 0 : (pct-lo[0])/span;
     var sg = lo[1]+(hi[1]-lo[1])*t, cp = lo[2]+(hi[2]-lo[2])*t;
-    return {name: Math.round(pct)+'% '+f.name, sg:sg, cp:cp, K:sg*8.337*60*cp};
+    var fz = lo[3]+(hi[3]-lo[3])*t;
+    return {name: Math.round(pct)+'% '+f.name, sg:sg, cp:cp, K:sg*8.337*60*cp,
+            fz:fz, glycol:true, pct:pct};
   }
 
   function densRatio(ft){ if(!isFinite(ft) || ft < 0) ft = 0; return Math.pow(1-6.8754e-6*ft, 5.2559); }
@@ -2228,7 +2285,7 @@ window.HTT.ZIP3_RANGES = [
         V[t] = heatBalance(t, V, K);
         if(!isFinite(V[t])) return {errors:['That combination of inputs has no valid solution.']};
         if(!(V.tin > V.tout))
-          return {errors:['The solved result puts the outlet at or above the inlet. Check the heat load against the flow rate.']};
+          return {errors:['The solved result puts the outlet at or above the inlet. Check the heat load against the flow rate.'], physical:true};
       }
 
       else if(eq.id === 'plate' || eq.id === 'shell'){
@@ -2250,20 +2307,20 @@ window.HTT.ZIP3_RANGES = [
         else if(t === 'cgpm')  V.cgpm  = V.q / (Kc * (V.ctgt - V.ctin));
 
         if(!(V.htin > V.htout))
-          return {errors:['The solved result puts the hot side outlet at or above its inlet. Check the duty against the hot side flow.']};
+          return {errors:['The solved result puts the hot side outlet at or above its inlet. Check the duty against the hot side flow.'], physical:true};
 
         // Cold side outlet always follows from the balance on the cold side.
         V.ctout = V.ctin + V.q / (Kc * V.cgpm);
         if(!(V.htout > V.ctin))
-          return {errors:['Cold side inlet ('+n(V.ctin,1)+' °F) must be colder than the hot side outlet ('+n(V.htout,1)+' °F).']};
+          return {errors:['Cold side inlet ('+n(V.ctin,1)+' °F) must be colder than the hot side outlet ('+n(V.htout,1)+' °F). Heat does not flow from cold to hot.'], physical:true};
         if(V.ctout >= V.htin)
-          return {errors:['Calculated cold side outlet ('+n(V.ctout,1)+' °F) exceeds the hot side inlet. Increase cold side flow.']};
+          return {errors:['Calculated cold side outlet ('+n(V.ctout,1)+' °F) exceeds the hot side inlet, which no exchanger can do. Increase cold side flow.'], physical:true};
 
         var lm = lmtd(V.htin, V.htout, V.ctin, V.ctout);
         var cfg = eq.id === 'shell' ? gs('cfg') : 'cf';
         var F = cfg === '12' ? fCorr(V.htin, V.htout, V.ctin, V.ctout) : 1;
         if(cfg === '12' && !isFinite(F)) return {errors:[
-          'This duty cannot be achieved in a 1 shell / 2 tube pass arrangement. Use true counterflow or multiple shells in series.']};
+          'This duty cannot be achieved in a 1 shell / 2 tube pass arrangement. The cold outlet has to rise past the hot outlet &mdash; a temperature cross &mdash; and a single shell with two tube passes cannot sustain one. Use true counterflow, or split the duty across shells in series.'], physical:true};
         V.mtd = lm * F;
         V.F = F;
 
@@ -2292,24 +2349,334 @@ window.HTT.ZIP3_RANGES = [
        of numbers rather than a stale mix of entered and computed values. */
     function derive(eq, V, P){
       var D = {};
+
       if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
         D.range = V.tin - V.tout;
         D.appr  = V.tout - V.wb;
+        // Efficiency here is the standard tower figure: how much of the
+        // total available temperature span the tower actually delivers.
+        D.eff   = D.range / (D.range + D.appr) * 100;
+        D.gpt   = V.gpm / (V.q / TT);
+        // Latent heat of vaporisation at tower conditions, expressed per
+        // gallon per hour, gives evaporation directly from the duty.
+        D.evap  = V.q / 520416;
+        D.drift = V.gpm * 0.00005;          // 0.005% of circulating flow,
+                                            // typical of modern eliminators
+        D.coc   = 4;                        // a common operating target
+        D.blow  = Math.max(0, D.evap / (D.coc - 1) - D.drift);
+        D.makeup = D.evap + D.blow + D.drift;
+        D.makeupPct = D.makeup / V.gpm * 100;
+        D.annual = D.makeup * 60 * 8760;
       }
+
       if(eq.id === 'dry-cooler' || eq.id === 'ache'){
         D.range = V.tin - V.tout;
         if(eq.id === 'dry-cooler') D.appr = V.tout - V.db;
-        D.cfm = V.q / (1.08 * densRatio(0) * V.airrise);
+        D.cfm  = V.q / (1.08 * densRatio(0) * V.airrise);
+        D.gpt  = V.gpm / (V.q / TR);
+        D.cfmTon = D.cfm / (V.q / TR);
       }
+
       if(eq.id === 'chiller'){
         D.range = V.tin - V.tout;
-        D.kw = (V.q / TR) * V.kwton;
+        D.tons  = V.q / TR;
+        D.kw    = D.tons * V.kwton;
+        D.cop   = 3.51685 / V.kwton;        // kW thermal per kW electrical
+        D.eer   = 12 / V.kwton;             // BTU/hr per watt
+        D.hr    = V.q + D.kw * 3412.142;
+        D.gpt   = V.gpm / D.tons;
+        D.kwh   = D.kw * 2500;
+        // Condenser water systems are conventionally sized at 3 GPM per ton
+        // of rejection; that flow then fixes the condenser range.
+        D.condGpm = (D.hr / TT) * 3;
+        D.condDt  = D.hr / (500 * D.condGpm);
       }
+
       if(eq.id === 'plate' || eq.id === 'shell'){
         D.ctout = V.ctout;
         D.mtd   = V.mtd;
+        D.lmtdRaw = lmtd(V.htin, V.htout, V.ctin, V.ctout);
+        // Effectiveness-NTU: the fraction of the theoretically available
+        // heat the exchanger actually moves, and its dimensionless size.
+        var Ch = P.flh.K * V.hgpm, Cc = P.flc.K * V.cgpm;
+        var cmin = Math.min(Ch, Cc), cmax = Math.max(Ch, Cc);
+        var qmax = cmin * (V.htin - V.ctin);
+        D.eff = qmax > 0 ? (V.q / qmax) * 100 : NaN;
+        D.ntu = cmin > 0 ? (V.u * V.area) / cmin : NaN;
+        D.cr  = cmax > 0 ? cmin / cmax : NaN;
       }
+
       return D;
+    }
+
+    /* ------------------------------------------------------- design review
+       The calculator's job doesn't end at arithmetic. A number can be
+       perfectly correct and still describe equipment nobody can build, or a
+       design point that will cost far more than the engineer expects. This
+       grades the solved point against ordinary industry practice and returns
+       a verdict plus an itemised list of what was checked, so the answer is
+       "here is your load, and here is whether it is a sane place to operate"
+       rather than just a pile of figures.
+
+       Three outcomes:
+         ok      — inside normal design practice
+         caution — achievable, but it drives cost, size, or risk; review it
+         fail    — not achievable, or violates a physical limit
+
+       Every threshold is a published rule of thumb, not a manufacturer
+       selection. They exist to catch a design point that is obviously off
+       before it reaches a quote — not to replace a real selection.        */
+
+    function chk(status, label, value, band, note){
+      return {s:status, label:label, value:value, band:band||'', note:note||''};
+    }
+
+    // Shared check: is the loop actually protected at its coldest point?
+    function freezeCheck(p, coldest, label){
+      if(!p || p.fz === null || !isFinite(coldest)) return chk('ok', label, '&mdash;','','');
+      var margin = coldest - p.fz;
+      var v = p.name + ', freezes at ' + Math.round(p.fz) + ' &deg;F';
+      if(margin <= 0)
+        return chk('fail', label, v, 'freeze point above loop temperature',
+          'The loop runs at ' + n(coldest,1) + ' &deg;F, at or below the freeze point of this solution. Increase the glycol concentration.');
+      if(margin < 5)
+        // Bulk fluid temperature is not the whole story: heat transfer
+        // surfaces sit colder than the bulk, so a margin this thin freezes
+        // at the surface long before the bulk reaches its freeze point.
+        return chk('fail', label, v, 'only ' + n(margin,1) + ' &deg;F of margin',
+          'Far too little margin. Heat transfer surfaces run colder than the bulk fluid, so a loop this close to its freeze point will freeze at the surface — inside an evaporator or a coil — while the bulk still reads above freezing. Raise the concentration.');
+      if(margin < 10)
+        return chk('caution', label, v, 'only ' + n(margin,1) + ' &deg;F of margin',
+          'Standard practice is to hold the freeze point at least 10 &deg;F below the lowest expected fluid temperature, and lower still where the loop can sit idle outdoors in winter.');
+      return chk('ok', label, v, n(margin,1) + ' &deg;F of margin',
+        'Comfortable margin against the coldest loop temperature.');
+    }
+
+    // Shared check: is the assumed overall coefficient realistic?
+    function uCheck(u, lo, hi, what){
+      if(u < lo * 0.6 || u > hi * 1.4)
+        return chk('caution','Overall coefficient U', n(u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F',
+          lo+'&ndash;'+hi+' typical for '+what,
+          'Well outside the usual range. If U was solved for rather than entered, a low value is the signature of a fouled or undersized unit &mdash; which is exactly what that calculation is for.');
+      return chk('ok','Overall coefficient U', n(u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F',
+        lo+'&ndash;'+hi+' typical for '+what, '');
+    }
+
+    function evaluate(eq, V, P, D){
+      var C = [];
+
+      /* ---- evaporative equipment: the wet bulb is a hard physical floor */
+      if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
+        var closed = eq.id === 'closed-tower';
+        var appr = D.appr, range = D.range;
+        // A closed circuit tower puts a coil between the process fluid and
+        // the air, so it cannot hold as tight an approach as an open tower.
+        var tight = closed ? 7 : 5, easy = closed ? 15 : 12;
+
+        if(appr <= 0)
+          C.push(chk('fail','Approach to wet bulb', n(appr,1)+' &deg;F','must be greater than 0 &deg;F',
+            'The leaving temperature is at or below the ambient wet bulb. No evaporative device can do this &mdash; the wet bulb is the thermodynamic floor.'));
+        else if(appr < tight - 1)
+          C.push(chk('fail','Approach to wet bulb', n(appr,1)+' &deg;F','practical floor about '+tight+' &deg;F',
+            'Below roughly '+tight+' &deg;F approach, tower size rises asymptotically. Expect this to be unquotable as specified &mdash; raise the leaving temperature or accept a much larger cell count.'));
+        else if(appr < tight)
+          C.push(chk('caution','Approach to wet bulb', n(appr,1)+' &deg;F','tight (under '+tight+' &deg;F)',
+            'A very tight approach. Achievable but expensive &mdash; cost and footprint climb sharply in this band.'));
+        else if(appr > easy + 8)
+          C.push(chk('caution','Approach to wet bulb', n(appr,1)+' &deg;F','wide (over '+(easy+8)+' &deg;F)',
+            'A very wide approach. The duty is easy to meet, which usually means a smaller, cheaper tower than specified &mdash; worth revisiting the leaving temperature requirement.'));
+        else
+          C.push(chk('ok','Approach to wet bulb', n(appr,1)+' &deg;F', tight+'&ndash;'+easy+' &deg;F typical',
+            'Within the band where standard product selects comfortably.'));
+
+        if(range < 5)
+          C.push(chk('caution','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',
+            'A very low range means a great deal of water is being moved for the heat rejected. Pumping cost usually dominates at this point &mdash; check whether a higher range is acceptable.'));
+        else if(range > 30)
+          C.push(chk('caution','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',
+            'A high range. Workable, but tall fill sections and higher pump head are typical, and it moves the design away from catalogue selections.'));
+        else
+          C.push(chk('ok','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',''));
+
+        // Nominal tower tonnage is defined at 3 GPM per ton, so flow per ton
+        // is a direct read on how far the point sits from nominal rating.
+        if(D.gpt < 2 || D.gpt > 4.5)
+          C.push(chk('caution','Flow per tower ton', n(D.gpt,2)+' GPM/ton','3 GPM/ton nominal',
+            'Nominal tower tonnage is defined at 3 GPM per ton over a 10 &deg;F range. This point is well off nominal, so catalogue tonnage will not translate directly &mdash; size on duty, not on nominal tons.'));
+        else
+          C.push(chk('ok','Flow per tower ton', n(D.gpt,2)+' GPM/ton','3 GPM/ton nominal',''));
+
+        if(V.wb > 82)
+          C.push(chk('caution','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',
+            'Higher than the design wet bulb used almost anywhere in the continental US. Confirm this against ASHRAE data for the actual site.'));
+        else if(V.wb < 60)
+          C.push(chk('caution','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',
+            'Lower than a normal summer design wet bulb. If this is a winter or part-load case, make sure the tower is also checked at the summer design point.'));
+        else
+          C.push(chk('ok','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',''));
+
+        if(closed && P.fl.glycol)
+          C.push(freezeCheck(P.fl, V.tout, 'Process loop freeze protection'));
+      }
+
+      /* ---- dry equipment: the DRY bulb is the floor, and it is far
+              harder to approach than a wet bulb                          */
+      if(eq.id === 'dry-cooler' || eq.id === 'ache'){
+        var apprD = V.tout - V.db;
+        if(apprD <= 0)
+          C.push(chk('fail','Approach to dry bulb', n(apprD,1)+' &deg;F','must be greater than 0 &deg;F',
+            'The leaving temperature is at or below ambient dry bulb. Dry equipment rejects heat by sensible transfer alone &mdash; it cannot cool below the air it rejects into.'));
+        else if(apprD < 8)
+          C.push(chk('fail','Approach to dry bulb', n(apprD,1)+' &deg;F','practical floor about 10 &deg;F',
+            'Below about 10 &deg;F approach a dry cooler grows without bound. If the process genuinely needs this leaving temperature it needs evaporative equipment or an adiabatic pre-cooler, not a dry cooler.'));
+        else if(apprD < 15)
+          C.push(chk('caution','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
+            'A tight approach for dry equipment. Expect a large coil face area and high fan power &mdash; compare against an evaporative or adiabatic alternative before committing.'));
+        else if(apprD > 40)
+          C.push(chk('caution','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
+            'A very wide approach. Easy duty; the unit may be considerably smaller than expected.'));
+        else
+          C.push(chk('ok','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
+            'Comfortably within normal dry cooler practice.'));
+
+        if(V.airrise > 0){
+          if(V.airrise < 8 || V.airrise > 40)
+            C.push(chk('caution','Air temperature rise', n(V.airrise,1)+' &deg;F','15&ndash;30 &deg;F typical',
+              'Outside the usual band. Low rise means very high air flow and fan power; high rise means the coil works against a rapidly warming air stream.'));
+          else
+            C.push(chk('ok','Air temperature rise', n(V.airrise,1)+' &deg;F','15&ndash;30 &deg;F typical',''));
+        }
+
+        if(isFinite(D.cfmTon))
+          C.push(chk(D.cfmTon > 1400 ? 'caution' : 'ok','Air flow per ton',
+            n(D.cfmTon)+' CFM/ton', '600&ndash;1,200 typical',
+            D.cfmTon > 1400 ? 'A high air flow per ton, which points at a large fan array and significant fan energy. Raising the air temperature rise or the approach will bring it down.' : ''));
+
+        if(P.fl.glycol) C.push(freezeCheck(P.fl, V.tout, 'Loop freeze protection'));
+        if(eq.id === 'ache' && isFinite(V.u)) C.push(uCheck(V.u, 60, 120, 'air-cooled service'));
+      }
+
+      /* ---- liquid-to-liquid exchangers -------------------------------- */
+      if(eq.id === 'plate' || eq.id === 'shell'){
+        var hotEnd = V.htin - V.ctout, coldEnd = V.htout - V.ctin;
+        var tightest = Math.min(hotEnd, coldEnd);
+        var isPlate = eq.id === 'plate';
+        // A plate unit is true counterflow with very high surface density,
+        // so it holds a much closer approach than a shell-and-tube.
+        var floorT = isPlate ? 2 : 5;
+
+        if(tightest <= 0)
+          C.push(chk('fail','Closest temperature approach', n(tightest,1)+' &deg;F','must be greater than 0 &deg;F',
+            'The streams cross at one end. No exchanger of any size transfers heat against a negative temperature difference.'));
+        else if(tightest < floorT)
+          C.push(chk('caution','Closest temperature approach', n(tightest,1)+' &deg;F',
+            (isPlate ? 'at least 2 &deg;F for plate' : 'at least 5 &deg;F for shell-and-tube'),
+            'An extremely close approach. Surface area rises steeply and the unit becomes very sensitive to fouling and to any error in the assumed U &mdash; build in margin.'));
+        else
+          C.push(chk('ok','Closest temperature approach', n(tightest,1)+' &deg;F',
+            (isPlate ? '2&ndash;10 &deg;F typical' : '5&ndash;20 &deg;F typical'),
+            'Leaves room for a realistic fouling allowance.'));
+
+        // A temperature cross is the classic shell-and-tube trap.
+        if(V.ctout > V.htout){
+          if(eq.id === 'shell' && gs('cfg') === '12')
+            C.push(chk('caution','Temperature cross','present','cold outlet above hot outlet',
+              'The cold outlet exceeds the hot outlet. A 1 shell / 2 tube pass unit handles this poorly &mdash; the F factor below measures how poorly. True counterflow, or multiple shells in series, is the usual answer.'));
+          else
+            C.push(chk('ok','Temperature cross','present, handled','cold outlet above hot outlet',
+              'The cold outlet exceeds the hot outlet, which only true counterflow achieves. Fine here, but it does rule out a single 1-2 shell-and-tube arrangement.'));
+        }
+
+        if(eq.id === 'shell' && gs('cfg') === '12' && isFinite(V.F)){
+          if(V.F < 0.75)
+            C.push(chk('fail','TEMA correction factor F', n(V.F,3),'0.80 minimum',
+              'Below 0.75 the F curve is nearly vertical: a small shift in any inlet temperature produces a large shift in required area, so the design is unstable and standard practice rejects it. Use true counterflow or split the duty across shells in series.'));
+          else if(V.F < 0.85)
+            C.push(chk('caution','TEMA correction factor F', n(V.F,3),'0.85 preferred',
+              'Workable, but on the steep part of the F curve. The design is sensitive to inlet temperature drift &mdash; verify the whole operating envelope, not just the design point.'));
+          else
+            C.push(chk('ok','TEMA correction factor F', n(V.F,3),'0.85 preferred',
+              'Comfortably on the flat part of the correction curve.'));
+        }
+
+        if(isFinite(V.mtd)){
+          if(V.mtd < 10)
+            C.push(chk('caution','Mean temperature difference', n(V.mtd,1)+' &deg;F','above 10 &deg;F preferred',
+              'A low driving force. Required surface area scales as 1/MTD, so small changes here move the size of the unit a great deal.'));
+          else
+            C.push(chk('ok','Mean temperature difference', n(V.mtd,1)+' &deg;F','above 10 &deg;F preferred',''));
+        }
+
+        if(isFinite(V.u))
+          C.push(isPlate ? uCheck(V.u, 600, 1000, 'clean water plate service')
+                         : uCheck(V.u, 150, 300, 'water-to-water shell-and-tube'));
+
+        if(P.flh && P.flh.glycol) C.push(freezeCheck(P.flh, V.htout, 'Hot side freeze protection'));
+        if(P.flc && P.flc.glycol) C.push(freezeCheck(P.flc, V.ctin,  'Cold side freeze protection'));
+      }
+
+      /* ---- chillers ---------------------------------------------------- */
+      if(eq.id === 'chiller'){
+        var dt = D.range, lwt = V.tout, water = gs('cond') === 'water';
+
+        if(dt < 6 || dt > 20)
+          C.push(chk('caution','Evaporator &Delta;T', n(dt,1)+' &deg;F','10&ndash;16 &deg;F typical',
+            dt < 6 ? 'A low &Delta;T means very high evaporator flow for the load, and many machines have a minimum-flow turndown this can violate. Confirm against the evaporator limits.'
+                   : 'A high &Delta;T reduces flow and pumping cost but raises evaporator pressure drop, and can fall outside a standard machine&rsquo;s selection range.'));
+        else
+          C.push(chk('ok','Evaporator &Delta;T', n(dt,1)+' &deg;F','10&ndash;16 &deg;F typical',''));
+
+        // Leaving fluid below ~40 F is where freeze protection stops being
+        // optional; below 32 F plain water is simply not an option.
+        if(lwt <= 32 && !P.fl.glycol)
+          C.push(chk('fail','Leaving fluid temperature', n(lwt,1)+' &deg;F','water freezes at 32 &deg;F',
+            'Plain water cannot be supplied at or below 32 &deg;F. This duty requires a glycol solution or another secondary refrigerant.'));
+        else if(lwt < 40 && !P.fl.glycol)
+          C.push(chk('caution','Leaving fluid temperature', n(lwt,1)+' &deg;F','glycol below 40 &deg;F',
+            'Below about 40 &deg;F the evaporator surface approaches freezing even though the bulk fluid does not. Standard practice is glycol or dedicated low-temperature freeze protection.'));
+        else
+          C.push(chk('ok','Leaving fluid temperature', n(lwt,1)+' &deg;F',
+            P.fl.glycol ? 'glycol solution in use' : 'above the 40 &deg;F glycol threshold',''));
+
+        if(P.fl.glycol) C.push(freezeCheck(P.fl, lwt, 'Chilled loop freeze protection'));
+
+        var lo = water ? 0.5 : 1.0, hi = water ? 0.75 : 1.45;
+        var band = water ? 'water-cooled 0.50&ndash;0.75' : 'air-cooled 1.00&ndash;1.45';
+        if(V.kwton < lo * 0.8)
+          C.push(chk('caution','Efficiency', n(V.kwton,3)+' kW/ton', band,
+            'Better than production machines of this type achieve at full load. If this figure came from a part-load or IPLV rating it will understate full-load power, and therefore heat of rejection.'));
+        else if(V.kwton > hi * 1.15)
+          C.push(chk('caution','Efficiency', n(V.kwton,3)+' kW/ton', band,
+            'Poorer than a current machine of this type should be. Reasonable for an older unit being evaluated, but not for new equipment.'));
+        else
+          C.push(chk('ok','Efficiency', n(V.kwton,3)+' kW/ton', band,
+            water ? 'Normal for a water-cooled machine.' : 'Normal for an air-cooled machine.'));
+
+        if(!water && V.camb > 105)
+          C.push(chk('caution','Design ambient', n(V.camb,1)+' &deg;F','derates above about 95 &deg;F',
+            'Air-cooled chiller capacity falls off as ambient rises. At this design temperature the machine must be selected at the derated condition, not at its nominal rating.'));
+      }
+
+      /* ---- roll the individual checks up into one verdict -------------- */
+      var nFail = 0, nCaut = 0;
+      C.forEach(function(c){ if(c.s === 'fail') nFail++; else if(c.s === 'caution') nCaut++; });
+      var verdict, head, sub;
+      if(nFail){
+        verdict = 'fail';
+        head = 'Not achievable as specified';
+        sub = nFail + (nFail === 1 ? ' condition below is' : ' conditions below are') +
+              ' outside what this equipment type can physically do. The arithmetic still resolves, but no selection will meet it.';
+      } else if(nCaut){
+        verdict = 'caution';
+        head = 'Workable &mdash; review the flagged items';
+        sub = nCaut + (nCaut === 1 ? ' item sits' : ' items sit') +
+              ' outside routine practice. Achievable, but each one drives cost, size, or operating risk. Worth a conversation before it becomes a specification.';
+      } else {
+        verdict = 'ok';
+        head = 'Sound design point';
+        sub = 'Every condition checked sits inside normal industry practice for this equipment type. Standard product should select against it without difficulty.';
+      }
+      return {verdict:verdict, head:head, sub:sub, checks:C};
     }
 
     /* --------------------------------------------------------- rendering */
@@ -2415,7 +2782,9 @@ window.HTT.ZIP3_RANGES = [
 
       var p = fp(k), box = $('sf-'+k+'-props');
       if(box) box.innerHTML = '<b>'+p.name+'</b> &middot; specific heat '+p.cp.toFixed(3)+
-                              ' BTU/lb&middot;&deg;F &middot; specific gravity '+p.sg.toFixed(3);
+                              ' BTU/lb&middot;&deg;F &middot; specific gravity '+p.sg.toFixed(3)+
+                              (p.fz === null ? '' :
+                               ' &middot; freeze point '+Math.round(p.fz)+' &deg;F');
 
       $$('#s-fields .srow-label[data-fl="'+k+'"]').forEach(function(l){
         var tpl = l.getAttribute('data-tpl');
@@ -2475,16 +2844,30 @@ window.HTT.ZIP3_RANGES = [
       var box = $('s-results');
       if(box) box.innerHTML = '<p class="empty-state">Choose what to solve for, enter the rest, then select <b>Calculate</b>.</p>';
     }
-    function fail(list){
+    // A solve that cannot complete is itself an engineering answer, so it
+    // gets the same verdict treatment as a design point that computes but
+    // doesn't stand up — not a lesser-looking "form error" box.
+    function fail(list, physical){
       var box = $('s-results');
       $$('#s-fields .srow-input.is-computed').forEach(function(i){ i.value = ''; });
-      if(box) box.innerHTML = '<div class="res-error"><b>Check these inputs</b><ul><li>' +
-                              list.join('</li><li>') + '</li></ul></div>';
+      if(!box) return;
+      box.innerHTML =
+        '<div class="verdict verdict--fail">'+
+          '<div class="v-top"><span class="v-mark" aria-hidden="true">&#10007;</span>'+
+          '<span class="v-head">'+(physical ? 'Not achievable as specified' : 'Cannot calculate yet')+'</span></div>'+
+          '<p class="v-sub">'+(physical
+            ? 'The conditions entered describe a duty this equipment type cannot perform. The detail below explains which limit is being crossed.'
+            : 'One or more inputs need attention before the calculator can solve this.')+'</p>'+
+        '</div>'+
+        '<div class="res-head">'+(physical ? 'Why' : 'What to fix')+'</div>'+
+        '<div class="res-error"><ul><li>' + list.join('</li><li>') + '</li></ul></div>';
     }
     function row(k,v,cls){
       return '<div class="result-line'+(cls?' '+cls:'')+'"><span class="k">'+k+
              '</span><span class="v">'+v+'</span></div>';
     }
+    // subhead that breaks the results panel into readable groups
+    function grp(t){ return '<div class="res-grp">'+t+'</div>'; }
     // write a number back into one of the form's computed boxes
     function put(k,v,d){
       var el = $('sf-'+k);
@@ -2512,7 +2895,7 @@ window.HTT.ZIP3_RANGES = [
       if(missing.length) return fail(missing);
 
       var r = solve(eq, target, V, P);
-      if(r.errors) return fail(r.errors);
+      if(r.errors) return fail(r.errors, r.physical);
       V = r.V;
       var D = derive(eq, V, P);
 
@@ -2521,71 +2904,151 @@ window.HTT.ZIP3_RANGES = [
       put(target, V[target], (target === 'q' ? 0 : (target === 'kwton' ? 3 : 1)));
       for(var dk in D) put(dk, D[dk], (dk === 'cfm' ? 0 : 1));
 
-      var out = '', tons;
+      var out = '';
+
+      /* ---- the verdict, first thing the eye lands on ------------------ */
+      var E = evaluate(eq, V, P, D);
+      var ICON = {ok:'&#10003;', caution:'!', fail:'&#10007;'};
+      out += '<div class="verdict verdict--'+E.verdict+'">'+
+               '<div class="v-top"><span class="v-mark" aria-hidden="true">'+ICON[E.verdict]+'</span>'+
+               '<span class="v-head">'+E.head+'</span></div>'+
+               '<p class="v-sub">'+E.sub+'</p>'+
+             '</div>';
+
+      /* ---- itemised design review ------------------------------------- */
+      if(E.checks.length){
+        out += '<div class="res-head">Design checks</div><div class="checks">';
+        E.checks.forEach(function(c){
+          out += '<div class="chk chk--'+c.s+'">'+
+                   '<span class="chk-mark" aria-hidden="true">'+ICON[c.s]+'</span>'+
+                   '<span class="chk-label">'+c.label+'</span>'+
+                   '<span class="chk-value">'+c.value+'</span>'+
+                   '<span class="chk-band">'+(c.band||'')+'</span>'+
+                   (c.note ? '<p class="chk-note">'+c.note+'</p>' : '')+
+                 '</div>';
+        });
+        out += '</div>';
+      }
+
+      /* ---- the numbers, grouped ---------------------------------------- */
       out += '<div class="res-head">Solved for &mdash; ' +
              (tf ? tf.label.replace('{f}','fluid') : target) + '</div>';
 
       if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
         out += row('Heat load', n(V.q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (tower tons)', n(V.q/TT,1)+' tower tons');
+        out += row('Nominal capacity', n(V.q/TT,1)+' tower tons');
+        out += row('Equivalent refrigeration', n(V.q/TR,1)+' refrigeration tons');
+        out += grp('Thermal performance');
         out += row('Flow rate', n(V.gpm,0)+' GPM');
         out += row('Hot water to tower', n(V.tin,1)+' &deg;F');
         out += row('Cold water from tower', n(V.tout,1)+' &deg;F');
         out += row('Range', n(D.range,1)+' &deg;F');
+        out += row('Design wet bulb', n(V.wb,1)+' &deg;F');
         out += row('Approach to wet bulb', n(D.appr,1)+' &deg;F');
-        out += row('Evaporation rate', n(V.q/520416,1)+' GPM');
-        out += row('Fluid', P.fl.name);
+        out += row('Tower efficiency', n(D.eff,1)+' %');
+        out += row('Flow per tower ton', n(D.gpt,2)+' GPM/ton');
+        out += grp('Water balance at ' + n(D.coc,0) + ' cycles of concentration');
+        out += row('Evaporation', n(D.evap,1)+' GPM');
+        out += row('Drift loss', n(D.drift,2)+' GPM');
+        out += row('Blowdown', n(D.blow,1)+' GPM');
+        out += row('Total makeup', n(D.makeup,1)+' GPM');
+        out += row('Makeup as share of circulating flow', n(D.makeupPct,2)+' %');
+        out += row('Makeup at 8,760 hr/yr', n(D.annual)+' gal/yr');
+        out += grp('Fluid');
+        out += row('Circulating fluid', P.fl.name);
+        if(P.fl.fz !== null) out += row('Freeze point', n(P.fl.fz,0)+' &deg;F');
       }
 
       else if(eq.id === 'dry-cooler' || eq.id === 'ache'){
         out += row(eq.id === 'ache' ? 'Heat duty' : 'Heat load', n(V.q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (refrigeration tons)', n(V.q/TR,1)+' refrigeration tons');
+        out += row('Nominal capacity', n(V.q/TR,1)+' refrigeration tons');
+        out += grp('Process side');
         out += row('Flow rate', n(V.gpm,0)+' GPM');
         out += row('Fluid in / out', n(V.tin,1)+' / '+n(V.tout,1)+' &deg;F');
         out += row('Range', n(D.range,1)+' &deg;F');
-        if(eq.id === 'dry-cooler') out += row('Approach to dry bulb', n(D.appr,1)+' &deg;F');
+        out += row('Flow per ton', n(D.gpt,2)+' GPM/ton');
+        out += grp('Air side');
+        out += row('Design dry bulb', n(V.db,1)+' &deg;F');
+        out += row('Approach to dry bulb', n(V.tout - V.db,1)+' &deg;F');
+        out += row('Air temperature rise', n(V.airrise,1)+' &deg;F');
+        out += row('Air on / off coil', n(V.db,1)+' / '+n(V.db + V.airrise,1)+' &deg;F');
         out += row('Required air flow', n(D.cfm)+' CFM');
+        out += row('Air flow per ton', n(D.cfmTon)+' CFM/ton');
+        out += row('Initial temperature difference', n(V.tin - V.db,1)+' &deg;F');
         if(eq.id === 'ache'){
+          out += grp('Surface');
           out += row('Mean temperature difference', n(V.mtd,1)+' &deg;F');
           out += row('Overall coefficient U', n(V.u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F');
           out += row('Surface area', n(V.area)+' ft&sup2;');
+          out += row('Duty per unit area', n(V.q/V.area)+' BTU/hr&middot;ft&sup2;');
         }
-        out += row('Fluid', P.fl.name);
+        out += grp('Fluid');
+        out += row('Process fluid', P.fl.name);
+        if(P.fl.fz !== null) out += row('Freeze point', n(P.fl.fz,0)+' &deg;F');
       }
 
       else if(eq.id === 'plate' || eq.id === 'shell'){
+        var corrected = eq.id === 'shell' && gs('cfg') === '12';
         out += row('Heat duty', n(V.q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (refrigeration tons)', n(V.q/TR,1)+' refrigeration tons');
-        out += row('Hot side flow', n(V.hgpm,0)+' GPM');
-        out += row('Hot side in / out', n(V.htin,1)+' / '+n(V.htout,1)+' &deg;F');
-        out += row('Cold side flow', n(V.cgpm,0)+' GPM');
-        out += row('Cold side in / out', n(V.ctin,1)+' / '+n(V.ctout,1)+' &deg;F');
-        out += row(eq.id === 'shell' && gs('cfg') === '12' ? 'Corrected MTD' : 'LMTD',
-                   n(V.mtd,1)+' &deg;F');
-        if(eq.id === 'shell' && gs('cfg') === '12')
-          out += row('TEMA correction factor F', n(V.F,3));
+        out += row('Nominal capacity', n(V.q/TR,1)+' refrigeration tons');
+        out += grp('Hot side');
+        out += row('Flow rate', n(V.hgpm,0)+' GPM');
+        out += row('In / out', n(V.htin,1)+' / '+n(V.htout,1)+' &deg;F');
+        out += row('Temperature drop', n(V.htin - V.htout,1)+' &deg;F');
+        out += row('Fluid', P.flh.name);
+        out += grp('Cold side');
+        out += row('Flow rate', n(V.cgpm,0)+' GPM');
+        out += row('In / out', n(V.ctin,1)+' / '+n(V.ctout,1)+' &deg;F');
+        out += row('Temperature rise', n(V.ctout - V.ctin,1)+' &deg;F');
+        out += row('Fluid', P.flc.name);
+        out += grp('Driving force');
+        out += row('Approach at the hot end', n(V.htin - V.ctout,1)+' &deg;F');
+        out += row('Approach at the cold end', n(V.htout - V.ctin,1)+' &deg;F');
+        out += row('LMTD, true counterflow', n(D.lmtdRaw,1)+' &deg;F');
+        if(corrected) out += row('TEMA correction factor F', n(V.F,3));
+        out += row(corrected ? 'Corrected MTD' : 'Design MTD', n(V.mtd,1)+' &deg;F');
+        out += grp('Sizing and performance');
         out += row('Overall coefficient U', n(V.u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F');
         out += row('Surface area', n(V.area)+' ft&sup2;');
+        out += row('Duty per unit area', n(V.q/V.area)+' BTU/hr&middot;ft&sup2;');
+        out += row('Effectiveness', n(D.eff,1)+' %');
+        out += row('NTU', n(D.ntu,2));
+        out += row('Capacity rate ratio', n(D.cr,3));
       }
 
       else if(eq.id === 'chiller'){
-        tons = V.q / TR;
-        var hr = V.q + D.kw * 3412.142;
+        var wc = gs('cond') === 'water';
         out += row('Cooling load', n(V.q)+' BTU/hr', 'big');
-        out += row('Capacity required (refrigeration tons)', n(tons,1)+' refrigeration tons');
+        out += row('Capacity required', n(D.tons,1)+' refrigeration tons');
+        out += grp('Evaporator');
         out += row('Flow rate', n(V.gpm,0)+' GPM');
         out += row('Chilled fluid in / out', n(V.tin,1)+' / '+n(V.tout,1)+' &deg;F');
         out += row('Evaporator &Delta;T', n(D.range,1)+' &deg;F');
+        out += row('Flow per ton', n(D.gpt,2)+' GPM/ton');
+        out += row('Chilled fluid', P.fl.name);
+        if(P.fl.fz !== null) out += row('Freeze point', n(P.fl.fz,0)+' &deg;F');
+        out += grp('Compressor');
         out += row('Efficiency', n(V.kwton,3)+' kW/ton');
         out += row('Compressor power', n(D.kw,1)+' kW');
-        out += row('Heat of rejection (tower tons)', n(hr/TT,1)+' tower tons');
-        out += row('Condenser', gs('cond') === 'water' ? 'Water-cooled' : 'Air-cooled');
+        out += row('COP', n(D.cop,2));
+        out += row('EER', n(D.eer,2)+' BTU/hr&middot;W');
+        out += row('Energy at 2,500 full-load hr', n(D.kwh)+' kWh/yr');
+        out += grp('Heat rejection &mdash; ' + (wc ? 'water-cooled' : 'air-cooled'));
+        out += row('Total heat of rejection', n(D.hr)+' BTU/hr');
+        out += row('Heat of rejection', n(D.hr/TT,1)+' tower tons');
+        out += row('Rejection to cooling ratio', n(D.hr/V.q,3));
+        if(wc){
+          out += row('Condenser water flow at 3 GPM/ton', n(D.condGpm,0)+' GPM');
+          out += row('Condenser &Delta;T at that flow', n(D.condDt,1)+' &deg;F');
+        } else {
+          out += row('Design ambient', n(V.camb,1)+' &deg;F');
+        }
       }
 
       var box = $('s-results');
       if(box) box.innerHTML = out;
       if(window.innerWidth <= 980 && box) {
-        setTimeout(function(){ box.scrollIntoView({behavior:'smooth', block:'center'}); }, 60);
+        setTimeout(function(){ box.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
       }
     }
 
