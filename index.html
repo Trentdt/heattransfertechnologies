@@ -175,9 +175,14 @@ nav.main-nav>ul>li:hover .dropdown,nav.main-nav>ul>li:focus-within .dropdown{dis
 @media (max-width:820px){.section{padding:48px 0}}
 
 /* backgrounds: flat and quiet. The old grid pattern is gone. */
-.bp{background:var(--paper)}
-.bp-soft{background:var(--surface)}
-.bp-dark{
+/* .blueprint / .blueprint-dark are the names used throughout the markup;
+   .bp / .bp-dark are an older shorthand still present on a few pages. Both
+   are defined here so every hero and every dark CTA band gets the same
+   treatment — previously the .blueprint spelling matched no rule at all and
+   26 dark sections silently fell back to flat navy. */
+.bp,.blueprint{background:var(--paper)}
+.bp-soft,.blueprint-soft{background:var(--surface)}
+.bp-dark,.blueprint-dark{
   background:
     radial-gradient(1100px 620px at 78% -10%, rgba(196,38,46,.20), transparent 62%),
     radial-gradient(900px 700px at 8% 110%, rgba(27,91,142,.34), transparent 66%),
@@ -304,7 +309,8 @@ a.card:hover .goto{gap:11px}
 .subbar .wrap{display:flex;align-items:center;gap:16px;padding-top:13px;padding-bottom:13px;overflow-x:auto}
 .subbar .sb-label{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
   white-space:nowrap;flex:0 0 auto;font-weight:600}
-.eq-nav{display:flex;flex-wrap:nowrap;gap:6px;margin:0}
+/* wraps rather than forcing the page wider than the viewport on phones */
+.eq-nav{display:flex;flex-wrap:wrap;gap:6px;margin:0}
 .eq-nav a{font-size:.86rem;font-weight:500;text-decoration:none;color:var(--body);
   padding:7px 13px;border-radius:20px;white-space:nowrap;border:none;background:transparent;
   transition:background-color .15s,color .15s}
@@ -624,20 +630,20 @@ html.js .reveal.in{opacity:1;transform:none;
    TERRITORY MAP
    ========================================================================== */
 .usmap-wrap{width:100%}
-/* Tile-grid map: every state is an independently-placed CSS Grid cell
-   (grid-column/grid-row set inline per tile from geographic centroids).
-   There are no shared borders between states, so there is no coordinate
-   for two neighbors to disagree on — this replaces the old hand-drawn
-   SVG polygon map entirely. */
-#usmap{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(8,1fr);
-  gap:4px;width:100%;aspect-ratio:12/8}
-#usmap .st{display:flex;align-items:center;justify-content:center;background:#DFE5EB;
-  border-radius:5px;font-family:var(--fb);font-size:.72rem;font-weight:700;color:#8895A4;
-  letter-spacing:.02em;user-select:none;transition:filter .14s,box-shadow .14s}
-#usmap .st-active{cursor:pointer;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-#usmap .st-active:hover{filter:brightness(1.15)}
-#usmap .st-sel,#usmap .st-active:focus{box-shadow:inset 0 0 0 2.5px var(--ink);outline:none}
-@media (max-width:640px){#usmap{gap:2px}#usmap .st{font-size:.62rem;border-radius:3px}}
+/* Geographic US map — real state boundary geometry (US Census cartographic
+   boundary data, Albers equal-area projection), so the map reads as the
+   actual shape of the country. Small Atlantic states are labeled off-shore
+   with leader lines, the way printed atlases handle them. */
+#usmap{width:100%;height:auto;display:block}
+#usmap .st{fill:#D9DFE7;stroke:#fff;stroke-width:1;stroke-linejoin:round;stroke-linecap:round;transition:filter .14s}
+#usmap .st-active{cursor:pointer}
+#usmap .st-active:hover{filter:brightness(1.12)}
+#usmap .st-sel,#usmap .st-active:focus{stroke:var(--ink);stroke-width:1.8;outline:none}
+#usmap .stl{font-family:var(--fb);font-size:11px;font-weight:700;fill:#3A4757;
+  stroke:rgba(255,255,255,.82);stroke-width:2.6;paint-order:stroke;
+  text-anchor:middle;dominant-baseline:middle;pointer-events:none;user-select:none;letter-spacing:.02em}
+#usmap .stl-sm{text-anchor:start;font-size:10.5px}
+#usmap .stll{stroke:#9AA6B4;stroke-width:.9;fill:none}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px}
 .legend-item{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;color:var(--body);
   background:none;border:none;padding:4px 0;cursor:pointer;font-family:var(--fb)}
@@ -668,6 +674,59 @@ html.js .reveal.in{opacity:1;transform:none;
 .res-error ul{margin:0;padding-left:18px;font-size:.89rem;color:var(--body)}
 .res-error li{margin-bottom:6px}
 .empty-state{font-size:.92rem;color:var(--muted);text-align:center;padding:40px 14px;margin:0}
+.res-head{font-family:var(--fb);font-size:.68rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--red);padding-bottom:12px;margin-bottom:4px;
+  border-bottom:1px solid var(--hair-soft)}
+
+/* ---------------------------------------------------------- solve-for panel
+   The calculator's core control: one row per variable, a radio marking the
+   one being solved for, and a greyed box wherever the value is computed
+   rather than entered. */
+.solve-panel{border:1.5px solid var(--hair);border-radius:var(--r);overflow:hidden;
+  background:var(--paper)}
+.solve-head{background:var(--navy);color:#fff;font-family:var(--fb);font-size:.7rem;
+  font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:11px 18px}
+.solve-rows{padding:6px 18px 4px}
+.srow{display:grid;grid-template-columns:18px 1fr 128px 96px;gap:0 12px;align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--hair-soft)}
+.srow:last-child{border-bottom:none}
+.s-radio{width:16px;height:16px;margin:0;accent-color:var(--red);cursor:pointer}
+.s-radio-gap{display:block}
+.srow-label{font-size:.88rem;color:var(--ink);margin:0;cursor:pointer;line-height:1.35;
+  font-family:var(--fb);font-weight:400;letter-spacing:0;text-transform:none}
+.srow--der .srow-label{color:var(--muted)}
+.srow-input{width:100%;padding:8px 11px;border:1.5px solid var(--hair);border-radius:5px;
+  font-family:var(--fm);font-size:.92rem;font-weight:500;color:var(--navy);text-align:right;
+  background:var(--paper);min-height:0;transition:border-color .15s,box-shadow .15s}
+.srow-input:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 3px rgba(20,64,111,.1)}
+.srow-input.is-computed{background:var(--surface);border-color:var(--hair-soft);
+  color:var(--muted);cursor:default}
+.srow--target .srow-label{font-weight:700;color:var(--red)}
+.srow--target .srow-input{border-color:var(--red);border-style:dashed;color:var(--red);
+  background:#FEF6F6;font-weight:700}
+.srow-unit{font-size:.8rem;color:var(--muted);font-family:var(--fb)}
+.srow-hint{grid-column:2/-1;font-size:.79rem;color:var(--muted);line-height:1.45;padding-top:3px}
+.solve-note{margin:0;padding:12px 18px 14px;border-top:1px solid var(--hair-soft);
+  font-size:.8rem;color:var(--muted);line-height:1.5;background:var(--surface)}
+@media (max-width:600px){
+  .srow{grid-template-columns:18px 1fr;gap:2px 10px}
+  .srow-input{grid-column:2;width:auto;max-width:150px}
+  .srow-unit{grid-column:2;padding-bottom:2px}
+  .srow-hint{grid-column:2}
+}
+
+/* inline prose links — one rule instead of per-link inline styles, so every
+   cross-reference in body copy reads the same way on light and dark bands */
+.page section p a[href^="#/"]:not(.btn),.page section li a[href^="#/"]:not(.btn),
+.tc-rule a,.srow-hint a{color:var(--red);font-weight:600;
+  text-decoration:underline;text-underline-offset:2px;
+  text-decoration-color:rgba(196,38,46,.35);transition:text-decoration-color .15s}
+.page section p a[href^="#/"]:not(.btn):hover,
+.page section li a[href^="#/"]:not(.btn):hover,
+.tc-rule a:hover{text-decoration-color:var(--red)}
+.page section.section-dark p a[href^="#/"]:not(.btn){color:#FF8A90;
+  text-decoration-color:rgba(255,138,144,.4)}
+.page section.section-dark p a[href^="#/"]:not(.btn):hover{text-decoration-color:#FF8A90}
 
 /* converter */
 .conv-factor{display:block;font-weight:400;text-transform:none;letter-spacing:0;
@@ -694,7 +753,7 @@ html.js .reveal.in{opacity:1;transform:none;
     <ul>
       <li><a href="#/" data-nav>Home</a></li>
       <li><a href="#/about" data-nav>About</a></li>
-      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
+      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field-Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
       <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/industrial" data-nav>Industrial Cooling</a></li><li><a href="#/markets/comfort" data-nav>Comfort Cooling</a></li><li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li><li><a href="#/markets/refrigeration" data-nav>Refrigeration</a></li><li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li></ul></li>
     </ul>
     <p class="sn-label">Engineering Tools</p>
@@ -722,10 +781,10 @@ html.js .reveal.in{opacity:1;transform:none;
     </div>
   </div>
   <div class="rating-plate"><hr class="hotcold"><div class="rp-body">
-    <div class="plate">Capability Plate</div>
+    <div class="plate">At a Glance</div>
     <dl>
-      <dt>Equipment categories</dt><dd>7</dd><hr class="dash">
-      <dt>Markets served</dt><dd>6</dd><hr class="dash">
+      <dt>Equipment categories</dt><dd>11</dd><hr class="dash">
+      <dt>Markets served</dt><dd>5</dd><hr class="dash">
       <dt>Engineering &amp; design</dt><dd>In-house</dd><hr class="dash">
       <dt>Parts &amp; field service</dt><dd>Full support</dd><hr class="dash">
       <dt>Service model</dt><dd>Design &rarr; Supply &rarr; Repair</dd>
@@ -735,9 +794,9 @@ html.js .reveal.in{opacity:1;transform:none;
 
 <section class="section"><div class="wrap split">
   <div>
-    <div class="plate">Section A &mdash; Approach</div>
+    <div class="plate">Our Approach</div>
     <h2>One team, from specification through repair</h2>
-    <p>Cooling equipment is easy to buy and hard to keep running. Most suppliers hand over a unit and disappear; when performance drifts three years later, you are calling someone else entirely.</p>
+    <p>Cooling equipment is easy to buy and hard to keep running. Where equipment supply and service sit with separate vendors, a performance problem three years on becomes a question of whose responsibility it is.</p>
     <p>We work the other way. The same team that sizes your equipment against your actual plant conditions is the team that supports it in the field &mdash; through startup, performance evaluation, parts, and repair. One relationship, one point of accountability, for the life of the equipment.</p>
     <div class="btn-row"><a class="btn btn-outline" href="#/about" data-nav>About Our Approach</a></div>
   </div>
@@ -756,24 +815,24 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section>
 
 <section class="section section-light"><div class="wrap">
-  <div class="plate">Section B &mdash; Equipment</div>
+  <div class="plate">Equipment</div>
   <h2>Equipment for every application</h2>
   <p class="lede">From cooling towers to filtration systems, we supply and support the equipment that keeps your operation running.</p>
-  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div>
+  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div>
   <div class="btn-row"><a class="btn btn-outline" href="#/equipment" data-nav>View All Equipment</a></div>
 </div></section>
 
 <section class="section"><div class="wrap">
-  <div class="plate">Section C &mdash; Markets</div>
+  <div class="plate">Markets Served</div>
   <h2>Markets we serve</h2>
   <p class="lede">We understand the operating conditions, regulatory pressures, and reliability demands specific to your industry.</p>
-  <div class="card-grid"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Commercial, institutional, and hospitality HVAC cooling for the buildings people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div>
+  <div class="card-grid"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Traditional commercial HVAC markets &mdash; the buildings, campuses, data centers, and venues people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div>
   <div class="btn-row"><a class="btn btn-outline" href="#/markets" data-nav>View All Markets</a></div>
 </div></section>
 
 <section class="section section-dark blueprint-dark"><div class="wrap split">
   <div>
-    <div class="plate plate--light">Section D &mdash; Engineering Tools</div>
+    <div class="plate plate--light">Engineering Tools</div>
     <h2>Reference equations and selection tools</h2>
     <p class="lede">Working through a preliminary sizing? Our equations reference covers heat balance, LMTD, cooling tower performance, water balance, and pump/fan relationships &mdash; with a live unit converter built in. The heat load calculator works from your operating conditions.</p>
     <div class="btn-row">
@@ -796,7 +855,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section>
 
 <section class="section section-light"><div class="wrap">
-  <div class="plate">Section E &mdash; Service</div>
+  <div class="plate">Parts &amp; Service</div>
   <h2>From design to repair &mdash; full lifecycle support</h2>
   <p class="lede">Engineering and design, equipment supply, installation support, performance evaluation, and ongoing parts, service, and repair. We stay with the equipment for the long haul.</p>
   <div class="btn-row"><a class="btn btn-outline" href="#/parts-service" data-nav>Explore Parts &amp; Service</a></div>
@@ -824,6 +883,13 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></div></section>
 
 
+<section class="section"><div class="wrap"><h2>Our history</h2>
+  <div class="split">
+    <p>Heat Transfer Technologies brings together two long-established heat transfer businesses under one name, combining their equipment lines, supplier relationships, and engineering and service capability into a single organization.</p>
+    <p>The result is a broader equipment portfolio and deeper regional coverage than either business carried on its own, with the same engineers and service people customers already worked with.</p>
+  </div>
+  <div class="placeholder" style="margin-top:26px">[PLACEHOLDER &mdash; COMPANY HISTORY] This section needs the real merger narrative before it can go live: the legacy company names as you want them presented publicly, founding and merger dates, years in business for each, leadership continuity, and whether either name is being retained in any form. The copy above is deliberately generic so it states nothing unverified.</div>
+</div></section>
 <section class="section"><div class="wrap"><h2>How we work</h2><div class="card-grid" style="margin-top:28px">
   <div class="card"><div class="card-body"><h3>1 &middot; Engineer</h3><p>We work from your actual operating conditions &mdash; flow, temperatures, wet bulb, fluid properties, fouling tendency &mdash; rather than fitting the application to a catalog page.</p></div></div>
   <div class="card"><div class="card-body"><h3>2 &middot; Supply</h3><p>Equipment is selected against manufacturer performance data and specified with the material, configuration, and allowances the duty requires.</p></div></div>
@@ -854,16 +920,16 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Equipment</b></nav>
   <div class="plate">Equipment</div>
   <h1 tabindex="-1">Industrial cooling &amp; heat transfer equipment</h1>
-  <p class="lede">We supply and support the full range of equipment your facility depends on for reliable heat rejection &mdash; backed by deep application experience across Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture markets.</p>
+  <p class="lede">We supply and support the full range of equipment your facility depends on for reliable heat rejection &mdash; applied across Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture markets.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section>
-<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
-<section class="section text-center"><div class="wrap">
+<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Not sure which equipment fits your application?</h2>
   <p class="lede" style="margin:0 auto 8px">Our team will work with your specs, plant conditions, and performance requirements to recommend the right solution. Or start by roughing out a heat load with our heat load calculator.</p>
   <div class="btn-row">
     <a class="btn btn-primary" href="#/contact" data-nav>Talk to Our Team</a>
-    <a class="btn btn-outline" href="#/selections" data-nav>Calculate Heat Load</a>
+    <a class="btn btn-outline-light" href="#/selections" data-nav>Calculate Heat Load</a>
   </div>
 </div></section>
 </div>
@@ -881,16 +947,16 @@ html.js .reveal.in{opacity:1;transform:none;
 <tr><td>Approach</td><td>Cold water temp &minus; ambient wet bulb</td><td>5&ndash;15 &deg;F</td></tr>
 <tr><td>Evaporation</td><td>Water lost to evaporative cooling</td><td>&asymp;1% of flow per 10 &deg;F range</td></tr>
 <tr><td>Cycles of concentration</td><td>Circulating TDS &divide; makeup TDS</td><td>3&ndash;6 typical</td></tr></table>
-<p style="margin-top:18px">See the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">equations reference</a> for the formulas behind these parameters.</p></div></section>
-<section class="section section-light"><div class="wrap"><h2>Why work with us</h2><p>We don&rsquo;t just supply towers &mdash; we support the full lifecycle, from initial sizing through startup, performance evaluation, and ongoing maintenance. That means a single point of accountability instead of separate vendors for equipment and service.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer lines here once you confirm which brands you have rights to display &mdash; this page reads notably stronger with named suppliers.</div></div></section>
+<p style="margin-top:18px">See the <a href="#/equations" data-nav>equations reference</a> for the formulas behind these parameters.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Lifecycle support</h2><p>Sizing, supply, startup, performance evaluation, and ongoing maintenance all sit with one organization rather than being split across vendors. That means a single point of accountability instead of separate vendors for equipment and service.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer lines here once you confirm which brands you have rights to display &mdash; this page reads notably stronger with named suppliers.</div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-eq-field-erected-towers">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Field Erected Towers</b></nav>
-  <div class="plate">Equipment / Field Erected Towers</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Field-Erected Towers</b></nav>
+  <div class="plate">Equipment / Field-Erected Towers</div>
   <h1 tabindex="-1">Field-erected cooling towers</h1>
   <p class="lede">For heat rejection duty beyond what a shippable, factory-assembled tower can handle, field-erected towers are engineered and built in place &mdash; sized to the job rather than to what fits on a truck.</p>
 
@@ -898,7 +964,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="section"><div class="wrap"><h2>Field-erected vs. factory-assembled</h2><p>Factory-assembled (package) towers are built complete in the shop and shipped as a unit &mdash; fast to install, but limited by what can physically be shipped and set with a crane. Field-erected towers remove that ceiling: the structure, fill, and basin are engineered and constructed on site, so cell count and overall capacity scale to the actual heat load rather than to shipping constraints. This is the typical path once a single installation needs multiple large cells operating as one integrated structure.</p></div></section>
 <section class="section section-light"><div class="wrap"><h2>Construction and materials</h2><p>Field-erected towers are typically built with concrete, FRP (fiberglass-reinforced plastic), or engineered wood structural components and basins, selected to match site water chemistry and the intended service life. Because construction happens in place, the design can also accommodate constraints a package tower can&rsquo;t &mdash; irregular footprints, phased construction around an operating facility, or tie-ins to existing basin and piping infrastructure.</p></div></section>
 <section class="section"><div class="wrap"><h2>Why field-erected makes sense at scale</h2><p>The cost and schedule tradeoff runs differently than for a package tower: field erection means more on-site labor and a longer construction timeline, but for very large heat rejection duty it&rsquo;s often the only practical option once crane capacity or shipping and road/rail limits rule out a single large factory-built module. We help work through that tradeoff alongside multi-cell configuration, fill selection, and structural design for the site&rsquo;s wind and seismic conditions.</p></div></section>
-<section class="section section-light"><div class="wrap"><h2>Why work with us</h2><p>We don&rsquo;t just supply towers &mdash; we support the full lifecycle, from initial sizing through startup, performance evaluation, and ongoing maintenance. That means a single point of accountability instead of separate vendors for equipment and service.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer/construction partners here once you confirm which firms you have rights to display &mdash; this page reads notably stronger with named suppliers, as with the other equipment pages.</div></div></section>
+<section class="section section-light"><div class="wrap"><h2>Lifecycle support</h2><p>A field-erected tower is a multi-year commitment, so sizing, construction oversight, startup, and long-term maintenance all sit with one organization rather than being split across vendors. That means a single point of accountability instead of separate vendors for equipment and service.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer/construction partners here once you confirm which firms you have rights to display &mdash; this page reads notably stronger with named suppliers, as with the other equipment pages.</div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
@@ -928,7 +994,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section>
 <section class="section"><div class="wrap"><h2>Shell-and-tube heat exchangers</h2><p>The workhorse of industrial heat transfer, shell-and-tube exchangers handle a wide range of pressures, temperatures, and fluids. We help specify tube material, baffle configuration, and shell design suited to your process conditions and maintenance preferences.</p></div></section>
 <section class="section section-light"><div class="wrap"><h2>Plate heat exchangers</h2><p>Plate exchangers offer high heat transfer efficiency in a compact footprint, making them a strong fit where space is constrained or thermal performance is critical. We help evaluate whether a plate configuration outperforms shell-and-tube for your duty.</p></div></section>
-<section class="section"><div class="wrap"><h2>Custom-engineered solutions</h2><p>Where standard configurations don&rsquo;t fit &mdash; unusual fluids, extreme conditions, or tight space and weight constraints &mdash; our engineering background allows us to work through custom designs rather than forcing a standard product into the wrong application.</p><p style="margin-top:14px">Sizing starts with the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">Q = U&middot;A&middot;LMTD relationship</a>.</p></div></section>
+<section class="section"><div class="wrap"><h2>Custom-engineered solutions</h2><p>Where standard configurations don&rsquo;t fit &mdash; unusual fluids, extreme conditions, or tight space and weight constraints &mdash; our engineering background allows us to work through custom designs rather than forcing a standard product into the wrong application.</p><p style="margin-top:14px">Sizing starts with the <a href="#/equations" data-nav>Q = U&middot;A&middot;LMTD relationship</a>.</p></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
@@ -957,7 +1023,7 @@ html.js .reveal.in{opacity:1;transform:none;
 
 </div></section>
 <section class="section"><div class="wrap"><h2>How direct steam injection works</h2><p>Steam is injected directly into the flowing liquid through a nozzle or sparger and condenses as it transfers heat, so essentially all of the steam&rsquo;s latent energy goes straight into the fluid &mdash; near-instant temperature rise with no exchanger surface to foul, scale, or eventually need replacing.</p></div></section>
-<section class="section section-light"><div class="wrap"><h2>Where it fits</h2><p>Process and wash-down water heating, tank and vessel heating, and any application where fast response or tight temperature control matters more than the simplicity of an indirect exchanger. Because there&rsquo;s no heat transfer surface, thermal efficiency runs close to 100% &mdash; all the steam&rsquo;s energy ends up in the fluid rather than partly lost across an exchanger wall.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Where it fits</h2><p>Process and wash-down water heating, tank and vessel heating, and any application where fast response or tight temperature control matters more than the simplicity of an indirect exchanger. Because there&rsquo;s no heat transfer surface, thermal efficiency runs close to 100% &mdash; there is no exchanger surface to foul, scale, or clean.</p></div></section>
 <section class="section"><div class="wrap"><h2>Selecting the right injector</h2><p>A basic sparger is often enough for simple tank heating. Where noise and water hammer from steam collapsing in cooler liquid need to be controlled &mdash; or where thorough in-line mixing matters &mdash; an engineered injector is the better fit. Sizing comes down to flow rate, required temperature rise, and available steam pressure.</p><div class="placeholder">[PLACEHOLDER] Name specific manufacturer lines here once you confirm which brands you have rights to display &mdash; this page reads notably stronger with named suppliers.</div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
@@ -988,7 +1054,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section>
 <section class="section"><div class="wrap"><h2>Side-stream filtration</h2><p>Side-stream filtration treats a portion of the recirculating flow continuously, removing solids over time without the pressure drop or footprint of full-flow systems. A common, cost-effective solution for open recirculating towers.</p></div></section>
 <section class="section section-light"><div class="wrap"><h2>Full-flow filtration</h2><p>Where water quality demands more aggressive treatment, full-flow filtration processes the entire system flow, offering higher removal efficiency at the cost of additional pressure drop and equipment size.</p></div></section>
-<section class="section"><div class="wrap"><h2>Protecting your equipment investment</h2><p>Filtration is often the most overlooked component in a cooling system &mdash; and the one most directly tied to unplanned downtime. We help you specify filtration sized to your actual water quality and system demands.</p></div></section>
+<section class="section"><div class="wrap"><h2>Why filtration matters</h2><p>Filtration is often the most overlooked component in a cooling system &mdash; and the one most directly tied to unplanned downtime. We help you specify filtration sized to your actual water quality and system demands.</p></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
@@ -1001,7 +1067,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <p class="lede">Circulating pumps set the flow that every other component in the loop depends on. Sizing them correctly is the difference between a system that holds design conditions efficiently and one that wastes energy and wears out early.</p>
 </div></section>
 <section class="section"><div class="wrap"><h2>Circulating and process pumps</h2><p>We specify end-suction, split-case, vertical turbine, and specialty process pumps sized for your flow, total head, and duty cycle. Selection works from the actual system curve rather than a nameplate figure, so the pump operates near its best efficiency point instead of running back on its curve.</p></div></section>
-<section class="section section-light bp-soft"><div class="wrap"><h2>Sizing against the real system curve</h2><p>Oversizing is the most common problem we find in the field. A pump selected with too much safety margin runs throttled, wastes energy continuously, and suffers accelerated seal and bearing wear. We work from measured or calculated system resistance to size the pump to the duty it will actually see.</p><p>Glycol changes this calculation. A glycol mix carries less heat per gallon than water, so it needs more flow for the same duty. The <a href="#/selections" data-nav>heat load calculator</a> accounts for this at any concentration.</p></div></section>
+<section class="section section-light bp-soft"><div class="wrap"><h2>Sizing against the real system curve</h2><p>Oversizing is a common and costly error. A pump selected with too much safety margin runs throttled, wastes energy continuously, and suffers accelerated seal and bearing wear. We work from measured or calculated system resistance to size the pump to the duty it will actually see.</p><p>Glycol changes this calculation. A glycol mix carries less heat per gallon than water, so it needs more flow for the same duty. The <a href="#/selections" data-nav>heat load calculator</a> accounts for this at any concentration.</p></div></section>
 <section class="section"><div class="wrap"><h2>Redundancy and variable speed</h2><p>For continuous-duty applications we help work through N+1 arrangements, alternating duty schedules, and where variable frequency drives pay back. Because pump power follows the cube of speed, a modest speed reduction on a variable load produces disproportionate energy savings. See the <a href="#/equations" data-nav>affinity laws</a> for the relationship.</p></div></section>
 <section class="section section-dark bp-dark text-center"><div class="wrap"><h2>Ready to talk specifics?</h2><p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p><div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div></div></section>
 </div>
@@ -1010,7 +1076,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="hero bp"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Controls</b></nav>
 <div class="plate">Equipment / Controls</div>
 <h1 tabindex="-1">Control systems and instrumentation</h1>
-<p class="lede">Controls are what turn a collection of equipment into a system that holds setpoint, responds to load, and tells you when something is drifting. They are also the most common place we find performance quietly left on the table.</p>
+<p class="lede">Controls are what turn a collection of equipment into a system that holds setpoint, responds to load, and tells you when something is drifting. They are also a common source of avoidable efficiency loss.</p>
 </div></section>
 <section class="section"><div class="wrap"><h2>Control packages</h2><p>We supply and specify packaged control systems for cooling towers, closed loop coolers, chillers, and pumping systems, from single-unit controllers through panels that sequence multiple cells and pumps against a common load. Packages are specified to suit the equipment actually installed rather than fitted as a generic add-on.</p></div></section>
 <section class="section section-light bp-soft"><div class="wrap"><h2>Instrumentation and monitoring</h2><p>Temperature, flow, pressure, level, and conductivity instrumentation gives you the data to run the system deliberately instead of reactively. Well-placed instrumentation is what makes <a href="#/parts-service" data-nav>performance evaluation</a> possible. Without it, a gradual loss of efficiency stays invisible until something fails.</p></div></section>
@@ -1036,20 +1102,38 @@ html.js .reveal.in{opacity:1;transform:none;
 
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Markets Served</b></nav>
   <div class="plate">Markets Served</div>
-  <h1 tabindex="-1">Industries we serve</h1>
+  <h1 tabindex="-1">Markets we serve</h1>
   <p class="lede">Cooling requirements differ sharply by industry &mdash; water availability, heat load profile, regulatory pressure, and duty cycle all shape the right equipment choice. We bring market-specific experience to every recommendation, from heavy industrial process cooling through to comfort cooling for the buildings people occupy.</p>
 
 </div></section>
-<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Traditional commercial HVAC markets &mdash; the buildings, campuses, and facilities people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Traditional commercial HVAC markets &mdash; the buildings, campuses, data centers, and venues people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Tell us about your application</h2>
+  <p class="lede" style="margin:0 auto 8px">Every market on this list has its own duty profile, water chemistry, and uptime expectations. Send us your conditions and we&rsquo;ll scope the equipment against them.</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a>
+    <a class="btn btn-outline-light" href="#/equipment" data-nav>Browse Equipment</a>
+  </div>
+</div></section>
+
 </div>
 <div class="page" id="p-mk-industrial">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Industrial Cooling</b></nav>
-  <div class="plate">Markets / Industrial Cooling</div>
+  <div class="plate">Markets Served / Industrial Cooling</div>
   <h1 tabindex="-1">Industrial cooling</h1>
   <p class="lede">Continuous, high-load heat rejection duty across the industries that can&rsquo;t afford unplanned downtime &mdash; Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture.</p>
 
 </div></section>
 <section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/power" data-nav><div class="card-body"><h3>Power Generation</h3><p>Cooling solutions for baseload, peaking, and combined-cycle power facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/steel" data-nav><div class="card-body"><h3>Steel</h3><p>Heat transfer equipment built for the heat loads and duty cycles of steel production.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/oil-gas" data-nav><div class="card-body"><h3>Oil &amp; Gas</h3><p>Reliable cooling for upstream, midstream, and downstream operations.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/process" data-nav><div class="card-body"><h3>Process Industries</h3><p>Custom-engineered solutions for chemical, petrochemical, and industrial process cooling.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/hydrogen" data-nav><div class="card-body"><h3>Hydrogen</h3><p>Cooling systems supporting hydrogen production and processing facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/carbon-capture" data-nav><div class="card-body"><h3>Carbon Capture</h3><p>Heat transfer equipment engineered for emerging carbon capture applications.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Working on an industrial cooling project?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your process conditions, ambient design point, and water chemistry, and our engineering team will work through the selection with you.</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a>
+    <a class="btn btn-outline-light" href="#/equipment" data-nav>Browse Equipment</a>
+  </div>
+</div></section>
+
 </div>
 <div class="page" id="p-mk-power">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Power Generation</b></nav>
@@ -1137,12 +1221,21 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section></div>
 <div class="page" id="p-mk-comfort">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Comfort Cooling</b></nav>
-  <div class="plate">Markets / Comfort Cooling</div>
+  <div class="plate">Markets Served / Comfort Cooling</div>
   <h1 tabindex="-1">Comfort cooling</h1>
   <p class="lede">Beyond industrial process cooling, we support the traditional commercial HVAC markets that keep buildings, campuses, and public spaces comfortable and running &mdash; a different duty profile than industrial heat rejection, but the same discipline in specification and support.</p>
 
 </div></section>
 <section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/comfort/commercial-institutional" data-nav><div class="card-body"><h3>Commercial &amp; Institutional</h3><p>Office, retail, education, and government buildings that depend on reliable year-round HVAC cooling.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/healthcare" data-nav><div class="card-body"><h3>Healthcare Facilities</h3><p>Hospitals and healthcare campuses where cooling reliability is tied directly to patient care.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/hospitality" data-nav><div class="card-body"><h3>Hospitality &amp; Entertainment</h3><p>Hotels, resorts, arenas, and venues that need cooling capacity to flex with variable occupancy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/data-centers" data-nav><div class="card-body"><h3>Data Centers</h3><p>Continuous, high-density heat loads where cooling reliability is tied directly to uptime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Specifying comfort cooling equipment?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your building load, design conditions, and redundancy requirements, and our engineering team will work through the selection with you.</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a>
+    <a class="btn btn-outline-light" href="#/equipment" data-nav>Browse Equipment</a>
+  </div>
+</div></section>
+
 </div>
 <div class="page" id="p-mk-comfort-commercial">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/comfort" data-nav>Comfort Cooling</a><i>/</i><b>Commercial &amp; Institutional</b></nav>
@@ -1202,7 +1295,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section></div>
 <div class="page" id="p-mk-manufacturing">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Manufacturing</b></nav>
-  <div class="plate">Markets / Manufacturing</div>
+  <div class="plate">Markets Served / Manufacturing</div>
   <h1 tabindex="-1">Manufacturing</h1>
   <p class="lede">General manufacturing facilities rely on process cooling for machinery, hydraulic and lubrication systems, injection molding, and a wide range of other production processes &mdash; equipment that has to keep pace with the production line.</p>
 
@@ -1216,7 +1309,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section></div>
 <div class="page" id="p-mk-refrigeration">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Refrigeration</b></nav>
-  <div class="plate">Markets / Refrigeration</div>
+  <div class="plate">Markets Served / Refrigeration</div>
   <h1 tabindex="-1">Refrigeration</h1>
   <p class="lede">Industrial and commercial refrigeration systems depend on the heat rejection side of the plant working reliably &mdash; the condenser water system that carries heat away from the refrigeration equipment itself.</p>
 
@@ -1230,7 +1323,7 @@ html.js .reveal.in{opacity:1;transform:none;
 </div></section></div>
 <div class="page" id="p-mk-food-process">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Food &amp; Process</b></nav>
-  <div class="plate">Markets / Food &amp; Process</div>
+  <div class="plate">Markets Served / Food &amp; Process</div>
   <h1 tabindex="-1">Food &amp; process</h1>
   <p class="lede">Food, beverage, and process production facilities need cooling equipment that meets sanitary requirements alongside the thermal duty &mdash; reliability here is tied directly to production uptime and product quality.</p>
 
@@ -1251,10 +1344,10 @@ html.js .reveal.in{opacity:1;transform:none;
     <a href="#g-tonnage">HVAC vs. Tower Ton</a>
     <a href="#g-conversions">Unit Converter</a>
       <a href="#g-heat-balance">Heat Balance</a>
-    <a href="#g-exchanger">Exchanger Sizing</a>
-    <a href="#g-tower">Cooling Towers</a>
+    <a href="#g-exchanger">Heat Exchanger Sizing</a>
+    <a href="#g-tower">Cooling Tower Performance</a>
     <a href="#g-water">Water Balance</a>
-    <a href="#g-flow">Flow &amp; Power</a>
+    <a href="#g-flow">Flow, Pressure &amp; Power</a>
   </nav>
 </div></section>
 <section class="section"><div class="wrap eq-page">
@@ -1271,7 +1364,7 @@ html.js .reveal.in{opacity:1;transform:none;
     <p class="tc-value">1 ton = <b>15,000</b> BTU/hr</p>
     <p class="tc-note">Rates cooling towers. Defined as rejecting the heat carried by 3 GPM of condenser water cooled through a 10&deg;F range &mdash; which also covers the compressor&rsquo;s heat of compression, not just the refrigeration effect. Symbol used on this site: <b>TT</b>.</p>
   </div>
-  <p class="tc-rule"><b>Rule of thumb, not a conversion:</b> a typical chiller plant&rsquo;s nominal tower-ton requirement runs close to its refrigeration-ton load, because the units were historically calibrated to line up for that case. They are still two different units of BTU/hr &mdash; always check which one a spec sheet, quote, or calculation is using before sizing equipment. The Heat Load Calculator below labels every result with the correct one.</p>
+  <p class="tc-rule"><b>Rule of thumb, not a conversion:</b> a typical chiller plant&rsquo;s nominal tower-ton requirement runs close to its refrigeration-ton load, because the units were historically calibrated to line up for that case. They are still two different units of BTU/hr &mdash; always check which one a spec sheet, quote, or calculation is using before sizing equipment. The <a href="#/selections" data-nav>Heat Load Calculator</a> labels every result with the one it uses.</p>
 </div>
 <h2 class="eq-group-title" id="g-conversions">Unit converter</h2>
 <p class="lede" style="margin-bottom:26px">Type a value into either side of any row &mdash; the other side updates as you type. Rows are independent.</p>
@@ -1326,6 +1419,7 @@ html.js .reveal.in{opacity:1;transform:none;
 
       <div class="plate" style="margin-top:34px">Step 2 &mdash; Conditions</div>
       <div id="s-fields"></div>
+      <p class="hint" style="margin-top:14px">Any value with a radio button can be the unknown. Pick the one you need &mdash; heat load, flow rate, a temperature, surface area, or U &mdash; and the calculator solves for it from everything else.</p>
 
       <div class="btn-row" style="margin-top:26px">
         <button class="btn btn-primary" id="s-run" type="button">Calculate</button>
@@ -1361,7 +1455,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Parts &amp; Service</b></nav>
   <div class="plate">Parts &amp; Service</div>
   <h1 tabindex="-1">From design to repair &mdash; full lifecycle support</h1>
-  <p class="lede">Most suppliers stop at the sale. We support your equipment through every phase of its working life &mdash; repair, maintenance, performance evaluation, and long-term service contracts.</p>
+  <p class="lede">Equipment supply and long-term service are often split between vendors. We support your equipment through every phase of its working life &mdash; repair, maintenance, performance evaluation, and long-term service contracts.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request Service</a></div>
 </div></section>
 <section class="section section-dark blueprint-dark"><div class="wrap">
@@ -1377,26 +1471,26 @@ html.js .reveal.in{opacity:1;transform:none;
   </div>
 </div></section>
 <section class="section section-light"><div class="wrap">
-  <div class="plate">Section A</div>
-  <h2>Repair &amp; maintenance</h2>
+  <div class="plate">Repair &amp; Maintenance</div>
+  <h2>Repair and maintenance</h2>
   <p>Unplanned downtime on cooling equipment ripples through an entire operation. Our field service team handles repair work on cooling towers, heat exchangers, chillers, and related equipment &mdash; whether it&rsquo;s equipment we originally supplied or existing equipment already on your site.</p>
   <p>Preventive maintenance programs are built around your equipment&rsquo;s actual duty cycle and condition, not a generic schedule, to catch wear before it becomes a failure.</p>
 </div></section>
 <section class="section"><div class="wrap">
-  <div class="plate">Section B</div>
+  <div class="plate">Performance Evaluation</div>
   <h2>Performance evaluation</h2>
   <p>Cooling equipment loses efficiency gradually &mdash; scaling, fouling, and mechanical wear all chip away at performance long before a failure shows up. Our performance evaluations measure your equipment against its original design specifications, identifying efficiency losses and giving you data to plan repairs, upgrades, or replacement on your own timeline rather than in an emergency.</p>
-  <p style="margin-top:14px">A fouled exchanger shows up as a drop in the overall coefficient U &mdash; see the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">resistance equation</a> for how fouling factors into total performance.</p>
+  <p style="margin-top:14px">A fouled exchanger shows up as a drop in the overall coefficient U &mdash; see the <a href="#/equations" data-nav>resistance equation</a> for how fouling factors into total performance.</p>
 </div></section>
 <section class="section section-light"><div class="wrap">
-  <div class="plate">Section C</div>
+  <div class="plate">Service Contracts</div>
   <h2>Service contracts</h2>
   <p>For facilities that want predictable, ongoing coverage, we offer service contracts scoped to your equipment and operating requirements &mdash; combining scheduled maintenance, priority response, and performance monitoring under one agreement.</p>
   <div class="placeholder">[PLACEHOLDER] Specific service contract tiers or SLAs once defined &mdash; response time commitments, included visit frequency, coverage area.</div>
 </div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Have equipment that needs attention?</h2>
-  <p class="lede" style="margin:0 auto 8px">Tell us what you&rsquo;re seeing and we&rsquo;ll help you figure out next steps.</p>
+  <p class="lede" style="margin:0 auto 8px">Send us the equipment details and current symptoms, and our service team will scope the work with you.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Contact Our Service Team</a></div>
 </div></section>
 </div>
@@ -1404,7 +1498,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/parts-service" data-nav>Parts &amp; Service</a><i>/</i><b>Emergency Parts</b></nav>
   <div class="plate">Emergency Parts</div>
   <h1 tabindex="-1">Emergency parts request</h1>
-  <p class="lede">Equipment down and need a part fast? Enter your ZIP code and we&rsquo;ll route you to the contact for your part of the country &mdash; no standard quote cycle.</p>
+  <p class="lede">Equipment down and need a part quickly? Enter your ZIP code and we&rsquo;ll route you to the contact for your part of the country &mdash; no standard quote cycle.</p>
 </div></section>
 <section class="section"><div class="wrap split">
   <div>
@@ -1419,7 +1513,7 @@ html.js .reveal.in{opacity:1;transform:none;
       <button class="btn btn-primary" type="submit">Find My Contact</button>
     </form>
     <div class="zip-result" id="ep-result"></div>
-    <div class="placeholder" style="margin-top:26px">[PLACEHOLDER] The ZIP-to-territory matching below uses standard public USPS ZIP-prefix ranges, not a verified list of your actual coverage boundaries &mdash; it&rsquo;s a reasonable approximation, but zips right on a territory line may not match perfectly. Send me the real territory boundaries (see the map on the Contact page) and I&rsquo;ll tighten this up. Also send the real emergency parts phone number and email for each territory &mdash; they currently show as placeholders below and in the <code>TERRITORIES</code> config block.</div>
+    <div class="placeholder" style="margin-top:26px">[PLACEHOLDER] The ZIP-to-territory matching below uses standard public USPS ZIP-prefix ranges, not a verified list of your actual coverage boundaries &mdash; it&rsquo;s a reasonable approximation, but zips right on a territory line may not match perfectly. Supply the confirmed territory boundaries (see the map on the Contact page) to replace it, along with the real emergency parts phone number and email for each territory &mdash; those currently show as placeholders below and in the <code>TERRITORIES</code> config block.</div>
   </div>
   <div>
     <div class="plate">Can&rsquo;t wait on the lookup?</div>
@@ -1448,9 +1542,9 @@ html.js .reveal.in{opacity:1;transform:none;
   <p class="lede">Select a state to see the territory it belongs to and the representative who covers it.</p>
   <div class="map-layout" style="margin-top:36px">
     <div>
-      <div class="usmap-wrap"><div id="usmap" role="group" aria-label="Territory coverage map"><div class="st" data-ab="WA" style="grid-column:1;grid-row:1">WA</div><div class="st" data-ab="OR" style="grid-column:1;grid-row:2">OR</div><div class="st" data-ab="CA" style="grid-column:1;grid-row:5">CA</div><div class="st" data-ab="NV" style="grid-column:2;grid-row:4">NV</div><div class="st" data-ab="ID" style="grid-column:2;grid-row:2">ID</div><div class="st" data-ab="MT" style="grid-column:3;grid-row:1">MT</div><div class="st" data-ab="WY" style="grid-column:4;grid-row:3">WY</div><div class="st" data-ab="UT" style="grid-column:3;grid-row:4">UT</div><div class="st" data-ab="AZ" style="grid-column:3;grid-row:6">AZ</div><div class="st" data-ab="CO" style="grid-column:4;grid-row:4">CO</div><div class="st" data-ab="NM" style="grid-column:4;grid-row:6">NM</div><div class="st" data-ab="ND" style="grid-column:5;grid-row:1">ND</div><div class="st" data-ab="SD" style="grid-column:5;grid-row:2">SD</div><div class="st" data-ab="NE" style="grid-column:5;grid-row:3">NE</div><div class="st" data-ab="KS" style="grid-column:6;grid-row:4">KS</div><div class="st" data-ab="OK" style="grid-column:6;grid-row:5">OK</div><div class="st" data-ab="TX" style="grid-column:6;grid-row:7">TX</div><div class="st" data-ab="MN" style="grid-column:7;grid-row:1">MN</div><div class="st" data-ab="IA" style="grid-column:7;grid-row:3">IA</div><div class="st" data-ab="MO" style="grid-column:7;grid-row:4">MO</div><div class="st" data-ab="AR" style="grid-column:7;grid-row:6">AR</div><div class="st" data-ab="LA" style="grid-column:6;grid-row:6">LA</div><div class="st" data-ab="WI" style="grid-column:8;grid-row:2">WI</div><div class="st" data-ab="IL" style="grid-column:8;grid-row:4">IL</div><div class="st" data-ab="MS" style="grid-column:7;grid-row:7">MS</div><div class="st" data-ab="MI" style="grid-column:9;grid-row:2">MI</div><div class="st" data-ab="IN" style="grid-column:7;grid-row:5">IN</div><div class="st" data-ab="KY" style="grid-column:8;grid-row:6">KY</div><div class="st" data-ab="TN" style="grid-column:8;grid-row:5">TN</div><div class="st" data-ab="AL" style="grid-column:8;grid-row:7">AL</div><div class="st" data-ab="OH" style="grid-column:9;grid-row:4">OH</div><div class="st" data-ab="GA" style="grid-column:8;grid-row:8">GA</div><div class="st" data-ab="FL" style="grid-column:9;grid-row:8">FL</div><div class="st" data-ab="WV" style="grid-column:9;grid-row:3">WV</div><div class="st" data-ab="NC" style="grid-column:9;grid-row:6">NC</div><div class="st" data-ab="SC" style="grid-column:9;grid-row:7">SC</div><div class="st" data-ab="VA" style="grid-column:10;grid-row:6">VA</div><div class="st" data-ab="PA" style="grid-column:10;grid-row:3">PA</div><div class="st" data-ab="NY" style="grid-column:11;grid-row:3">NY</div><div class="st" data-ab="MD" style="grid-column:9;grid-row:5">MD</div><div class="st" data-ab="DC" style="grid-column:10;grid-row:5">DC</div><div class="st" data-ab="DE" style="grid-column:11;grid-row:4">DE</div><div class="st" data-ab="NJ" style="grid-column:11;grid-row:5">NJ</div><div class="st" data-ab="CT" style="grid-column:10;grid-row:2">CT</div><div class="st" data-ab="RI" style="grid-column:12;grid-row:3">RI</div><div class="st" data-ab="MA" style="grid-column:10;grid-row:4">MA</div><div class="st" data-ab="VT" style="grid-column:11;grid-row:2">VT</div><div class="st" data-ab="NH" style="grid-column:10;grid-row:1">NH</div><div class="st" data-ab="ME" style="grid-column:12;grid-row:2">ME</div></div></div>
+      <div class="usmap-wrap"><svg id="usmap" viewBox="0 0 975 605" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Territory coverage map"><g><path class="st" data-ab="WA" d="M171.5 22.3L165 50.4L158.2 81L157.5 82.9L158.7 87.3L157.9 91.4L124.8 83.5L122.3 84.5L115.8 83.4L108.3 83.6L103.8 84.8L98.9 84.2L97.1 82.5L87.6 83.4L87.4 81.8L82.7 79.2L78.3 78.3L70.3 80L62.9 75.2L64.1 68.1L63.4 65L60.7 61.6L59.2 61.5L56.5 61.3L54.5 57.9L52 56.2L49.2 56.9L46.8 54L48.4 51.1L50.9 50.1L49.2 44.5L50.8 31.7L50 29.7L51 20.6L49 16.4L49.8 9.4L52.8 5.5L55.2 8.5L60.6 13.2L64.9 14.4L68.8 16.8L73.1 16.8L74.5 19.4L78.1 20.3L79.2 25.9L81.1 26.1L79.6 32.9L78.9 39.2L80.6 39L80.6 33.4L82.5 28.5L86.5 24L85 21.4L85.9 17.6L85.6 13.1L87.2 10.4L87.2 6.7L84.9 5.5L83.4 2.3L84.7 0L171.5 22.3ZM80.8 15.6L83.1 15.2L81.5 19.7L79.5 17.2L80.8 15.6ZM77.9 8.1L80.5 5.7L81.7 9.9L80.1 12.8L76.9 10.9L77.9 8.1Z"></path><path class="st" data-ab="OR" d="M59.2 61.5L60.7 61.6L63.4 65L64.1 68.1L62.9 75.2L70.3 80L78.3 78.3L82.7 79.2L87.4 81.8L87.6 83.4L97.1 82.5L98.9 84.2L103.8 84.8L108.3 83.6L115.8 83.4L122.3 84.5L124.8 83.5L157.9 91.4L159.2 95.8L162.6 98.2L163.2 101.7L158.4 107.8L156.5 111.6L154 113.9L153.8 116.1L151.4 119.2L149.5 119.5L144.3 127L144.8 130.4L147.8 131.5L148.8 133.7L144.9 140.8L135.4 183.1L107 176.7L85.1 171.1L67.7 166.5L45.3 159.9L31 155.9L14.6 151.1L13.1 147.8L14 140.1L15.9 135L14.9 130.4L17.6 127.2L20.7 121.4L25.1 115.7L27.9 110.4L35.5 91.7L36 89L40.1 81.1L44.3 69.7L45.3 63L47.3 59.4L54.5 57.9L56.5 61.3L59.2 61.5Z"></path><path class="st" data-ab="CA" d="M31 155.9L45.3 159.9L67.7 166.5L85.1 171.1L74.9 210.9L67.3 240.1L84.9 266.5L101.9 292.1L115.6 312.7L125.7 327.8L143.7 355L143.1 358L145.4 362.4L146.8 369L149.9 373.1L147 375.7L143.7 376.6L140.6 380.3L140.3 385.9L139.1 389.2L134.5 391.8L134.1 400.7L136.7 401.4L136.9 405.9L135.4 407.7L131.4 407.9L105.4 404.7L84.1 402.2L82.5 398.6L83.5 393.8L83.3 387.7L81.5 383.1L76.9 376.1L70.5 369.1L68.7 370.2L66 368.6L67 366.4L64.8 361L60.1 360.9L53.1 355.6L52.7 352.5L48.3 347.8L42.4 346.4L37.8 343.6L31.4 342.6L29 338.7L31.4 332.5L30.5 331.2L32.5 326.8L28.5 322.2L29.6 317.5L27.8 316.7L25.9 311.9L24 310.4L23.8 307.7L19.4 296.3L16.9 292.6L18.3 285L19.5 286.1L22 282L20.6 277.3L17.3 276.9L14.2 272.1L13.5 268.8L14.6 266.1L13.6 261.9L15.3 255.9L18.6 256.8L19.7 248.1L18 248.5L16.5 252.6L12.7 252.4L9.5 248.1L10.4 242.5L8.9 237.5L6.2 233.8L5.1 230.3L1.7 222.8L3.1 221.4L3 213L5.3 209.1L5.8 202.3L3.2 194.7L0 189.9L0.4 185.5L7.7 176.9L9.6 173.8L9.6 170.9L13.2 164.5L13.7 157.9L12.4 155.9L14.6 151.1L31 155.9Z"></path><path class="st" data-ab="NV" d="M135.4 183.1L186.2 193.8L163.7 310.5L160 329.3L157.4 332.9L155.5 332.7L153.8 329.4L146.9 329L145.2 342.8L145.9 347.6L145.4 352L143.7 355L125.7 327.8L115.6 312.7L101.9 292.1L84.9 266.5L67.3 240.1L74.9 210.9L85.1 171.1L107 176.7L135.4 183.1Z"></path><path class="st" data-ab="ID" d="M186.5 25.6L181.5 49L185.2 56.4L184 62.7L186.4 66.1L189.4 67.8L189.4 69.5L194 76.8L194.2 79.5L197.9 82.7L197.8 84.3L202.5 85.1L198.5 93.2L197 98.6L198 102.4L194.6 104.4L195.2 107L193.9 109.4L196.9 112.5L201.5 110.1L203.6 107.9L206.1 110.7L205.3 112.5L206.1 117.3L207.9 122.5L209.5 124.5L208.6 128.9L210.1 131.2L213.5 132.1L214.3 140L216 141.6L218.1 139.7L223.2 140.8L227.4 139.4L229.4 140.9L233.5 140.5L234.1 142L237.6 141.6L242.2 137.4L244.2 141.9L246.8 144.8L237.5 202.7L218.3 199.7L186.2 193.8L135.4 183.1L144.9 140.8L148.8 133.7L147.8 131.5L144.8 130.4L144.3 127L149.5 119.5L151.4 119.2L153.8 116.1L154 113.9L156.5 111.6L158.4 107.8L163.2 101.7L162.6 98.2L159.2 95.8L157.9 91.4L158.7 87.3L157.5 82.9L158.2 81L165 50.4L171.5 22.3L186.5 25.6Z"></path><path class="st" data-ab="MT" d="M372.3 53.2L370.1 79.7L366.2 124.6L364.4 146.8L364.1 146.8L333.4 143.7L281.1 137.4L248.6 132.5L246.8 144.8L244.2 141.9L242.2 137.4L237.6 141.6L234.1 142L233.5 140.5L229.4 140.9L227.4 139.4L223.2 140.8L218.1 139.7L216 141.6L214.3 140L213.5 132.1L210.1 131.2L208.6 128.9L209.5 124.5L207.9 122.5L206.1 117.3L205.3 112.5L206.1 110.7L203.6 107.9L201.5 110.1L196.9 112.5L193.9 109.4L195.2 107L194.6 104.4L198 102.4L197 98.6L198.5 93.2L202.5 85.1L197.8 84.3L197.9 82.7L194.2 79.5L194 76.8L189.4 69.5L189.4 67.8L186.4 66.1L184 62.7L185.2 56.4L181.5 49L186.5 25.6L256.5 39L288.2 43.7L372.3 53.2Z"></path><path class="st" data-ab="WY" d="M281.1 137.4L333.4 143.7L364.1 146.8L360.2 193.8L356.2 241.1L326.8 238.4L288.4 233.9L268.6 231.4L233.8 226.2L237.5 202.7L246.8 144.8L248.6 132.5L281.1 137.4Z"></path><path class="st" data-ab="UT" d="M218.3 199.7L237.5 202.7L233.8 226.2L268.6 231.4L262.4 275.5L259.6 295.5L259.5 298.2L255.7 325.7L228.9 321.6L163.7 310.5L186.2 193.8L218.3 199.7Z"></path><path class="st" data-ab="AZ" d="M255.7 325.7L237.2 459L197 453L175.3 440.4L128.6 412.7L131.4 407.9L135.4 407.7L136.9 405.9L136.7 401.4L134.1 400.7L134.5 391.8L139.1 389.2L140.3 385.9L140.6 380.3L143.7 376.6L147 375.7L149.9 373.1L146.8 369L145.4 362.4L143.1 358L143.7 355L145.4 352L145.9 347.6L145.2 342.8L146.9 329L153.8 329.4L155.5 332.7L157.4 332.9L160 329.3L163.7 310.5L228.9 321.6L255.7 325.7Z"></path><path class="st" data-ab="CO" d="M288.4 233.9L326.8 238.4L356.2 241.1L391.4 243.7L389.9 267.5L385.5 338.9L367.7 337.5L342.9 335.6L295.9 330.9L285.7 329.5L255.7 325.7L259.5 298.2L259.6 295.5L262.4 275.5L268.6 231.4L288.4 233.9Z"></path><path class="st" data-ab="NM" d="M285.7 329.5L295.9 330.9L342.9 335.6L367.7 337.5L366.8 349.3L366.1 349.3L361.6 408.2L359.4 432.2L357.6 455.9L287.4 449.3L286.6 451.6L288.5 454.5L255.2 450.5L253.9 461.2L237.2 459L255.7 325.7L285.7 329.5Z"></path><path class="st" data-ab="ND" d="M478.9 58.5L480.8 65.9L479.8 69.1L480.2 78.5L481.3 83L484.4 91L484.8 106L485.4 107L485.1 113.3L486.4 118.5L488.3 121L488.9 130.4L366.2 124.6L370.1 79.7L372.3 53.2L478.9 58.5Z"></path><path class="st" data-ab="SD" d="M366.2 124.6L488.9 130.4L488.5 133.1L484 138.1L486.8 142.6L490.6 145.3L490.4 187.8L488.2 188.3L489.1 190.3L488.5 194.4L490.7 196.8L489.3 198.4L488.7 203.1L487.2 206.6L490.4 211.8L487.3 211.1L486.2 207.8L477.2 203.3L469.1 203.1L466.6 202.6L464.5 204.9L455.8 200.4L455.3 199.2L401.7 196.9L372.7 194.8L360.2 193.8L364.1 146.8L364.4 146.8L366.2 124.6Z"></path><path class="st" data-ab="NE" d="M372.7 194.8L401.7 196.9L455.3 199.2L455.8 200.4L464.5 204.9L466.6 202.6L469.1 203.1L477.2 203.3L486.2 207.8L487.3 211.1L490.4 211.8L493.5 222.5L495.9 224L497 228.2L496 231.1L496.4 234.3L499.5 236.4L499.4 242.4L501.2 247.7L500.2 253.8L502.2 257L506.1 264.6L510.5 270.9L392.5 267.6L389.9 267.5L391.4 243.7L356.2 241.1L360.2 193.8L372.7 194.8Z"></path><path class="st" data-ab="KS" d="M392.5 267.6L510.5 270.9L512.3 273.1L518.1 274.8L514.1 281.8L516.4 284.1L519.4 289.7L523.2 290.8L523.9 342.1L421.9 340.7L385.5 338.9L389.9 267.5L392.5 267.6Z"></path><path class="st" data-ab="OK" d="M421.9 340.7L523.9 342.1L524.1 354L528 380.2L527.6 422L520.1 419.5L518.2 416.8L513.1 414.5L511.9 416.6L506.9 416.5L505.8 415.2L501.2 417.6L499.3 416.3L495.2 417.5L491.3 421.1L489.9 419L485.8 417.3L481.6 417.3L480.2 414.5L475.3 419.8L473.7 416.8L471.4 417.7L469.8 415.7L465.2 413.8L461.8 416.8L460.3 413.6L457.6 413.1L456.1 410.5L452.4 409.3L449.9 411.5L448.3 409.5L444.5 409.7L440.3 407.4L436.4 407.6L435.2 403L429.1 402.5L426.7 403.2L422.6 398.5L421.1 398.7L423 352.6L389.1 350.8L366.8 349.3L367.7 337.5L385.5 338.9L421.9 340.7Z"></path><path class="st" data-ab="TX" d="M389.1 350.8L423 352.6L421.1 398.7L422.6 398.5L426.7 403.2L429.1 402.5L435.2 403L436.4 407.6L440.3 407.4L444.5 409.7L448.3 409.5L449.9 411.5L452.4 409.3L456.1 410.5L457.6 413.1L460.3 413.6L461.8 416.8L465.2 413.8L469.8 415.7L471.4 417.7L473.7 416.8L475.3 419.8L480.2 414.5L481.6 417.3L485.8 417.3L489.9 419L491.3 421.1L495.2 417.5L499.3 416.3L501.2 417.6L505.8 415.2L506.9 416.5L511.9 416.6L513.1 414.5L518.2 416.8L520.1 419.5L527.6 422L529.7 424.2L533.5 423L536.3 424L536.6 436.6L537.1 460.8L541.5 465.9L541.8 471.1L547.5 480.5L547.9 485.6L546 491.7L544.1 494.2L544.8 497.4L543.4 499.9L545.1 504.4L540.5 512.9L542.3 515.2L539 515.4L528.4 518.8L524.5 517.1L523.8 513.2L521.1 516L519.2 515.3L518.3 518.7L520.4 520.1L520.8 524.5L517 529.2L510.8 535L498.4 541.3L497.1 540.2L493.4 541.8L493.3 540.3L488.2 541.4L485.8 538.4L484.3 539L489.7 545.1L485.8 547L482 545.8L481.4 550.1L476.7 554.4L471.8 562.4L468.5 570.9L466.2 570.2L465.6 573.3L468.1 572.5L466.8 578.7L465.2 578.9L465 582.4L467 584.3L467.4 591.4L469.7 593.8L470.2 598.3L472.1 602.3L465.5 604.7L462.8 601.5L457.8 600.3L451.1 600.4L445.5 596.4L441.2 595.9L438 592.8L433.6 591.6L430.7 588.6L429 581.4L425.3 577.1L425.9 573.5L424.3 569.6L425 566.3L422.5 562.5L420.3 562L416.9 558.5L415.9 554.2L413 550.2L408.7 546.8L406.9 539.7L404.9 537.6L402.5 531.8L401.8 527.2L399.4 523.7L395.1 520.5L394.2 518.4L390.3 516.3L387.5 511L378.6 509.3L373.2 509.2L368.7 507.1L367.6 509.5L362.6 510L358.6 514.6L355.8 522.3L354.5 522.3L351.3 526.7L348 526.6L343.2 522.6L331 515.8L328.8 512.5L324.1 509.1L321.3 502.1L321.6 496L318.6 490.8L318.2 486.5L316.3 483.6L308.9 478.8L305.2 473L302 470.7L298.9 465.7L294.1 462.7L291.3 456.1L288.5 454.5L286.6 451.6L287.4 449.3L357.6 455.9L359.4 432.2L361.6 408.2L366.1 349.3L366.8 349.3L389.1 350.8Z"></path><path class="st" data-ab="MN" d="M562.7 110.9L561.4 109.9L558.2 112L558.8 125.9L557.8 127.3L553.2 129.4L549.6 134.6L549.5 137.9L551.4 138.1L553.6 141L551.8 144.7L552.3 148.7L551.4 157.4L555.9 161.5L559.4 161.8L561.3 164.3L566.5 166.7L567.5 169.7L572.5 173.5L575.2 174.3L578.7 179.3L578.4 183.1L579.5 185.8L576.9 185.9L490.4 187.8L490.6 145.3L486.8 142.6L484 138.1L488.5 133.1L488.9 130.4L488.3 121L486.4 118.5L485.1 113.3L485.4 107L484.8 106L484.4 91L481.3 83L480.2 78.5L479.8 69.1L480.8 65.9L478.9 58.5L511.4 58.5L511.3 49.6L514.3 49.8L516.4 51.6L518.6 63.7L520.3 65L525.5 65.3L526.1 66.5L532.1 66.9L532.9 69.4L538 68.6L538 67.6L542 66.2L545.6 66.6L549.7 68.4L550.9 70.8L553.2 70.5L555.6 75.6L556.5 73.4L560.5 72.2L561.3 74.4L566 75.7L566.1 77.7L568.5 79.3L573.3 78.2L576 75.7L579.8 74.1L581.4 77.5L584.1 76.6L587.3 77.1L591 76.4L595.5 79.1L599.5 78.3L599.3 79.6L594.1 82.9L586.9 85.6L582.2 88.3L575.6 94.7L572.8 98.6L568.4 103L561.4 109L562.7 110.9Z"></path><path class="st" data-ab="IA" d="M576.9 185.9L579.5 185.8L579.8 189.3L582.5 191.5L580.6 194.4L581.4 199.7L582.9 203.4L589.2 205.8L590.6 208.7L594.6 212.8L595.2 215.2L599.3 217.3L599.9 220.3L599.5 224.8L597.3 226.5L597 230.2L591.7 233.5L584.9 235L584 239.3L587.1 242.5L587 246.7L584.8 249.1L584.5 252.8L579.7 255.6L579.6 259.9L577.6 259.3L573.8 254.6L572 254.8L546.7 256.4L522.4 257.2L502.2 257L500.2 253.8L501.2 247.7L499.4 242.4L499.5 236.4L496.4 234.3L496 231.1L497 228.2L495.9 224L493.5 222.5L490.4 211.8L487.2 206.6L488.7 203.1L489.3 198.4L490.7 196.8L488.5 194.4L489.1 190.3L488.2 188.3L490.4 187.8L576.9 185.9Z"></path><path class="st" data-ab="MO" d="M572 254.8L573.8 254.6L577.6 259.3L579.6 259.9L578.2 263.4L578.6 268.2L581.2 275.4L587.1 281.2L593.4 286L595 293.7L596.4 295.1L598.4 292.7L602.4 293.5L605.1 295.1L603.5 298L604.1 300.2L601.4 306.5L601.5 310.3L607.3 314.8L609.5 317.8L611.4 317.1L617.7 321.8L618 325.5L619.8 329.9L618.4 331.6L623 338L626 338.1L625.2 347.8L622.3 347L621.5 350L620.3 350.1L619.3 350.2L619.8 356L616.4 362.3L604.3 363L607 358.4L609.7 355.4L607.8 350.9L526.7 354L524.1 354L523.9 342.1L523.2 290.8L519.4 289.7L516.4 284.1L514.1 281.8L518.1 274.8L512.3 273.1L510.5 270.9L506.1 264.6L502.2 257L522.4 257.2L546.7 256.4L572 254.8Z"></path><path class="st" data-ab="AR" d="M526.7 354L607.8 350.9L609.7 355.4L607 358.4L604.3 363L616.4 362.3L616.1 366.7L613.4 368.2L613 371.9L609.7 376L610.4 381.7L608.8 386L606.9 386.7L608.2 388.8L605.3 390.8L604.1 394.9L602.2 396L602.8 400.7L599.4 402.2L599.6 403.7L595.8 407.8L597.1 410.4L593.8 414.3L591 421.8L594.6 424.7L593 426.7L594.3 431.6L593 434.9L545.1 436.4L536.6 436.6L536.3 424L533.5 423L529.7 424.2L527.6 422L528 380.2L524.1 354L526.7 354Z"></path><path class="st" data-ab="LA" d="M545.1 436.4L593 434.9L595 437.6L593.6 438.7L593.7 443.5L596.7 446.3L597.5 453.3L595.4 458.8L590.9 462.4L590 467.8L588 467.4L588.1 476.1L585.6 476.5L587.3 481L585.9 482.8L623.9 480.7L622.5 488.5L626.1 493.5L627.2 497.3L629.8 499.6L624 503.2L623.7 505.6L628.7 506.8L630.5 502.9L635 506.4L634.9 509.3L632.6 510.8L627.9 510L628.6 512.1L627.3 515.6L631.4 518.3L637.7 518.7L640.2 522L642.1 522.4L639.1 526.6L635.4 526.1L632.1 522.2L624.4 520.5L624.2 516.5L620.5 518.1L621 521.4L619.5 524.6L616.8 525.3L614.6 521.9L609.8 522.1L608.4 525.8L605.3 527L601.8 525L599 524.9L596.2 519.2L591.4 516.8L589.7 517.3L587.6 512.5L582.3 513.4L582.1 510.4L576.9 513.5L577.7 515.6L573.7 517.9L567.4 517.1L560 514.1L554.8 512.8L543.8 514.3L542.3 515.2L540.5 512.9L545.1 504.4L543.4 499.9L544.8 497.4L544.1 494.2L546 491.7L547.9 485.6L547.5 480.5L541.8 471.1L541.5 465.9L537.1 460.8L536.6 436.6L545.1 436.4Z"></path><path class="st" data-ab="WI" d="M588.8 112.8L591.9 114L593.9 117.9L611.1 121.5L618.3 124.5L620.4 123.5L627.6 125.3L629.7 128.1L633.3 130.6L633.5 134.7L632.3 138.1L636.2 138.3L634.9 141.7L637.7 144L637.3 146.9L634.2 147.6L631.9 153.3L631.2 157.1L633.2 157.6L635.5 154.9L637.9 150L641.2 147.9L643.3 141.8L646.7 140.2L646.7 143.3L644.6 146.3L640.8 156.5L640 162.1L640.5 165.9L638.8 167.4L637.7 172.8L638.7 177.3L637.5 180.4L636.1 187.9L637 193.7L639.5 198.7L639.5 205.6L622.5 207L590.6 208.7L589.2 205.8L582.9 203.4L581.4 199.7L580.6 194.4L582.5 191.5L579.8 189.3L579.5 185.8L578.4 183.1L578.7 179.3L575.2 174.3L572.5 173.5L567.5 169.7L566.5 166.7L561.3 164.3L559.4 161.8L555.9 161.5L551.4 157.4L552.3 148.7L551.8 144.7L553.6 141L551.4 138.1L549.5 137.9L549.6 134.6L553.2 129.4L557.8 127.3L558.8 125.9L558.2 112L561.4 109.9L562.7 110.9L566.4 111L577.4 106.5L581.5 104.1L583 105.7L580.9 108.9L586.5 112.5L588.8 112.8Z"></path><path class="st" data-ab="IL" d="M590.6 208.7L622.5 207L639.5 205.6L639.3 210.2L642.4 215.3L645.9 223.7L650.8 279.6L649.2 284.1L652 288.9L652.6 293L650.6 296.6L650.3 299.8L647.5 305.1L645.4 305.7L646.1 308.7L644.8 309.9L644.2 315.6L644.9 317.1L642.8 320.7L644.9 324.7L637.5 327.5L636.9 330.1L638.9 333.1L636.7 335.2L629.7 332.1L627.5 332.5L625 336.9L626 338.1L623 338L618.4 331.6L619.8 329.9L618 325.5L617.7 321.8L611.4 317.1L609.5 317.8L607.3 314.8L601.5 310.3L601.4 306.5L604.1 300.2L603.5 298L605.1 295.1L602.4 293.5L598.4 292.7L596.4 295.1L595 293.7L593.4 286L587.1 281.2L581.2 275.4L578.6 268.2L578.2 263.4L579.6 259.9L579.7 255.6L584.5 252.8L584.8 249.1L587 246.7L587.1 242.5L584 239.3L584.9 235L591.7 233.5L597 230.2L597.3 226.5L599.5 224.8L599.9 220.3L599.3 217.3L595.2 215.2L594.6 212.8L590.6 208.7Z"></path><path class="st" data-ab="MS" d="M642.1 384.3L647.2 383.9L649.4 386.2L648.8 412.3L647.9 457.6L652.3 493.5L650.2 494.7L645.2 494.6L643.1 493.2L638.3 494.6L631.8 497.8L629.8 499.6L627.2 497.3L626.1 493.5L622.5 488.5L623.9 480.7L585.9 482.8L587.3 481L585.6 476.5L588.1 476.1L588 467.4L590 467.8L590.9 462.4L595.4 458.8L597.5 453.3L596.7 446.3L593.7 443.5L593.6 438.7L595 437.6L593 434.9L594.3 431.6L593 426.7L594.6 424.7L591 421.8L593.8 414.3L597.1 410.4L595.8 407.8L599.6 403.7L599.4 402.2L602.8 400.7L602.2 396L604.1 394.9L605.3 390.8L608.2 388.8L606.9 386.7L642.1 384.3Z"></path><path class="st" data-ab="MI" d="M716.5 215.3L693.1 219.2L693 217.6L672.4 219.9L658 221.4L661.2 217.9L663 212.4L664.9 209L666 204.3L666.3 197.7L665.2 190.8L658.8 177.6L659.9 172.3L658.1 166.2L661.3 159.5L661.6 154.1L660.8 151.4L663.4 149.9L663.4 146L667.5 144.5L670.3 139.9L671 148.5L672.7 148.7L674.4 144.2L673.7 137L674.9 135L679.3 133.4L677.2 128.5L679.7 123.9L683.3 123.3L687.8 125.4L691.9 125.3L694.3 128.4L697.3 128.3L702.9 130.7L704.6 130.3L708.1 135L706.2 137.9L708.8 141.1L710.2 145L710.4 153.8L707.3 156.5L707 161.1L703.2 163.1L701.7 168.8L702.8 170.8L707.1 172.2L709.8 168.8L712.7 162.3L718.2 159.2L721.2 160.6L723.5 163.7L726.6 173.2L727.6 178L730.3 183.7L729.7 192.4L727.1 194.1L726.6 191L724.8 192.2L723.6 199.5L720.5 202.7L720.2 208.3L716.5 213.4L716.5 215.3ZM670.5 125.6L671 128.4L668.9 129.2L669.4 125.1L670.5 125.6ZM637.7 144L634.9 141.7L636.2 138.3L632.3 138.1L633.5 134.7L633.3 130.6L629.7 128.1L627.6 125.3L620.4 123.5L618.3 124.5L611.1 121.5L593.9 117.9L591.9 114L588.8 112.8L595 110L597.6 107L604.6 105.3L609 101.5L611.1 101.3L612.7 98.7L617.4 94.9L619.7 91.7L623.3 89.5L627.1 90.8L621.3 98.5L620 101.1L620.5 105.4L623.3 101.9L628.9 101.9L633.4 103.8L637.9 109.9L640.1 110.9L644.1 109.4L645.2 110.8L649.4 111.1L657.5 104.9L662 103.9L668 103.5L671.9 101.3L674.9 100.8L676.3 107.2L679.6 107.7L682.7 106.3L684.2 107.7L686.1 105.5L690.7 104.3L691.8 112.5L694.4 115.7L697.7 116.1L697.7 113.8L700.9 113.4L702.9 115.6L701.7 117.6L692.6 117.2L688.4 118.7L683.4 116.5L682.4 119.2L683.3 121.3L681.2 121L677.8 118.2L672.3 116.9L669.6 117L667.3 120.4L663.1 121.6L658.4 121.5L656.7 123L656.5 125.6L651.6 128.3L651.6 125.2L649.3 124.7L648.7 128L644.9 128.5L643.3 130.1L641.3 135.9L637.3 143.4L637.7 144ZM612.4 78.1L608.7 81.4L606.6 81.9L606.6 79.5L616.2 73.2L614.5 77.2L612.4 78.1Z"></path><path class="st" data-ab="IN" d="M672.4 219.9L693 217.6L693.1 219.2L696.6 247.3L700.2 280.4L698.9 281.6L701.2 287.9L698 288.4L694.9 291L690.1 290.4L690.9 295.1L688 297.4L687.1 300.5L684.1 302L683 308.1L681 309.9L676.7 308.1L675.7 305.5L672 308.9L672.6 311.4L668.6 312.8L667.1 310.5L662.7 313.3L661.5 315.9L656.5 312.8L654.2 313.8L652.4 312.3L651.1 314.1L646.5 314.8L644.9 317.1L644.2 315.6L644.8 309.9L646.1 308.7L645.4 305.7L647.5 305.1L650.3 299.8L650.6 296.6L652.6 293L652 288.9L649.2 284.1L650.8 279.6L645.9 223.7L647.8 225.1L653.1 224.6L658 221.4L672.4 219.9Z"></path><path class="st" data-ab="KY" d="M717.6 286.2L722.1 288.9L724.8 286.9L731.8 287.8L733.5 285.2L736 284.1L737.3 287.9L739.5 288.3L742.4 291.2L742.9 298.3L745.7 302.5L749.1 305.6L750.4 308.2L754.3 310.4L756.8 310.4L750.7 317.8L744.4 322.2L744.7 324L742.2 326L742.3 328L738.8 329.4L738 332.2L728.5 336.9L728.2 337.3L712.3 339L698.3 339.9L694.7 340.6L674 341.8L650.5 344.5L646.4 343.8L647 348.1L623.7 349.6L621.5 350L622.3 347L625.2 347.8L626 338.1L625 336.9L627.5 332.5L629.7 332.1L636.7 335.2L638.9 333.1L636.9 330.1L637.5 327.5L644.9 324.7L642.8 320.7L644.9 317.1L646.5 314.8L651.1 314.1L652.4 312.3L654.2 313.8L656.5 312.8L661.5 315.9L662.7 313.3L667.1 310.5L668.6 312.8L672.6 311.4L672 308.9L675.7 305.5L676.7 308.1L681 309.9L683 308.1L684.1 302L687.1 300.5L688 297.4L690.9 295.1L690.1 290.4L694.9 291L698 288.4L701.2 287.9L698.9 281.6L700.2 280.4L707.1 279.5L711.3 284L711.9 286L717.6 286.2Z"></path><path class="st" data-ab="TN" d="M647 348.1L646.4 343.8L650.5 344.5L674 341.8L694.7 340.6L698.3 339.9L712.3 339L728.2 337.3L728.5 336.9L765.5 331.9L765.5 337.6L762.2 339.3L760.5 344L757 343.6L750.3 349.2L749.5 346.9L747.1 348.8L743.8 354.7L739.1 356.6L735 360.9L729.8 361.7L725.6 365.7L724.6 369.8L721 370.8L721.1 376.4L696.7 379.4L663.3 382.4L647.2 383.9L642.1 384.3L606.9 386.7L608.8 386L610.4 381.7L609.7 376L613 371.9L613.4 368.2L616.1 366.7L616.4 362.3L619.8 356L619.3 350.2L620.3 350.1L621.5 350L623.7 349.6L647 348.1Z"></path><path class="st" data-ab="AL" d="M663.3 382.4L696.7 379.4L702.3 399.3L710.4 428.6L713.4 434.9L716 438.4L715.4 440.9L717.9 442L714.9 445.4L715.3 448.3L714 452.5L716.8 459.4L716.1 465.7L719 471.9L709.2 473.1L667 477.3L666.7 480.5L671.6 484.6L671.2 488.5L672.9 490.3L670.2 494.1L667.5 495.1L662.1 491.7L661 485.9L659.4 485.4L657.9 489.9L657.6 494.3L652.3 493.5L647.9 457.6L648.8 412.3L649.4 386.2L647.2 383.9L663.3 382.4Z"></path><path class="st" data-ab="OH" d="M766.2 202L771.4 233.5L769 235.2L770.7 237.6L771.2 241.2L769.7 247.2L769.4 256.1L763.7 264.8L761.6 266.2L759.4 264.9L757.9 268.6L755.8 268.8L754.2 273.6L755.1 276.3L753.6 278.7L750.4 275.5L747.9 281.7L749.3 285.2L747.3 286.8L747.1 290L742.4 291.2L739.5 288.3L737.3 287.9L736 284.1L733.5 285.2L731.8 287.8L724.8 286.9L722.1 288.9L717.6 286.2L711.9 286L711.3 284L707.1 279.5L700.2 280.4L696.6 247.3L693.1 219.2L716.5 215.3L723.6 217.6L726.2 219.3L727.6 217.2L732 220.4L734.5 221.2L742.1 217L747 216.9L751.4 211.8L758.2 206.4L766.2 202L766.2 202Z"></path><path class="st" data-ab="GA" d="M744.1 373.2L740.7 378.7L740.7 381.2L747.8 385.4L749.7 384.7L753.4 389.5L754.4 392.1L758.1 396.6L763 398.9L766.1 402.9L771.9 406.1L772.1 408.8L776.1 412.7L781.9 415.5L783.8 419.2L784.8 424.1L787.7 425.4L791.8 431.2L792.5 435.1L797.3 436.5L793.8 445.2L793.5 449.4L792 453.3L792.4 457.1L790.5 459.1L791.2 469.2L785.6 469.1L780.7 467.9L779.1 470L780.5 474.2L780.3 479.1L777.9 479.6L776.2 474.7L750.3 476.5L722.6 478.4L719 471.9L716.1 465.7L716.8 459.4L714 452.5L715.3 448.3L714.9 445.4L717.9 442L715.4 440.9L716 438.4L713.4 434.9L710.4 428.6L702.3 399.3L696.7 379.4L721.1 376.4L734.5 374.8L744.1 373.2Z"></path><path class="st" data-ab="FL" d="M709.2 473.1L719 471.9L722.6 478.4L750.3 476.5L776.2 474.7L777.9 479.6L780.3 479.1L780.5 474.2L779.1 470L780.7 467.9L785.6 469.1L791.2 469.2L793.9 479.1L798.2 490.1L806.5 504.1L818.1 518.5L816.9 519.9L818.6 527.1L823.8 534.8L832.6 550.3L834.7 555.3L835.5 560.6L836.4 580.1L834.5 580.8L833.4 587.1L834.4 588.8L831.1 593.8L829.3 593.1L825.6 595.5L819 597.6L816.6 595.5L817 591.8L810.6 582.3L806.6 581L803.6 582.9L800.2 577.6L798.8 573L793.6 568.5L792.1 565.2L792.1 560.1L789.5 559.6L790.5 562.4L788.5 563.5L780 551.9L776.9 549.1L781.9 538.9L777.9 540L775.5 543.3L772.2 539.1L774 525.9L773.2 515.2L770.4 513L769.1 509.6L765.1 509.4L759.7 504.4L755.7 502.6L755.1 499.2L752.3 498.2L749.7 494.7L741.3 490.6L734.7 492.5L735.5 496.1L733.2 495.7L725.3 501.1L716.4 503.2L716.3 500.6L713.8 497.7L702.5 491.9L694.7 489.8L687.9 489.7L682.3 490.7L670.2 494.1L672.9 490.3L671.2 488.5L671.6 484.6L666.7 480.5L667 477.3L709.2 473.1Z"></path><path class="st" data-ab="WV" d="M771.4 233.5L774.9 255L793.3 251.8L795.3 263.9L798.4 261.1L801.2 256.5L803.6 256.9L806.5 252.8L812.1 253.5L812.3 250.8L815.2 250.4L816.5 248.3L819.9 249.9L822.9 249.3L826.2 255.4L825.1 260.3L814.4 254.2L814.7 261.3L808.2 272.3L805.5 270.7L803.2 279.7L801.7 282L798.5 281.5L794.9 278.8L794.5 284.4L791.7 289.4L791 293.9L788.2 297.9L786.8 302L787.5 306.2L784.6 308.8L783.7 307.5L776.1 313.4L771.5 315.4L768.7 313.4L765.6 317L763.3 317.5L759.9 316L756.8 312.4L756.8 310.4L754.3 310.4L750.4 308.2L749.1 305.6L745.7 302.5L742.9 298.3L742.4 291.2L747.1 290L747.3 286.8L749.3 285.2L747.9 281.7L750.4 275.5L753.6 278.7L755.1 276.3L754.2 273.6L755.8 268.8L757.9 268.6L759.4 264.9L761.6 266.2L763.7 264.8L769.4 256.1L769.7 247.2L771.2 241.2L770.7 237.6L769 235.2L771.4 233.5Z"></path><path class="st" data-ab="NC" d="M778.6 330.5L791.3 328.9L805.8 326.5L872.8 313.2L876.9 322L871.6 322.2L871.1 323.5L865.2 326.3L864.5 327.7L860.4 329L861 330.6L865.8 328.4L866.7 329.2L872.1 326.9L874.4 328.7L877.5 327.1L879.9 332.4L879.4 335.3L877.2 336.1L873.7 342.8L867.6 344.4L867.4 348.5L870.9 351.9L873.2 352.3L870.5 359.6L867 359.5L861.1 361.4L857.3 363.6L851.6 369.4L847.6 376.3L846.3 384.2L842 383.3L835.4 386.1L809.8 367.7L788.5 370.9L788.4 368.1L784.9 364.6L783.1 366.3L782.6 363.9L759.2 366.3L754.2 367.9L750.4 370.7L744.1 373.2L734.5 374.8L721.1 376.4L721 370.8L724.6 369.8L725.6 365.7L729.8 361.7L735 360.9L739.1 356.6L743.8 354.7L747.1 348.8L749.5 346.9L750.3 349.2L757 343.6L760.5 344L762.2 339.3L765.5 337.6L765.5 331.9L778.6 330.5Z"></path><path class="st" data-ab="SC" d="M750.4 370.7L754.2 367.9L759.2 366.3L782.6 363.9L783.1 366.3L784.9 364.6L788.4 368.1L788.5 370.9L809.8 367.7L835.4 386.1L832.3 387.9L828.8 392.5L825.7 399.3L825.9 404.2L823.3 408.7L818.9 409.4L818.5 412.4L814.4 416.3L812.5 420L808.6 422.1L804.9 426.4L804.7 428.2L800.9 430.8L797.3 436.5L792.5 435.1L791.8 431.2L787.7 425.4L784.8 424.1L783.8 419.2L781.9 415.5L776.1 412.7L772.1 408.8L771.9 406.1L766.1 402.9L763 398.9L758.1 396.6L754.4 392.1L753.4 389.5L749.7 384.7L747.8 385.4L740.7 381.2L740.7 378.7L744.1 373.2L750.4 370.7Z"></path><path class="st" data-ab="VA" d="M874 277.3L876.6 276.3L875.1 280.8L873 282.7L872.7 288.4L870.8 297.9L868.1 300.3L866.4 297.4L866.5 289.9L869.4 279.8L874 277.3ZM863.1 281.1L863.5 281L862.7 281.2L863.1 281.1ZM814.4 254.2L825.1 260.3L826.2 255.4L829 255.3L831.3 256.8L832 260.2L835.9 260.7L838.7 262.4L840.7 265.4L839.9 269.4L838 270.9L837.3 274.5L838.5 276.8L843.2 275L844.8 278.5L851.4 278.8L853.8 281.4L859.5 283.5L858.6 290.5L861.8 295.1L859.8 298.1L860.1 301.1L862.8 302.4L860.9 305.7L856.3 302.8L855.7 304.3L859.5 306.3L868.7 305L872.8 313.2L805.8 326.5L791.3 328.9L778.6 330.5L765.5 331.9L728.5 336.9L738 332.2L738.8 329.4L742.3 328L742.2 326L744.7 324L744.4 322.2L750.7 317.8L756.8 310.4L756.8 312.4L759.9 316L763.3 317.5L765.6 317L768.7 313.4L771.5 315.4L776.1 313.4L783.7 307.5L784.6 308.8L787.5 306.2L786.8 302L788.2 297.9L791 293.9L791.7 289.4L794.5 284.4L794.9 278.8L798.5 281.5L801.7 282L803.2 279.7L805.5 270.7L808.2 272.3L814.7 261.3L814.4 254.2Z"></path><path class="st" data-ab="PA" d="M778.1 193.4L779.1 199.3L854.2 184.6L856.8 187.3L858.1 186.9L860.7 189.1L861.1 192.6L865.1 195.9L867.7 195.4L868.9 196.9L867 199L866.6 201.8L863.4 207.6L865.3 209.7L863.6 214.4L864.4 217L866.7 217.3L867.6 220.1L873.6 223.7L873.2 225.9L868.7 231L868.8 232.8L864.5 235.8L860.8 235.9L858.4 239.1L793.3 251.8L774.9 255L771.4 233.5L766.2 202L766.2 202L769.2 200.2L778 193.1L778.1 193.4Z"></path><path class="st" data-ab="NY" d="M871.5 107.4L872.9 112.1L873 116.6L875.5 120.4L876.2 124.9L875.4 130L878.4 135.9L877.9 138L881.5 141.2L884.8 157.2L885.5 159.2L885.1 175.3L885.7 176.1L888.8 193.8L890.5 195.4L886.8 199L888.7 201.3L896.5 201.5L897.7 199.7L903.9 198.1L906.9 196.6L911.2 191.6L912.3 194.2L915.3 194.6L909.9 199.6L897.9 208L892.5 210.3L888.8 210.9L886.3 212.7L883.9 209.3L884.4 202.1L877.9 200.1L868.9 196.9L867.7 195.4L865.1 195.9L861.1 192.6L860.7 189.1L858.1 186.9L856.8 187.3L854.2 184.6L779.1 199.3L778.1 193.4L778 193.1L787.3 184.6L788.4 181.1L791.3 178.3L789.3 174.6L787.8 174.1L785.6 167.9L795 163.4L803.7 161.9L807.3 161.8L811.6 163.6L813.8 162.1L821 160.8L825.1 158.3L828.9 153.1L831.9 152.3L830.6 146L831.4 142L827.1 140.2L827.3 137.1L833.1 131.8L834.8 127.9L840.9 118.4L847.5 112.9L858.6 111L871.5 107.4Z"></path><path class="st" data-ab="MD" d="M863.5 281L863.1 281.1L862.7 281.2L863.5 281ZM793.3 251.8L858.4 239.1L866.4 268L878 265.7L876.6 276.3L874 277.3L869.4 279.8L865.7 281.6L865 277.8L863.2 276.6L864.9 274.5L861.3 271.2L860.8 273.1L857 273.5L854.8 269.6L856 269.3L855 263.8L855.7 261.4L852.6 254.3L853.6 249.6L856.4 248.2L855.9 243.6L853.8 244.6L854.2 246.9L850.2 250.8L849.4 253.8L850.5 260.6L849.4 264.2L851.3 269.4L854.5 272.6L854.7 275.4L856.8 277.9L856.4 280L851.5 277.2L845.3 276.6L842.8 273.4L839.8 276.1L838 273.5L839.9 269.4L840.7 265.4L842.6 262.5L839.9 260.7L838.7 262.4L835.9 260.7L832 260.2L831.3 256.8L829 255.3L826.2 255.4L822.9 249.3L819.9 249.9L816.5 248.3L815.2 250.4L812.3 250.8L812.1 253.5L806.5 252.8L803.6 256.9L801.2 256.5L798.4 261.1L795.3 263.9L793.3 251.8Z"></path><path class="st" data-ab="DC" d="M839.9 260.7L842.6 262.5L840.7 265.4L838.7 262.4L839.9 260.7Z"></path><path class="st" data-ab="DE" d="M864.5 235.8L863.5 238.9L862 240.8L863.2 244.4L866.5 247.3L868.5 252.9L873.6 258L875.4 257.9L878 265.7L866.4 268L858.4 239.1L860.8 235.9L864.5 235.8Z"></path><path class="st" data-ab="NJ" d="M877.9 200.1L884.4 202.1L883.9 209.3L881.4 211.5L880.8 215.4L885.9 216L886.9 218.6L887.7 231.5L884.4 242.1L881.5 245.6L879.6 252.1L877.1 248.7L871.6 247.9L864.2 244.2L863 240.9L862.8 240.4L863.5 238.9L864.5 235.8L868.8 232.8L868.7 231L873.2 225.9L873.6 223.7L867.6 220.1L866.7 217.3L864.4 217L863.6 214.4L865.3 209.7L863.4 207.6L866.6 201.8L867 199L868.9 196.9L877.9 200.1Z"></path><path class="st" data-ab="CT" d="M893.1 174.6L914.3 169.6L914.4 170L917.9 183.6L917.5 186L915.9 186L908.9 189.7L899.9 191.4L896.8 195.5L892.9 197.5L888.7 201.3L886.8 199L890.5 195.4L888.8 193.8L885.7 176.1L893.1 174.6Z"></path><path class="st" data-ab="RI" d="M926.5 174.8L928.9 178.6L925.7 180L926.5 174.8ZM918.8 168.5L921.3 167.9L923.7 173L925.9 174.2L923.7 174.4L922.9 178.2L923.6 183.2L917.5 186L917.9 183.6L914.4 170L918.8 168.5Z"></path><path class="st" data-ab="MA" d="M923.7 145.9L925.5 145.8L927.2 149.6L927.4 153.1L925.5 156.8L926.4 160.3L930.2 159.9L933.4 162.9L933.8 165.9L935.8 166.1L936.8 168.7L942.1 169.7L946.9 166L946.6 169.5L939.3 174.5L936.4 175.4L934.1 173.8L931.5 175.1L931.8 176.8L928.9 178.6L926.5 174.8L925.9 174.2L923.7 173L921.3 167.9L918.8 168.5L914.4 170L914.3 169.6L893.1 174.6L885.7 176.1L885.1 175.3L885.5 159.2L899.1 156.2L918.7 151.9L919.9 149.3L923.7 145.9Z"></path><path class="st" data-ab="VT" d="M901.2 99.8L902 102L900.8 106.4L903.3 109.7L901.6 114.3L896.7 117.9L898.3 123.5L897.3 125.7L897.2 131.2L895.5 136.5L896.7 146.5L897.7 149.7L896.5 151.4L897.2 154.8L899.1 156.2L885.5 159.2L884.8 157.2L881.5 141.2L877.9 138L878.4 135.9L875.4 130L876.2 124.9L875.5 120.4L873 116.6L872.9 112.1L871.5 107.4L888.3 103.5L901.2 99.8Z"></path><path class="st" data-ab="NH" d="M906.2 91.4L911 105.9L920.1 135.7L923.5 137.6L923.8 139.9L926.2 141L925.5 145.8L923.7 145.9L919.9 149.3L918.7 151.9L899.1 156.2L897.2 154.8L896.5 151.4L897.7 149.7L896.7 146.5L895.5 136.5L897.2 131.2L897.3 125.7L898.3 123.5L896.7 117.9L901.6 114.3L903.3 109.7L900.8 106.4L902 102L901.2 99.8L901.9 93.4L905.8 93L906.2 91.4Z"></path><path class="st" data-ab="ME" d="M926.2 141L923.8 139.9L923.5 137.6L920.1 135.7L911 105.9L906.2 91.4L912.3 86.4L910.7 85.1L912.4 80.9L914.6 78.6L913.7 77.3L915.7 74.5L913.8 70.8L913.7 64.4L915.5 61.7L914.7 55.1L921.8 34.4L924.8 34.4L926.1 38.5L928.6 39.4L932.9 35.5L936 34.5L937.7 32.3L943.1 34.5L946.5 36.7L954.4 61.9L955.9 68L961.8 68L961.9 70.8L964 72.8L963.6 75.4L966.9 78.2L969.6 76.5L975 83.6L972.8 88.2L970.5 87.5L969.7 90.4L967.2 90.5L967.6 92.7L964.5 93.4L961.2 99.7L959.1 96.7L957.3 96.9L959.2 100.3L956 103.1L954.3 100.5L953 102.5L948.8 103.8L947.7 100.4L945.5 101.9L946.6 104.1L945.8 109.8L946.6 111L944.4 114.6L941.1 114.5L940.1 117.9L937.7 119L936.3 121.9L933.7 122.1L932.3 119.8L929.7 124.9L931.4 127.1L929 128.7L929.4 130.9L927 134.3L926.2 141Z"></path></g><g class="map-labels" aria-hidden="true"><text class="stl" x="120" y="50">WA</text><text class="stl" x="105" y="125">OR</text><text class="stl" x="85" y="275">CA</text><text class="stl" x="130" y="215">NV</text><text class="stl" x="163" y="145">ID</text><text class="stl" x="255" y="80">MT</text><text class="stl" x="300" y="175">WY</text><text class="stl" x="225" y="255">UT</text><text class="stl" x="200" y="355">AZ</text><text class="stl" x="320" y="265">CO</text><text class="stl" x="300" y="380">NM</text><text class="stl" x="430" y="70">ND</text><text class="stl" x="425" y="140">SD</text><text class="stl" x="430" y="210">NE</text><text class="stl" x="460" y="290">KS</text><text class="stl" x="500" y="377">OK</text><text class="stl" x="440" y="470">TX</text><text class="stl" x="524" y="120">MN</text><text class="stl" x="535" y="205">IA</text><text class="stl" x="565" y="290">MO</text><text class="stl" x="578" y="382">AR</text><text class="stl" x="571" y="477">LA</text><text class="stl" x="590" y="140">WI</text><text class="stl" x="599" y="258">IL</text><text class="stl" x="620" y="415">MS</text><text class="stl" x="695" y="185">MI</text><text class="stl" x="657" y="252">IN</text><text class="stl" x="710" y="300">KY</text><text class="stl" x="700" y="341">TN</text><text class="stl" x="675" y="415">AL</text><text class="stl" x="715" y="235">OH</text><text class="stl" x="745" y="410">GA</text><text class="stl" x="797" y="520">FL</text><text class="stl" x="775" y="278">WV</text><text class="stl" x="830" y="330">NC</text><text class="stl" x="800" y="375">SC</text><text class="stl" x="810" y="296">VA</text><text class="stl" x="818" y="214">PA</text><text class="stl" x="833" y="158">NY</text><line class="stll" x1="850" y1="263" x2="896" y2="280"></line><text class="stl stl-sm" x="905" y="283">MD</text><line class="stll" x1="841" y1="264" x2="886" y2="305"></line><text class="stl stl-sm" x="895" y="308">DC</text><line class="stll" x1="870" y1="256" x2="905" y2="255"></line><text class="stl stl-sm" x="914" y="258">DE</text><line class="stll" x1="879" y1="226" x2="915" y2="229"></line><text class="stl stl-sm" x="924" y="232">NJ</text><line class="stll" x1="904" y1="186" x2="931" y2="195"></line><text class="stl stl-sm" x="940" y="198">CT</text><line class="stll" x1="921" y1="177" x2="933" y2="172"></line><text class="stl stl-sm" x="942" y="175">RI</text><text class="stl" x="908" y="161">MA</text><text class="stl" x="884" y="119">VT</text><text class="stl" x="907" y="139">NH</text><text class="stl" x="935" y="80">ME</text></g></svg></div>
       <div class="legend" id="legend"></div>
-      <div class="placeholder">[PLACEHOLDER] Territory boundaries below are a working assumption, not confirmed coverage. Send me the real state-by-state territory assignments and rep names and I&rsquo;ll drop them in &mdash; they live in one editable list at the top of the script.</div>
+      <div class="placeholder">[PLACEHOLDER] Territory boundaries below are a working assumption, not confirmed coverage. Replace them with the confirmed state-by-state territory assignments and representative names &mdash; they live in one editable list at the top of the script.</div>
     </div>
     <div>
       <div class="terr-panel"><hr class="hotcold"><div class="tp-body" id="terr-panel" role="status" aria-live="polite">
@@ -1496,7 +1590,7 @@ html.js .reveal.in{opacity:1;transform:none;
     </div></div>
     <div style="margin-top:26px">
       <h3>Working through a sizing?</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Rough out a heat load with the <a href="#/selections" data-nav style="color:var(--red);font-weight:600">heat load calculator</a>, or check the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">equations reference</a> and unit converter.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Rough out a heat load with the <a href="#/selections" data-nav>heat load calculator</a>, or check the <a href="#/equations" data-nav>equations reference</a> and unit converter.</p>
     </div>
   </div>
 </div></section>
@@ -1639,95 +1733,139 @@ window.HTT.FLUIDS = {
      f.fluid(key, label, lockToWater, hint)
    '{f}' in a label is replaced with the selected coolant name.             */
 var f = {
+  // plain input — always entered by the user
   num:  function(k,label,v,unit,hint,fl){
           return {k:k,t:'num',label:label,v:v,unit:unit||'',hint:hint||'',fl:fl||null}; },
+  // solvable input — gets a "Solve For" radio; becomes the computed unknown
+  // when its radio is selected, and a normal input the rest of the time
+  sv:   function(k,label,v,unit,hint,fl){
+          return {k:k,t:'num',sv:true,label:label,v:v,unit:unit||'',hint:hint||'',fl:fl||null}; },
+  // derived readout — never entered, always computed, no radio
+  der:  function(k,label,unit,hint){
+          return {k:k,t:'der',label:label,unit:unit||'',hint:hint||''}; },
   sel:  function(k,label,opts,hint){
           return {k:k,t:'sel',label:label,opts:opts,hint:hint||''}; },
   fluid:function(k,label,lock,hint){
           return {k:k,t:'fluid',label:label,lock:!!lock,hint:hint||''}; }
 };
+// only shown while a particular variable is the solve-for target
+function only(fld, target){ fld.when = target; return fld; }
 
 window.HTT.EQUIPMENT = [
   {id:'open-tower', name:'Open circuit cooling tower',
    hint:'Evaporative. Circulating water is exposed to air, so glycol is not used on the tower loop.',
+   target:'q',
    fields:[
      f.fluid('fl','Circulating fluid',true,'Open towers circulate plain water.'),
-     f.num('gpm','Flow rate',1200,'GPM'),
-     f.num('tin','{f} entering tower',95,'&deg;F',null,'fl'),
-     f.num('tout','{f} leaving tower',85,'&deg;F',null,'fl'),
-     f.num('wb','Design wet bulb',76,'&deg;F')
+     f.sv('q','Heat load',5000000,'BTU/hr'),
+     f.sv('gpm','Flow rate',1000,'GPM'),
+     f.sv('tin','Hot {f} to tower',95,'&deg;F',null,'fl'),
+     f.sv('tout','Cold {f} from tower',85,'&deg;F',null,'fl'),
+     f.der('range','Range','&deg;F'),
+     f.num('wb','Design wet bulb',78,'&deg;F'),
+     f.der('appr','Approach','&deg;F')
    ]},
 
   {id:'closed-tower', name:'Closed circuit cooling tower',
    hint:'Evaporative outside, closed process loop inside. The process loop may contain glycol.',
+   target:'q',
    fields:[
      f.fluid('fl','Process loop fluid',false),
-     f.num('gpm','Flow rate',900,'GPM'),
-     f.num('tin','{f} entering unit',100,'&deg;F',null,'fl'),
-     f.num('tout','{f} leaving unit',88,'&deg;F',null,'fl'),
-     f.num('wb','Design wet bulb',76,'&deg;F')
+     f.sv('q','Heat load',5400000,'BTU/hr'),
+     f.sv('gpm','Flow rate',900,'GPM'),
+     f.sv('tin','{f} entering unit',100,'&deg;F',null,'fl'),
+     f.sv('tout','{f} leaving unit',88,'&deg;F',null,'fl'),
+     f.der('range','Range','&deg;F'),
+     f.num('wb','Design wet bulb',78,'&deg;F'),
+     f.der('appr','Approach','&deg;F')
    ]},
 
   {id:'dry-cooler', name:'Closed loop cooler (dry cooler)',
    hint:'Sensible cooling only. Limited by ambient dry bulb, not wet bulb.',
+   target:'q',
    fields:[
      f.fluid('fl','Loop fluid',false),
-     f.num('gpm','Flow rate',600,'GPM'),
-     f.num('tin','{f} entering unit',125,'&deg;F',null,'fl'),
-     f.num('tout','{f} leaving unit',110,'&deg;F',null,'fl'),
+     f.sv('q','Heat load',4500000,'BTU/hr'),
+     f.sv('gpm','Flow rate',600,'GPM'),
+     f.sv('tin','{f} entering unit',125,'&deg;F',null,'fl'),
+     f.sv('tout','{f} leaving unit',110,'&deg;F',null,'fl'),
+     f.der('range','Range','&deg;F'),
      f.num('db','Design dry bulb',95,'&deg;F','Practical approach is usually 15 to 25 &deg;F.'),
-     f.num('airrise','Air temperature rise',15,'&deg;F')
+     f.der('appr','Approach','&deg;F'),
+     f.num('airrise','Air temperature rise',15,'&deg;F'),
+     f.der('cfm','Required air flow','CFM')
    ]},
 
   {id:'ache', name:'Air-cooled heat exchanger',
    hint:'Process fluid cooled directly by ambient air.',
+   target:'q',
    fields:[
      f.fluid('fl','Process fluid',false),
-     f.num('gpm','Flow rate',400,'GPM'),
-     f.num('tin','{f} inlet',180,'&deg;F',null,'fl'),
-     f.num('tout','{f} outlet',130,'&deg;F',null,'fl'),
+     f.sv('q','Heat duty',10000000,'BTU/hr'),
+     f.sv('gpm','Flow rate',400,'GPM'),
+     f.sv('tin','{f} inlet',180,'&deg;F',null,'fl'),
+     f.sv('tout','{f} outlet',130,'&deg;F',null,'fl'),
+     f.der('range','Range','&deg;F'),
      f.num('db','Design dry bulb',95,'&deg;F'),
      f.num('airrise','Air temperature rise',30,'&deg;F'),
-     f.num('u','Overall coefficient U',85,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Typical air-cooled service runs 60 to 120.')
+     f.der('cfm','Required air flow','CFM'),
+     f.sv('u','Overall coefficient U',85,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Typical air-cooled service runs 60 to 120.'),
+     f.sv('area','Surface area',2600,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
    ]},
 
   {id:'plate', name:'Plate heat exchanger',
-   hint:'Liquid to liquid. The cold side outlet is calculated from the heat balance.',
+   hint:'Liquid to liquid. Duty is set by the hot side; the cold side outlet follows from the heat balance.',
+   target:'q',
    fields:[
      f.fluid('flh','Hot side fluid',false),
-     f.num('hgpm','Hot side flow',500,'GPM'),
-     f.num('htin','Hot side {f} inlet',140,'&deg;F',null,'flh'),
-     f.num('htout','Hot side {f} outlet',110,'&deg;F',null,'flh'),
+     f.sv('q','Heat duty',7500000,'BTU/hr'),
+     f.sv('hgpm','Hot side flow',500,'GPM'),
+     f.sv('htin','Hot side {f} inlet',140,'&deg;F',null,'flh'),
+     f.sv('htout','Hot side {f} outlet',110,'&deg;F',null,'flh'),
      f.fluid('flc','Cold side fluid',false),
-     f.num('cgpm','Cold side flow',500,'GPM'),
-     f.num('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
-     f.num('u','Overall coefficient U',750,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Clean water service typically runs 600 to 1000.')
+     f.sv('cgpm','Cold side flow',500,'GPM'),
+     f.sv('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
+     only(f.num('ctgt','Target cold side outlet',115,'&deg;F','The cold side flow needed to reach this outlet.'),'cgpm'),
+     f.der('ctout','Cold side outlet','&deg;F'),
+     f.der('mtd','Mean temperature difference','&deg;F'),
+     f.sv('u','Overall coefficient U',750,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Clean water service typically runs 600 to 1000.'),
+     f.sv('area','Surface area',360,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
    ]},
 
   {id:'shell', name:'Shell-and-tube heat exchanger',
    hint:'Liquid to liquid, with a TEMA correction applied for multi-pass arrangements.',
+   target:'q',
    fields:[
      f.fluid('flh','Shell side (hot) fluid',false),
-     f.num('hgpm','Hot side flow',500,'GPM'),
-     f.num('htin','Hot side {f} inlet',200,'&deg;F',null,'flh'),
-     f.num('htout','Hot side {f} outlet',150,'&deg;F',null,'flh'),
+     f.sv('q','Heat duty',12500000,'BTU/hr'),
+     f.sv('hgpm','Hot side flow',500,'GPM'),
+     f.sv('htin','Hot side {f} inlet',200,'&deg;F',null,'flh'),
+     f.sv('htout','Hot side {f} outlet',150,'&deg;F',null,'flh'),
      f.fluid('flc','Tube side (cold) fluid',false),
-     f.num('cgpm','Cold side flow',600,'GPM'),
-     f.num('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
+     f.sv('cgpm','Cold side flow',600,'GPM'),
+     f.sv('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
+     only(f.num('ctgt','Target cold side outlet',127,'&deg;F','The cold side flow needed to reach this outlet.'),'cgpm'),
+     f.der('ctout','Cold side outlet','&deg;F'),
      f.sel('cfg','Configuration',[['cf','True counterflow'],['12','1 shell pass / 2 tube passes']]),
-     f.num('u','Overall coefficient U',180,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Water to water typically runs 150 to 300.')
+     f.der('mtd','Corrected MTD','&deg;F'),
+     f.sv('u','Overall coefficient U',180,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Water to water typically runs 150 to 300.'),
+     f.sv('area','Surface area',1300,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
    ]},
 
   {id:'chiller', name:'Process chiller',
    hint:'Calculates evaporator load, compressor power, and heat of rejection.',
+   target:'q',
    fields:[
      f.fluid('fl','Chilled fluid',false),
-     f.num('gpm','Flow rate',300,'GPM'),
-     f.num('tin','{f} return to chiller',60,'&deg;F',null,'fl'),
-     f.num('tout','{f} supply from chiller',45,'&deg;F',null,'fl'),
+     f.sv('q','Cooling load',2250000,'BTU/hr'),
+     f.sv('gpm','Flow rate',300,'GPM'),
+     f.sv('tin','{f} return to chiller',60,'&deg;F',null,'fl'),
+     f.sv('tout','{f} supply from chiller',45,'&deg;F',null,'fl'),
+     f.der('range','Evaporator &Delta;T','&deg;F'),
      f.sel('cond','Condenser type',[['air','Air-cooled'],['water','Water-cooled']]),
      f.num('camb','Design ambient dry bulb',95,'&deg;F'),
-     f.num('kwton','Efficiency',1.2,'kW/ton','Air-cooled 1.0 to 1.4; water-cooled 0.5 to 0.7.')
+     f.sv('kwton','Efficiency',1.2,'kW/ton','Air-cooled 1.0 to 1.4; water-cooled 0.5 to 0.7.'),
+     f.der('kw','Compressor power','kW')
    ]}
 ];
 
@@ -2001,7 +2139,13 @@ window.HTT.ZIP3_RANGES = [
     return (isFinite(F) && F > 0 && F <= 1.0001) ? Math.min(F,1) : NaN;
   }
 
-  /* ------------------------------------------------- selection tool */
+  /* ------------------------------------------------- heat load calculator
+     Every equation on this page is solvable in any direction. Each numeric
+     input that participates in the governing heat balance carries a
+     "Solve For" radio; whichever one is selected becomes the unknown and is
+     computed from the others, exactly the way a manufacturer's selection
+     program works. Derived readouts (range, approach, cold side outlet) are
+     always computed and never carry a radio.                              */
 
   (function selection(){
     var sel = $('s-equip');
@@ -2021,6 +2165,8 @@ window.HTT.ZIP3_RANGES = [
       o.value = e.id; o.textContent = e.name; sel.appendChild(o);
     });
 
+    var target = EQ[0].target;   // key of the variable being solved for
+
     function cur(){
       for(var i=0;i<EQ.length;i++) if(EQ[i].id === sel.value) return EQ[i];
       return EQ[0];
@@ -2033,8 +2179,134 @@ window.HTT.ZIP3_RANGES = [
     }
     function n(v,d){
       return isFinite(v) ? v.toLocaleString('en-US',
-        {minimumFractionDigits:d||0, maximumFractionDigits:d===undefined?0:d}) : '&mdash;';
+        {minimumFractionDigits:d||0, maximumFractionDigits:d===undefined?0:d}) : '—';
     }
+    function solvable(eq){
+      return eq.fields.filter(function(f){ return f.sv; });
+    }
+    function fieldByKey(eq,k){
+      for(var i=0;i<eq.fields.length;i++) if(eq.fields[i].k === k) return eq.fields[i];
+      return null;
+    }
+
+    /* ------------------------------------------------------- the solver
+       Each equipment type states its governing relationship once, in the
+       forward direction, plus the closed-form inverse for every variable
+       that can be the unknown. All of these are simple algebra — no
+       iteration needed — so results are exact rather than approximate. */
+
+    // Q = K · GPM · (Tin − Tout) — the heat balance behind every wet and
+    // dry cooling device on this page.
+    function heatBalance(t, V, K){
+      if(t === 'q')    return K * V.gpm * (V.tin - V.tout);
+      if(t === 'gpm')  return V.q / (K * (V.tin - V.tout));
+      if(t === 'tin')  return V.tout + V.q / (K * V.gpm);
+      if(t === 'tout') return V.tin  - V.q / (K * V.gpm);
+      return NaN;
+    }
+
+    function solve(eq, t, V, P){
+      var E = [];
+      // Values that must be present and positive no matter what we solve for
+      function need(k, msg){ if(!isFinite(V[k])) E.push(msg); }
+      function pos(k, msg){ if(!(V[k] > 0)) E.push(msg); }
+
+      if(eq.id === 'open-tower' || eq.id === 'closed-tower' ||
+         eq.id === 'dry-cooler' || eq.id === 'ache' || eq.id === 'chiller'){
+        var K = P.fl.K;
+        if(t !== 'q' && !(V.q > 0)) E.push('Heat load must be greater than zero.');
+        if(t !== 'gpm' && !(V.gpm > 0)) E.push('Flow rate must be greater than zero.');
+        if((t === 'q' || t === 'gpm') && !(V.tin > V.tout))
+          E.push('Inlet temperature must be higher than outlet temperature.');
+        if(E.length) return {errors:E};
+        V[t] = heatBalance(t, V, K);
+        if(!isFinite(V[t])) return {errors:['That combination of inputs has no valid solution.']};
+        if(!(V.tin > V.tout))
+          return {errors:['The solved result puts the outlet at or above the inlet. Check the heat load against the flow rate.']};
+      }
+
+      else if(eq.id === 'plate' || eq.id === 'shell'){
+        var Kh = P.flh.K, Kc = P.flc.K;
+        if(t !== 'q' && !(V.q > 0)) E.push('Heat duty must be greater than zero.');
+        if(t !== 'hgpm' && !(V.hgpm > 0)) E.push('Hot side flow must be greater than zero.');
+        if(t !== 'cgpm' && !(V.cgpm > 0)) E.push('Cold side flow must be greater than zero.');
+        if((t === 'q' || t === 'hgpm') && !(V.htin > V.htout))
+          E.push('Hot side inlet must be warmer than hot side outlet.');
+        if(t === 'cgpm' && !(V.ctgt > V.ctin))
+          E.push('Target cold side outlet must be warmer than the cold side inlet.');
+        if(E.length) return {errors:E};
+
+        // Hot side carries the duty; solve the hot-side balance first.
+        if(t === 'q')          V.q     = Kh * V.hgpm * (V.htin - V.htout);
+        else if(t === 'hgpm')  V.hgpm  = V.q / (Kh * (V.htin - V.htout));
+        else if(t === 'htin')  V.htin  = V.htout + V.q / (Kh * V.hgpm);
+        else if(t === 'htout') V.htout = V.htin  - V.q / (Kh * V.hgpm);
+        else if(t === 'cgpm')  V.cgpm  = V.q / (Kc * (V.ctgt - V.ctin));
+
+        if(!(V.htin > V.htout))
+          return {errors:['The solved result puts the hot side outlet at or above its inlet. Check the duty against the hot side flow.']};
+
+        // Cold side outlet always follows from the balance on the cold side.
+        V.ctout = V.ctin + V.q / (Kc * V.cgpm);
+        if(!(V.htout > V.ctin))
+          return {errors:['Cold side inlet ('+n(V.ctin,1)+' °F) must be colder than the hot side outlet ('+n(V.htout,1)+' °F).']};
+        if(V.ctout >= V.htin)
+          return {errors:['Calculated cold side outlet ('+n(V.ctout,1)+' °F) exceeds the hot side inlet. Increase cold side flow.']};
+
+        var lm = lmtd(V.htin, V.htout, V.ctin, V.ctout);
+        var cfg = eq.id === 'shell' ? gs('cfg') : 'cf';
+        var F = cfg === '12' ? fCorr(V.htin, V.htout, V.ctin, V.ctout) : 1;
+        if(cfg === '12' && !isFinite(F)) return {errors:[
+          'This duty cannot be achieved in a 1 shell / 2 tube pass arrangement. Use true counterflow or multiple shells in series.']};
+        V.mtd = lm * F;
+        V.F = F;
+
+        // Q = U · A · MTD closes the sizing side of the exchanger.
+        if(t === 'u')         V.u    = V.q / (V.area * V.mtd);
+        else if(t === 'area') V.area = V.q / (V.u * V.mtd);
+        if((t === 'u' || t === 'area') && !isFinite(V[t]))
+          return {errors:['Surface area and U cannot be resolved from these temperatures.']};
+      }
+
+      if(eq.id === 'ache'){
+        var mtdA = lmtd(V.tin, V.tout, V.db, V.db + V.airrise);
+        V.mtd = mtdA;
+        if(t === 'u')         V.u    = V.q / (V.area * mtdA);
+        else if(t === 'area') V.area = V.q / (V.u * mtdA);
+        if((t === 'u' || t === 'area') && !isFinite(V[t]))
+          return {errors:['Surface area and U cannot be resolved &mdash; check the air temperatures against the process temperatures.']};
+      }
+
+      return {V:V};
+    }
+
+    /* ------------------------------------------------- derived quantities
+       Recomputed on every calculation and written straight into the derived
+       readout boxes in the form, so the form always shows a consistent set
+       of numbers rather than a stale mix of entered and computed values. */
+    function derive(eq, V, P){
+      var D = {};
+      if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
+        D.range = V.tin - V.tout;
+        D.appr  = V.tout - V.wb;
+      }
+      if(eq.id === 'dry-cooler' || eq.id === 'ache'){
+        D.range = V.tin - V.tout;
+        if(eq.id === 'dry-cooler') D.appr = V.tout - V.db;
+        D.cfm = V.q / (1.08 * densRatio(0) * V.airrise);
+      }
+      if(eq.id === 'chiller'){
+        D.range = V.tin - V.tout;
+        D.kw = (V.q / TR) * V.kwton;
+      }
+      if(eq.id === 'plate' || eq.id === 'shell'){
+        D.ctout = V.ctout;
+        D.mtd   = V.mtd;
+      }
+      return D;
+    }
+
+    /* --------------------------------------------------------- rendering */
 
     function fluidBlock(f){
       var opts = '';
@@ -2062,23 +2334,62 @@ window.HTT.ZIP3_RANGES = [
       '</div>';
     }
 
+    function numRow(f){
+      var isTarget = f.sv && f.k === target;
+      var cls = 'srow' + (f.t === 'der' ? ' srow--der' : '') + (isTarget ? ' srow--target' : '');
+      var h = '<div class="'+cls+'" data-row="'+f.k+'">';
+
+      if(f.sv){
+        h += '<input type="radio" name="s-target" class="s-radio" id="tg-'+f.k+'" value="'+f.k+'"'+
+             (isTarget?' checked':'')+'>'+
+             '<label class="srow-label" for="tg-'+f.k+'" data-tpl="'+f.label+'" data-fl="'+(f.fl||'')+'">'+
+             f.label.replace('{f}','fluid')+'</label>';
+      } else {
+        h += '<span class="s-radio-gap" aria-hidden="true"></span>'+
+             '<label class="srow-label" for="sf-'+f.k+'" data-tpl="'+f.label+'" data-fl="'+(f.fl||'')+'">'+
+             f.label.replace('{f}','fluid')+'</label>';
+      }
+
+      var ro = (f.t === 'der' || isTarget);
+      h += '<input type="number" inputmode="decimal" step="any" id="sf-'+f.k+'"'+
+           (f.t === 'der' ? '' : ' value="'+f.v+'"')+
+           (ro ? ' readonly tabindex="-1" aria-readonly="true"' : '')+
+           ' class="srow-input'+(ro?' is-computed':'')+'">'+
+           '<span class="srow-unit">'+(f.unit||'')+'</span>';
+
+      if(f.hint) h += '<div class="srow-hint">'+f.hint+'</div>';
+      h += '</div>';
+      return h;
+    }
+
     function render(){
-      var eq = cur(), h = '';
+      var eq = cur(), pre = '', rows = '';
       var hint = $('s-equip-hint'); if(hint) hint.textContent = eq.hint || '';
+
+      // reset the target if this equipment doesn't have the previous one
+      if(!fieldByKey(eq, target) || !fieldByKey(eq, target).sv) target = eq.target;
+
       eq.fields.forEach(function(f){
-        if(f.t === 'fluid'){ h += fluidBlock(f); return; }
+        if(f.t === 'fluid'){ pre += fluidBlock(f); return; }
         if(f.t === 'sel'){
           var op = f.opts.map(function(o){ return '<option value="'+o[0]+'">'+o[1]+'</option>'; }).join('');
-          h += '<div class="field"><label for="sf-'+f.k+'">'+f.label+'</label>'+
-               '<select id="sf-'+f.k+'" class="dep">'+op+'</select>'+
-               (f.hint?'<div class="hint">'+f.hint+'</div>':'')+'</div>';
+          pre += '<div class="field"><label for="sf-'+f.k+'">'+f.label+'</label>'+
+                 '<select id="sf-'+f.k+'" class="dep">'+op+'</select>'+
+                 (f.hint?'<div class="hint">'+f.hint+'</div>':'')+'</div>';
           return;
         }
-        h += '<div class="field"><label for="sf-'+f.k+'" data-tpl="'+f.label+'" data-fl="'+(f.fl||'')+'">'+
-             f.label.replace('{f}','Fluid')+(f.unit?' ('+f.unit+')':'')+'</label>'+
-             '<input type="number" inputmode="decimal" step="any" id="sf-'+f.k+'" value="'+f.v+'">'+
-             (f.hint?'<div class="hint">'+f.hint+'</div>':'')+'</div>';
+        if(f.when && f.when !== target) return;   // context-only input
+        rows += numRow(f);
       });
+
+      var h = pre +
+        '<div class="solve-panel">'+
+          '<div class="solve-head">Solve For</div>'+
+          '<div class="solve-rows">'+rows+'</div>'+
+          '<p class="solve-note">Select the value you want the calculator to find. '+
+          'Everything else is an input.</p>'+
+        '</div>';
+
       var host = $('s-fields');
       if(host) host.innerHTML = h;
       syncAll();
@@ -2100,11 +2411,12 @@ window.HTT.ZIP3_RANGES = [
       if(box) box.innerHTML = '<b>'+p.name+'</b> &middot; specific heat '+p.cp.toFixed(3)+
                               ' BTU/lb&middot;&deg;F &middot; specific gravity '+p.sg.toFixed(3);
 
-      $$('#s-fields label[data-fl="'+k+'"]').forEach(function(l){
-        var fid = l.getAttribute('for').replace('sf-','');
-        var unit = '';
-        cur().fields.forEach(function(f){ if(f.k === fid) unit = f.unit; });
-        l.innerHTML = l.getAttribute('data-tpl').replace('{f}', p.name) + (unit ? ' ('+unit+')' : '');
+      $$('#s-fields .srow-label[data-fl="'+k+'"]').forEach(function(l){
+        var tpl = l.getAttribute('data-tpl');
+        // a fluid name that lands mid-sentence reads as prose, not a proper
+        // noun — "Hot water to tower", not "Hot Water to tower"
+        var name = tpl.indexOf('{f}') === 0 ? p.name : p.name.toLowerCase();
+        l.innerHTML = tpl.replace('{f}', name);
       });
     }
     function syncAll(){
@@ -2112,10 +2424,18 @@ window.HTT.ZIP3_RANGES = [
       syncDeps();
     }
     function syncDeps(){
-      if(cur().id !== 'chiller') return;
-      var l = document.querySelector('label[for="sf-camb"]');
-      if(l) l.innerHTML = (gs('cond') === 'water'
-        ? 'Entering condenser water temperature' : 'Design ambient dry bulb') + ' (&deg;F)';
+      var id = cur().id;
+      if(id === 'chiller'){
+        var l = document.querySelector('.srow-label[for="sf-camb"]');
+        if(l) l.innerHTML = (gs('cond') === 'water'
+          ? 'Entering condenser water temperature' : 'Design ambient dry bulb');
+      }
+      if(id === 'shell'){
+        // true counterflow needs no TEMA correction, so the readout is a
+        // plain LMTD rather than a corrected MTD
+        var m = document.querySelector('.srow[data-row="mtd"] .srow-label');
+        if(m) m.innerHTML = gs('cfg') === '12' ? 'Corrected MTD' : 'LMTD';
+      }
     }
 
     var fieldsHost = $('s-fields');
@@ -2133,19 +2453,25 @@ window.HTT.ZIP3_RANGES = [
         if(t.classList.contains('dep')) syncDeps();
       });
       fieldsHost.addEventListener('change', function(e){
+        if(e.target.classList.contains('s-radio')){
+          target = e.target.value;
+          render();          // re-render so the new unknown greys out
+          return;
+        }
         var k = e.target.getAttribute('data-fk');
         if(k) syncFluid(k);
         if(e.target.classList.contains('dep')) syncDeps();
       });
     }
-    sel.addEventListener('change', render);
+    sel.addEventListener('change', function(){ target = cur().target; render(); });
 
     function clearResults(){
       var box = $('s-results');
-      if(box) box.innerHTML = '<p class="empty-state">Enter your conditions and select <b>Calculate</b>.</p>';
+      if(box) box.innerHTML = '<p class="empty-state">Choose what to solve for, enter the rest, then select <b>Calculate</b>.</p>';
     }
     function fail(list){
       var box = $('s-results');
+      $$('#s-fields .srow-input.is-computed').forEach(function(i){ i.value = ''; });
       if(box) box.innerHTML = '<div class="res-error"><b>Check these inputs</b><ul><li>' +
                               list.join('</li><li>') + '</li></ul></div>';
     }
@@ -2153,88 +2479,101 @@ window.HTT.ZIP3_RANGES = [
       return '<div class="result-line'+(cls?' '+cls:'')+'"><span class="k">'+k+
              '</span><span class="v">'+v+'</span></div>';
     }
+    // write a number back into one of the form's computed boxes
+    function put(k,v,d){
+      var el = $('sf-'+k);
+      if(el && isFinite(v)) el.value = (Math.round(v*Math.pow(10,d||0))/Math.pow(10,d||0));
+    }
 
     function calc(){
-      var eq = cur(), E = [], out = '';
+      var eq = cur(), V = {}, P = {};
+
+      // gather every numeric field on the form plus the fluid properties
+      eq.fields.forEach(function(f){
+        if(f.t === 'fluid'){ P[f.k] = fp(f.k); return; }
+        if(f.t === 'sel') return;
+        if(f.when && f.when !== target) return;
+        if(f.k !== target && f.t !== 'der') V[f.k] = gv(f.k);
+      });
+
+      var missing = [];
+      eq.fields.forEach(function(f){
+        if(f.t !== 'num' || f.k === target) return;
+        if(f.when && f.when !== target) return;
+        if(!isFinite(V[f.k])) missing.push('Enter a value for &ldquo;'+
+          f.label.replace('{f}','fluid')+'&rdquo;.');
+      });
+      if(missing.length) return fail(missing);
+
+      var r = solve(eq, target, V, P);
+      if(r.errors) return fail(r.errors);
+      V = r.V;
+      var D = derive(eq, V, P);
+
+      // reflect the solved unknown and every derived value back into the form
+      var tf = fieldByKey(eq, target);
+      put(target, V[target], (target === 'q' ? 0 : (target === 'kwton' ? 3 : 1)));
+      for(var dk in D) put(dk, D[dk], (dk === 'cfm' ? 0 : 1));
+
+      var out = '', tons;
+      out += '<div class="res-head">Solved for &mdash; ' +
+             (tf ? tf.label.replace('{f}','fluid') : target) + '</div>';
 
       if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
-        var p = fp('fl'), gpm = gv('gpm'), tin = gv('tin'), tout = gv('tout'), wb = gv('wb');
-        if(!(gpm > 0)) E.push('Flow rate must be greater than zero.');
-        if(!(tin > tout)) E.push('Inlet temperature must be higher than outlet temperature.');
-        if(!(tout > wb)) E.push('Outlet temperature must be above the wet bulb. Evaporative equipment cannot cool below ambient wet bulb.');
-        if(E.length) return fail(E);
-        var range = tin-tout, q = p.K*gpm*range;
-        out += row('Heat load', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (tower tons)', n(q/TT,1)+' tower tons');
-        out += row('Flow rate', n(gpm,0)+' GPM');
-        out += row('Range', n(range,1)+' &deg;F');
-        out += row('Approach to wet bulb', n(tout-wb,1)+' &deg;F');
-        out += row('Evaporation rate', n(q/520416,1)+' GPM');
-        out += row('Fluid', p.name);
+        out += row('Heat load', n(V.q)+' BTU/hr', 'big');
+        out += row('Nominal capacity (tower tons)', n(V.q/TT,1)+' tower tons');
+        out += row('Flow rate', n(V.gpm,0)+' GPM');
+        out += row('Hot water to tower', n(V.tin,1)+' &deg;F');
+        out += row('Cold water from tower', n(V.tout,1)+' &deg;F');
+        out += row('Range', n(D.range,1)+' &deg;F');
+        out += row('Approach to wet bulb', n(D.appr,1)+' &deg;F');
+        out += row('Evaporation rate', n(V.q/520416,1)+' GPM');
+        out += row('Fluid', P.fl.name);
       }
 
       else if(eq.id === 'dry-cooler' || eq.id === 'ache'){
-        var p = fp('fl'), gpm = gv('gpm'), tin = gv('tin'), tout = gv('tout');
-        var db = gv('db'), rise = gv('airrise'), U = gv('u');
-        if(!(gpm > 0)) E.push('Flow rate must be greater than zero.');
-        if(!(tin > tout)) E.push('Inlet temperature must be higher than outlet temperature.');
-        if(!(tout > db)) E.push('Outlet temperature must be above the dry bulb. Dry equipment cannot cool below ambient dry bulb.');
-        if(!(rise > 0)) E.push('Air temperature rise must be greater than zero.');
-        if(E.length) return fail(E);
-        var range = tin-tout, q = p.K*gpm*range;
-        var cfm = q/(1.08*densRatio(0)*rise), mtd = lmtd(tin,tout,db,db+rise);
-        out += row('Heat load', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (refrigeration tons)', n(q/TR,1)+' refrigeration tons');
-        out += row('Flow rate', n(gpm,0)+' GPM');
-        out += row('Range', n(range,1)+' &deg;F');
-        out += row('Approach to dry bulb', n(tout-db,1)+' &deg;F');
-        out += row('Required air flow', n(cfm)+' CFM');
-        if(eq.id === 'ache' && U > 0 && isFinite(mtd))
-          out += row('Required surface area', n(q/(U*mtd))+' ft&sup2;');
-        out += row('Fluid', p.name);
+        out += row(eq.id === 'ache' ? 'Heat duty' : 'Heat load', n(V.q)+' BTU/hr', 'big');
+        out += row('Nominal capacity (refrigeration tons)', n(V.q/TR,1)+' refrigeration tons');
+        out += row('Flow rate', n(V.gpm,0)+' GPM');
+        out += row('Fluid in / out', n(V.tin,1)+' / '+n(V.tout,1)+' &deg;F');
+        out += row('Range', n(D.range,1)+' &deg;F');
+        if(eq.id === 'dry-cooler') out += row('Approach to dry bulb', n(D.appr,1)+' &deg;F');
+        out += row('Required air flow', n(D.cfm)+' CFM');
+        if(eq.id === 'ache'){
+          out += row('Mean temperature difference', n(V.mtd,1)+' &deg;F');
+          out += row('Overall coefficient U', n(V.u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F');
+          out += row('Surface area', n(V.area)+' ft&sup2;');
+        }
+        out += row('Fluid', P.fl.name);
       }
 
       else if(eq.id === 'plate' || eq.id === 'shell'){
-        var ph = fp('flh'), pc = fp('flc');
-        var hg = gv('hgpm'), T1 = gv('htin'), T2 = gv('htout');
-        var cg = gv('cgpm'), t1 = gv('ctin'), U = gv('u');
-        var cfg = eq.id === 'shell' ? gs('cfg') : 'cf';
-        if(!(hg > 0) || !(cg > 0)) E.push('Both flow rates must be greater than zero.');
-        if(!(T1 > T2)) E.push('Hot side inlet must be warmer than hot side outlet.');
-        if(!(T2 > t1)) E.push('Cold side inlet must be colder than hot side outlet.');
-        if(E.length) return fail(E);
-        var q = ph.K*hg*(T1-T2), t2 = t1 + q/(pc.K*cg);
-        if(t2 >= T1) return fail(['Calculated cold side outlet ('+t2.toFixed(1)+
-          ' &deg;F) exceeds the hot side inlet. Increase cold side flow.']);
-        var lm = lmtd(T1,T2,t1,t2);
-        var F = cfg === '12' ? fCorr(T1,T2,t1,t2) : 1;
-        if(cfg === '12' && !isFinite(F)) return fail([
-          'This duty cannot be achieved in a 1 shell / 2 tube pass arrangement. Use true counterflow or multiple shells in series.']);
-        var mtd = lm*F;
-        out += row('Heat duty', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity (refrigeration tons)', n(q/TR,1)+' refrigeration tons');
-        out += row('Hot side in / out', n(T1,1)+' / '+n(T2,1)+' &deg;F');
-        out += row('Cold side in / out', n(t1,1)+' / '+n(t2,1)+' &deg;F');
-        out += row(cfg === '12' ? 'Corrected MTD' : 'LMTD', n(mtd,1)+' &deg;F');
-        if(U > 0) out += row('Required surface area', n(q/(U*mtd))+' ft&sup2;');
+        out += row('Heat duty', n(V.q)+' BTU/hr', 'big');
+        out += row('Nominal capacity (refrigeration tons)', n(V.q/TR,1)+' refrigeration tons');
+        out += row('Hot side flow', n(V.hgpm,0)+' GPM');
+        out += row('Hot side in / out', n(V.htin,1)+' / '+n(V.htout,1)+' &deg;F');
+        out += row('Cold side flow', n(V.cgpm,0)+' GPM');
+        out += row('Cold side in / out', n(V.ctin,1)+' / '+n(V.ctout,1)+' &deg;F');
+        out += row(eq.id === 'shell' && gs('cfg') === '12' ? 'Corrected MTD' : 'LMTD',
+                   n(V.mtd,1)+' &deg;F');
+        if(eq.id === 'shell' && gs('cfg') === '12')
+          out += row('TEMA correction factor F', n(V.F,3));
+        out += row('Overall coefficient U', n(V.u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F');
+        out += row('Surface area', n(V.area)+' ft&sup2;');
       }
 
       else if(eq.id === 'chiller'){
-        var p = fp('fl'), gpm = gv('gpm'), tin = gv('tin'), tout = gv('tout');
-        var kwt = gv('kwton'), cond = gs('cond');
-        if(!(gpm > 0)) E.push('Flow rate must be greater than zero.');
-        if(!(tin > tout)) E.push('Return temperature must be warmer than supply temperature.');
-        if(!(kwt > 0)) E.push('Efficiency must be greater than zero.');
-        if(E.length) return fail(E);
-        var range = tin-tout, q = p.K*gpm*range, tons = q/TR;
-        var kw = tons*kwt, hr = q + kw*3412.142;
-        out += row('Cooling load', n(q)+' BTU/hr', 'big');
+        tons = V.q / TR;
+        var hr = V.q + D.kw * 3412.142;
+        out += row('Cooling load', n(V.q)+' BTU/hr', 'big');
         out += row('Capacity required (refrigeration tons)', n(tons,1)+' refrigeration tons');
-        out += row('Flow rate', n(gpm,0)+' GPM');
-        out += row('Evaporator &Delta;T', n(range,1)+' &deg;F');
-        out += row('Compressor power', n(kw,1)+' kW');
+        out += row('Flow rate', n(V.gpm,0)+' GPM');
+        out += row('Chilled fluid in / out', n(V.tin,1)+' / '+n(V.tout,1)+' &deg;F');
+        out += row('Evaporator &Delta;T', n(D.range,1)+' &deg;F');
+        out += row('Efficiency', n(V.kwton,3)+' kW/ton');
+        out += row('Compressor power', n(D.kw,1)+' kW');
         out += row('Heat of rejection (tower tons)', n(hr/TT,1)+' tower tons');
-        out += row('Condenser', cond === 'water' ? 'Water-cooled' : 'Air-cooled');
+        out += row('Condenser', gs('cond') === 'water' ? 'Water-cooled' : 'Air-cooled');
       }
 
       var box = $('s-results');
@@ -2246,7 +2585,7 @@ window.HTT.ZIP3_RANGES = [
 
     var runBtn = $('s-run'), resetBtn = $('s-reset');
     if(runBtn) runBtn.addEventListener('click', calc);
-    if(resetBtn) resetBtn.addEventListener('click', render);
+    if(resetBtn) resetBtn.addEventListener('click', function(){ target = cur().target; render(); });
     render();
   })();
 
@@ -2265,9 +2604,8 @@ window.HTT.ZIP3_RANGES = [
       p.setAttribute('data-full', rec[1]);
       var terr = rec[2] ? H.TERRITORIES[rec[2]] : null;
       if(terr){
-        p.style.background = terr.color; // per-tile inline style — each
-        // state is its own grid cell with no shared border to any other
-        // state, so there is no coordinate for two neighbors to disagree on.
+        p.style.fill = terr.color; // inline style so it beats the
+        // stylesheet's default gray fill for uncovered states.
         p.setAttribute('data-t', rec[2]);
         p.classList.add('st-active');
         p.setAttribute('tabindex','0');
@@ -2308,6 +2646,8 @@ window.HTT.ZIP3_RANGES = [
       if(!p || !p.classList.contains('st-active')) return;
       $$('.st-sel', svg).forEach(function(s){ s.classList.remove('st-sel'); });
       p.classList.add('st-sel');
+      p.parentNode.appendChild(p); // raise above neighbors so the
+      // selection stroke isn't hidden under adjacent state borders
       show(p.getAttribute('data-t'), p.getAttribute('data-full'));
     }
 
