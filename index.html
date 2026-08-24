@@ -273,6 +273,20 @@ a.card:hover .goto{gap:11px}
   letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.52);margin-bottom:5px}
 .ec-value{font-family:var(--fm);font-weight:600;font-size:1.18rem;color:#fff;letter-spacing:-.01em}
 @media (max-width:560px){.emergency-box{padding:22px 20px}}
+.emergency-box--compact .emergency-box-row{display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap}
+.emergency-box--compact h2{font-size:1.35rem}
+@media (max-width:700px){.emergency-box--compact .emergency-box-row{flex-direction:column;align-items:flex-start}}
+
+/* --------------------------------------------------- zip lookup (emergency) */
+
+.zip-lookup{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;max-width:420px}
+.zip-lookup .field{margin-bottom:0;flex:1 1 180px}
+.zip-lookup .btn{flex:0 0 auto}
+.zip-result{margin-top:26px}
+.zip-result .empty-state{text-align:left;padding:0}
+.zip-no-match{border-left:3px solid #D9A441;background:#FFFBF3;color:#6E5218;padding:16px 20px;
+  border-radius:0 var(--r) var(--r) 0;font-size:.9rem;line-height:1.6}
 
 /* -------------------------------------------------------- breadcrumbs */
 
@@ -298,28 +312,32 @@ a.card:hover .goto{gap:11px}
 
 /* ------------------------------------------------------------ equations */
 
-/* .eq-page turns the equations reference into a multi-column card grid so
-   several equations are visible at once instead of one long single-column
-   scroll. Group headings, the converter tool, and the trailing engineering
-   note are pulled out of the column flow to span the full width. */
-.eq-page{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:14px 20px;align-items:start}
-.eq-page > .eq-group-title,.eq-page > #converters,.eq-page > .placeholder{grid-column:1/-1}
+/* .eq-page lays the equations reference out as sleek, compact reference
+   rows in CSS columns (not cards) so several are visible at a glance —
+   closer to a printed spec sheet than a landing-page card grid. Group
+   headings, the converter tool, and the trailing engineering note span
+   every column. */
+.eq-page{column-width:300px;column-gap:40px;orphans:1;widows:1}
+.eq-page > .eq-group-title,.eq-page > #converters,.eq-page > .placeholder{column-span:all}
 
-.eq-group-title{margin:40px 0 16px;padding:0 0 12px;border-bottom:1px solid var(--hair)}
+.eq-group-title{margin:32px 0 2px;padding:0 0 7px;border-bottom:2px solid var(--ink);
+  font-family:var(--fb);font-size:.72rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink)}
 .eq-group-title:first-of-type{margin-top:0}
-.eq{border:1px solid var(--hair);background:var(--paper);padding:0;margin:0;border-radius:10px;
-  height:100%}
-.eq .eq-body{padding:16px 18px}
-.eq h3{margin:0 0 8px;font-size:.98rem;line-height:1.3}
-.eq .formula{font-family:var(--fm);font-size:.85rem;font-weight:500;color:var(--navy);
-  background:var(--surface);padding:9px 12px;margin:0 0 10px;overflow-x:auto;white-space:normal;
-  line-height:1.45;border-left:3px solid var(--red);border-radius:0 6px 6px 0;letter-spacing:-.01em}
-.eq .where{font-size:.78rem;color:var(--muted);margin-bottom:0;line-height:1.5}
-.eq .where b{font-family:var(--fm);color:var(--navy);font-weight:500;font-size:.76rem}
-.eq .note{font-size:.76rem;color:var(--muted);border:none;padding:10px 0 0;margin:10px 0 0;
-  border-top:1px solid var(--hair-soft);line-height:1.5}
-@media (max-width:560px){.eq-page{grid-template-columns:1fr}}
+.eq{border:none;background:none;padding:12px 0;margin:0;border-bottom:1px solid var(--hair-soft);
+  break-inside:avoid;-webkit-column-break-inside:avoid}
+.eq:last-of-type{border-bottom:none}
+.eq .eq-body{padding:0}
+.eq h3{margin:0 0 4px;font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:0;
+  line-height:1.3;text-transform:none}
+.eq .formula{font-family:var(--fm);font-size:.92rem;font-weight:600;color:var(--navy);
+  background:none;padding:0;margin:0 0 5px;overflow-x:auto;white-space:normal;
+  line-height:1.4;border:none;border-radius:0;letter-spacing:-.01em}
+.eq .where{font-size:.72rem;color:var(--muted);margin-bottom:0;line-height:1.5}
+.eq .where b{font-family:var(--fm);color:var(--body);font-weight:500;font-size:.71rem}
+.eq .note{font-size:.72rem;color:var(--muted);border:none;padding:5px 0 0;margin:5px 0 0;
+  line-height:1.5;font-style:italic}
+@media (max-width:560px){.eq-page{column-width:auto;column-count:1}}
 
 /* ---------------------------------------------------------------- tables */
 
@@ -653,12 +671,12 @@ html.js .reveal.in{opacity:1;transform:none;
       <li><a href="#/" data-nav>Home</a></li>
       <li><a href="#/about" data-nav>About</a></li>
       <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
-      <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/power" data-nav>Power Generation</a></li><li><a href="#/markets/steel" data-nav>Steel</a></li><li><a href="#/markets/oil-gas" data-nav>Oil &amp; Gas</a></li><li><a href="#/markets/process" data-nav>Process Industries</a></li><li><a href="#/markets/hydrogen" data-nav>Hydrogen</a></li><li><a href="#/markets/carbon-capture" data-nav>Carbon Capture</a></li></ul></li>
+      <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/industrial" data-nav>Industrial Cooling</a></li><li><a href="#/markets/comfort" data-nav>Comfort Cooling</a></li><li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li><li><a href="#/markets/refrigeration" data-nav>Refrigeration</a></li><li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li></ul></li>
     </ul>
     <p class="sn-label">Engineering Tools</p>
-    <ul><li><a href="#/equations" data-nav>Heat Transfer Equations</a></li><li><a href="#/selections" data-nav>Selection Tool</a></li></ul>
+    <ul><li><a href="#/equations" data-nav>Heat Transfer Equations</a></li><li><a href="#/selections" data-nav>Heat Load Calculator</a></li></ul>
     <p class="sn-label">Company</p>
-    <ul><li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li><li><a href="#/projects" data-nav>Projects</a></li><li><a href="#/contact" data-nav>Contact</a></li></ul>
+    <ul><li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li><li><a href="#/emergency-parts" data-nav>Emergency Parts</a></li><li><a href="#/contact" data-nav>Contact</a></li></ul>
   </nav>
   <div class="sn-foot">
     <a class="btn btn-primary sn-cta" href="#/contact" data-nav>Request a Quote</a>
@@ -725,7 +743,7 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="plate">Section C &mdash; Markets</div>
   <h2>Markets we serve</h2>
   <p class="lede">We understand the operating conditions, regulatory pressures, and reliability demands specific to your industry.</p>
-  <div class="card-grid"><a class="card" href="#/markets/power" data-nav><div class="card-body"><h3>Power Generation</h3><p>Cooling solutions for baseload, peaking, and combined-cycle power facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/steel" data-nav><div class="card-body"><h3>Steel</h3><p>Heat transfer equipment built for the heat loads and duty cycles of steel production.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/oil-gas" data-nav><div class="card-body"><h3>Oil &amp; Gas</h3><p>Reliable cooling for upstream, midstream, and downstream operations.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/process" data-nav><div class="card-body"><h3>Process Industries</h3><p>Custom-engineered solutions for chemical, petrochemical, and industrial process cooling.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/hydrogen" data-nav><div class="card-body"><h3>Hydrogen</h3><p>Cooling systems supporting hydrogen production and processing facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/carbon-capture" data-nav><div class="card-body"><h3>Carbon Capture</h3><p>Heat transfer equipment engineered for emerging carbon capture applications.</p><span class="goto">View &rarr;</span></div></a></div>
+  <div class="card-grid"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Commercial, institutional, and hospitality HVAC cooling for the buildings people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div>
   <div class="btn-row"><a class="btn btn-outline" href="#/markets" data-nav>View All Markets</a></div>
 </div></section>
 
@@ -733,10 +751,10 @@ html.js .reveal.in{opacity:1;transform:none;
   <div>
     <div class="plate plate--light">Section D &mdash; Engineering Tools</div>
     <h2>Reference equations and selection tools</h2>
-    <p class="lede">Working through a preliminary sizing? Our equations reference covers heat balance, LMTD, cooling tower performance, water balance, and pump/fan relationships &mdash; with a live unit converter built in. The selection tool calculates a heat load from your operating conditions.</p>
+    <p class="lede">Working through a preliminary sizing? Our equations reference covers heat balance, LMTD, cooling tower performance, water balance, and pump/fan relationships &mdash; with a live unit converter built in. The heat load calculator works from your operating conditions.</p>
     <div class="btn-row">
       <a class="btn btn-primary" href="#/equations" data-nav>Heat Transfer Equations</a>
-      <a class="btn btn-outline-light" href="#/selections" data-nav>Run a Selection</a>
+      <a class="btn btn-outline-light" href="#/selections" data-nav>Calculate Heat Load</a>
     </div>
   </div>
   <div>
@@ -818,10 +836,10 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
 <section class="section text-center"><div class="wrap">
   <h2>Not sure which equipment fits your application?</h2>
-  <p class="lede" style="margin:0 auto 8px">Our team will work with your specs, plant conditions, and performance requirements to recommend the right solution. Or start by roughing out a heat load with our selection tool.</p>
+  <p class="lede" style="margin:0 auto 8px">Our team will work with your specs, plant conditions, and performance requirements to recommend the right solution. Or start by roughing out a heat load with our heat load calculator.</p>
   <div class="btn-row">
     <a class="btn btn-primary" href="#/contact" data-nav>Talk to Our Team</a>
-    <a class="btn btn-outline" href="#/selections" data-nav>Run a Selection</a>
+    <a class="btn btn-outline" href="#/selections" data-nav>Calculate Heat Load</a>
   </div>
 </div></section>
 </div>
@@ -959,7 +977,7 @@ html.js .reveal.in{opacity:1;transform:none;
 <p class="lede">Circulating pumps set the flow that every other component in the loop depends on. Sizing them correctly is the difference between a system that holds design conditions efficiently and one that wastes energy and wears out early.</p>
 </div></section>
 <section class="section"><div class="wrap"><h2>Circulating and process pumps</h2><p>We specify end-suction, split-case, vertical turbine, and specialty process pumps sized for your flow, total head, and duty cycle. Selection works from the actual system curve rather than a nameplate figure, so the pump operates near its best efficiency point instead of running back on its curve.</p></div></section>
-<section class="section section-light bp-soft"><div class="wrap"><h2>Sizing against the real system curve</h2><p>Oversizing is the most common problem we find in the field. A pump selected with too much safety margin runs throttled, wastes energy continuously, and suffers accelerated seal and bearing wear. We work from measured or calculated system resistance to size the pump to the duty it will actually see.</p><p>Glycol changes this calculation. A glycol mix carries less heat per gallon than water, so it needs more flow for the same duty. The <a href="#/selections" data-nav>selection tool</a> accounts for this at any concentration.</p></div></section>
+<section class="section section-light bp-soft"><div class="wrap"><h2>Sizing against the real system curve</h2><p>Oversizing is the most common problem we find in the field. A pump selected with too much safety margin runs throttled, wastes energy continuously, and suffers accelerated seal and bearing wear. We work from measured or calculated system resistance to size the pump to the duty it will actually see.</p><p>Glycol changes this calculation. A glycol mix carries less heat per gallon than water, so it needs more flow for the same duty. The <a href="#/selections" data-nav>heat load calculator</a> accounts for this at any concentration.</p></div></section>
 <section class="section"><div class="wrap"><h2>Redundancy and variable speed</h2><p>For continuous-duty applications we help work through N+1 arrangements, alternating duty schedules, and where variable frequency drives pay back. Because pump power follows the cube of speed, a modest speed reduction on a variable load produces disproportionate energy savings. See the <a href="#/equations" data-nav>affinity laws</a> for the relationship.</p></div></section>
 <section class="section section-dark bp-dark text-center"><div class="wrap"><h2>Ready to talk specifics?</h2><p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p><div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div></div></section>
 </div>
@@ -995,14 +1013,23 @@ html.js .reveal.in{opacity:1;transform:none;
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Markets Served</b></nav>
   <div class="plate">Markets Served</div>
   <h1 tabindex="-1">Industries we serve</h1>
-  <p class="lede">Cooling requirements differ sharply by industry &mdash; water availability, heat load profile, regulatory pressure, and duty cycle all shape the right equipment choice. We bring market-specific experience to every recommendation.</p>
-  
+  <p class="lede">Cooling requirements differ sharply by industry &mdash; water availability, heat load profile, regulatory pressure, and duty cycle all shape the right equipment choice. We bring market-specific experience to every recommendation, from heavy industrial process cooling through to comfort cooling for the buildings people occupy.</p>
+
+</div></section>
+<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/industrial" data-nav><div class="card-body"><h3>Industrial Cooling</h3><p>Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture facilities with continuous, high-load heat rejection duty.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort" data-nav><div class="card-body"><h3>Comfort Cooling</h3><p>Traditional commercial HVAC markets &mdash; the buildings, campuses, and facilities people occupy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/manufacturing" data-nav><div class="card-body"><h3>Manufacturing</h3><p>Process cooling for production lines and manufacturing equipment across a wide range of industries.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/refrigeration" data-nav><div class="card-body"><h3>Refrigeration</h3><p>Cooling and heat rejection equipment supporting industrial and commercial refrigeration systems.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/food-process" data-nav><div class="card-body"><h3>Food &amp; Process</h3><p>Sanitary-grade heat transfer equipment for food, beverage, and process production facilities.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+</div>
+<div class="page" id="p-mk-industrial">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Industrial Cooling</b></nav>
+  <div class="plate">Markets / Industrial Cooling</div>
+  <h1 tabindex="-1">Industrial cooling</h1>
+  <p class="lede">Continuous, high-load heat rejection duty across the industries that can&rsquo;t afford unplanned downtime &mdash; Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture.</p>
+
 </div></section>
 <section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/power" data-nav><div class="card-body"><h3>Power Generation</h3><p>Cooling solutions for baseload, peaking, and combined-cycle power facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/steel" data-nav><div class="card-body"><h3>Steel</h3><p>Heat transfer equipment built for the heat loads and duty cycles of steel production.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/oil-gas" data-nav><div class="card-body"><h3>Oil &amp; Gas</h3><p>Reliable cooling for upstream, midstream, and downstream operations.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/process" data-nav><div class="card-body"><h3>Process Industries</h3><p>Custom-engineered solutions for chemical, petrochemical, and industrial process cooling.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/hydrogen" data-nav><div class="card-body"><h3>Hydrogen</h3><p>Cooling systems supporting hydrogen production and processing facilities.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/carbon-capture" data-nav><div class="card-body"><h3>Carbon Capture</h3><p>Heat transfer equipment engineered for emerging carbon capture applications.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
 </div>
 <div class="page" id="p-mk-power">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Power Generation</b></nav>
-  <div class="plate">Markets / Power Generation</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Power Generation</b></nav>
+  <div class="plate">Industrial Cooling / Power Generation</div>
   <h1 tabindex="-1">Power generation</h1>
   <p class="lede">Power facilities run continuous, high-load heat rejection duty where downtime is measured in lost generation revenue. We supply and support the cooling equipment that keeps baseload, peaking, and combined-cycle plants running reliably.</p>
   
@@ -1015,8 +1042,8 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-mk-steel">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Steel</b></nav>
-  <div class="plate">Markets / Steel</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Steel</b></nav>
+  <div class="plate">Industrial Cooling / Steel</div>
   <h1 tabindex="-1">Steel</h1>
   <p class="lede">Steel production presents some of the most demanding heat transfer conditions in industry &mdash; high temperatures, aggressive water chemistry, and continuous-duty equipment that can&rsquo;t afford to go down mid-run.</p>
   
@@ -1029,8 +1056,8 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-mk-oil-gas">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Oil &amp; Gas</b></nav>
-  <div class="plate">Markets / Oil &amp; Gas</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Oil &amp; Gas</b></nav>
+  <div class="plate">Industrial Cooling / Oil &amp; Gas</div>
   <h1 tabindex="-1">Oil &amp; gas</h1>
   <p class="lede">Oil &amp; Gas operations span everything from remote wellsites to large-scale refining and processing facilities &mdash; each with different cooling demands, water access, and reliability requirements.</p>
   
@@ -1043,8 +1070,8 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-mk-process">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Process Industries</b></nav>
-  <div class="plate">Markets / Process Industries</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Process Industries</b></nav>
+  <div class="plate">Industrial Cooling / Process Industries</div>
   <h1 tabindex="-1">Process industries</h1>
   <p class="lede">Process facilities cover a wide range of chemical, petrochemical, and industrial applications, each with its own fluid properties, temperature requirements, and regulatory considerations.</p>
   
@@ -1057,8 +1084,8 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-mk-hydrogen">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Hydrogen</b></nav>
-  <div class="plate">Markets / Hydrogen</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Hydrogen</b></nav>
+  <div class="plate">Industrial Cooling / Hydrogen</div>
   <h1 tabindex="-1">Hydrogen</h1>
   <p class="lede">As hydrogen production scales up, cooling systems play a critical role in electrolysis, compression, and processing steps &mdash; often at facilities built with tight water-use and emissions targets from day one.</p>
   
@@ -1071,14 +1098,121 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-mk-carbon-capture">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets</a><i>/</i><b>Carbon Capture</b></nav>
-  <div class="plate">Markets / Carbon Capture</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/industrial" data-nav>Industrial Cooling</a><i>/</i><b>Carbon Capture</b></nav>
+  <div class="plate">Industrial Cooling / Carbon Capture</div>
   <h1 tabindex="-1">Carbon capture</h1>
   <p class="lede">Carbon capture facilities rely on precise heat transfer for the absorption, regeneration, and compression stages of the capture process &mdash; an emerging application where equipment specification experience matters.</p>
   
 </div></section>
 <section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Capture processes typically require tightly controlled cooling at multiple stages, often paired with new or retrofit facility footprints where space and integration with existing systems are real constraints.</p></div></section>
 <section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Heat exchangers and cooling towers specified for absorption and regeneration cooling duties, along with chillers and closed loop systems for temperature-sensitive process steps.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-comfort">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Comfort Cooling</b></nav>
+  <div class="plate">Markets / Comfort Cooling</div>
+  <h1 tabindex="-1">Comfort cooling</h1>
+  <p class="lede">Beyond industrial process cooling, we support the traditional commercial HVAC markets that keep buildings, campuses, and public spaces comfortable and running &mdash; a different duty profile than industrial heat rejection, but the same discipline in specification and support.</p>
+
+</div></section>
+<section class="section section-light"><div class="wrap"><div class="card-grid" style="margin-top:0"><a class="card" href="#/markets/comfort/commercial-institutional" data-nav><div class="card-body"><h3>Commercial &amp; Institutional</h3><p>Office, retail, education, and government buildings that depend on reliable year-round HVAC cooling.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/healthcare" data-nav><div class="card-body"><h3>Healthcare Facilities</h3><p>Hospitals and healthcare campuses where cooling reliability is tied directly to patient care.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/hospitality" data-nav><div class="card-body"><h3>Hospitality &amp; Entertainment</h3><p>Hotels, resorts, arenas, and venues that need cooling capacity to flex with variable occupancy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/markets/comfort/data-centers" data-nav><div class="card-body"><h3>Data Centers</h3><p>Continuous, high-density heat loads where cooling reliability is tied directly to uptime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+</div>
+<div class="page" id="p-mk-comfort-commercial">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/comfort" data-nav>Comfort Cooling</a><i>/</i><b>Commercial &amp; Institutional</b></nav>
+  <div class="plate">Comfort Cooling / Commercial &amp; Institutional</div>
+  <h1 tabindex="-1">Commercial &amp; institutional buildings</h1>
+  <p class="lede">Office buildings, retail, education, and government facilities depend on reliable HVAC cooling to keep occupied spaces comfortable year-round, with a duty cycle and set of priorities that differ from industrial process cooling.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Comfort cooling loads follow occupancy and weather rather than a continuous process duty &mdash; day/night and seasonal cycling matter more here, and energy efficiency at partial load is often the deciding factor in equipment selection. Many projects also need to work within energy code requirements or sustainability targets.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Chillers and cooling towers sized for comfort-cooling duty cycles, closed loop coolers for auxiliary building systems, and the pumps and controls that keep a chiller plant running efficiently across variable load.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-comfort-healthcare">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/comfort" data-nav>Comfort Cooling</a><i>/</i><b>Healthcare Facilities</b></nav>
+  <div class="plate">Comfort Cooling / Healthcare Facilities</div>
+  <h1 tabindex="-1">Healthcare facilities</h1>
+  <p class="lede">Hospitals and healthcare campuses run around the clock with little tolerance for a cooling failure &mdash; it isn&rsquo;t just an occupant-comfort issue, it can affect patient care and sensitive equipment throughout the facility.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Redundancy is central to healthcare cooling design &mdash; standby capacity so a single equipment failure doesn&rsquo;t become a facility-wide problem. Sensitive spaces like surgical suites and imaging equipment often have tighter temperature and humidity requirements than typical comfort cooling as well.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Chillers specified with redundant capacity in mind, cooling towers, and closed loop systems protecting sensitive equipment, along with the controls and instrumentation that give facility staff visibility into system performance.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-comfort-hospitality">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/comfort" data-nav>Comfort Cooling</a><i>/</i><b>Hospitality &amp; Entertainment</b></nav>
+  <div class="plate">Comfort Cooling / Hospitality &amp; Entertainment</div>
+  <h1 tabindex="-1">Hospitality &amp; entertainment</h1>
+  <p class="lede">Hotels, resorts, arenas, and entertainment venues need cooling capacity that can flex with variable, sometimes extreme occupancy swings while staying quiet and reliable for guests.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Occupancy at hospitality and entertainment venues can swing sharply &mdash; a sold-out event or a full house is a very different load than an off-night. Noise and appearance also matter more here than in most industrial applications, since equipment is often close to where guests are.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Chillers and cooling towers sized to handle peak occupancy without running inefficiently at typical loads, often specified with acoustic and screening considerations, along with the pumps and controls that let the system follow demand.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-comfort-datacenters">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets/comfort" data-nav>Comfort Cooling</a><i>/</i><b>Data Centers</b></nav>
+  <div class="plate">Comfort Cooling / Data Centers</div>
+  <h1 tabindex="-1">Data centers</h1>
+  <p class="lede">Data centers run continuous, high-density heat loads with little tolerance for downtime &mdash; cooling reliability is directly tied to uptime, and the margin for error is small.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Redundant capacity (N+1 or better), tight temperature and humidity control, and strong efficiency at partial load all matter here &mdash; data center cooling rarely runs at full design load, so how a system performs well below that point affects operating cost as much as peak capacity does.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Chillers and cooling towers specified with redundancy in mind, closed loop coolers, and the controls and instrumentation that hold tight setpoint and give facility staff early warning before a performance issue becomes an outage.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-manufacturing">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Manufacturing</b></nav>
+  <div class="plate">Markets / Manufacturing</div>
+  <h1 tabindex="-1">Manufacturing</h1>
+  <p class="lede">General manufacturing facilities rely on process cooling for machinery, hydraulic and lubrication systems, injection molding, and a wide range of other production processes &mdash; equipment that has to keep pace with the production line.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Manufacturing cooling loads are usually tied directly to shift-based production schedules and to the specific machinery or process fluid being cooled, rather than to a single continuous duty. Downtime on the cooling side quickly becomes downtime on the line.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Closed loop coolers for machinery and hydraulic system cooling, process chillers, heat exchangers, and cooling towers where a facility&rsquo;s overall heat rejection load calls for one.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-refrigeration">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Refrigeration</b></nav>
+  <div class="plate">Markets / Refrigeration</div>
+  <h1 tabindex="-1">Refrigeration</h1>
+  <p class="lede">Industrial and commercial refrigeration systems depend on the heat rejection side of the plant working reliably &mdash; the condenser water system that carries heat away from the refrigeration equipment itself.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Refrigeration plants need condenser water cooling that holds up under continuous duty, since a heat-rejection problem shows up quickly as lost capacity or efficiency on the refrigeration side. Water treatment and reliability both matter more here than they might seem to at first glance, given how tightly refrigeration performance is tied to condenser conditions.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Cooling towers and closed loop coolers sized for condenser water duty, along with the pumps, controls, and filtration that keep a refrigeration plant&rsquo;s heat rejection side running efficiently.</p></div></section>
+<section class="section section-dark blueprint-dark text-center"><div class="wrap">
+  <h2>Ready to talk specifics?</h2>
+  <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+</div></section></div>
+<div class="page" id="p-mk-food-process">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/markets" data-nav>Markets Served</a><i>/</i><b>Food &amp; Process</b></nav>
+  <div class="plate">Markets / Food &amp; Process</div>
+  <h1 tabindex="-1">Food &amp; process</h1>
+  <p class="lede">Food, beverage, and process production facilities need cooling equipment that meets sanitary requirements alongside the thermal duty &mdash; reliability here is tied directly to production uptime and product quality.</p>
+
+</div></section>
+<section class="section"><div class="wrap"><h2>What these facilities need from a cooling system</h2><p>Sanitary and washdown-rated equipment, careful material selection for anything near product contact zones, and cooling reliability that keeps pace with production schedules are all central to this market. A cooling failure here doesn&rsquo;t just cost downtime &mdash; it can put product at risk.</p></div></section>
+<section class="section section-light"><div class="wrap"><h2>Equipment we typically supply here</h2><p>Heat exchangers, chillers, cooling towers, and closed loop coolers specified for food-grade and washdown environments, matched to the specific process fluids and temperature requirements of the production line.</p><div class="placeholder">[PLACEHOLDER] If there are specific sanitary standards or certifications (e.g. 3-A, NSF) your equipment lines meet, name them here once confirmed &mdash; that&rsquo;s a strong trust signal in this market specifically.</div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Ready to talk specifics?</h2>
   <p class="lede" style="margin:0 auto 8px">Send us your operating conditions and our engineering team will work through the selection with you.</p>
@@ -1109,17 +1243,17 @@ html.js .reveal.in{opacity:1;transform:none;
 
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Put these to work</h2>
-  <p class="lede" style="margin:0 auto 8px">Use the selection tool to rough out a heat load, or send us your conditions and we&rsquo;ll work through the selection with you.</p>
+  <p class="lede" style="margin:0 auto 8px">Use the heat load calculator to rough out a heat load, or send us your conditions and we&rsquo;ll work through the selection with you.</p>
   <div class="btn-row">
-    <a class="btn btn-primary" href="#/selections" data-nav>Run a Selection</a>
+    <a class="btn btn-primary" href="#/selections" data-nav>Calculate Heat Load</a>
     <a class="btn btn-outline-light" href="#/contact" data-nav>Contact Engineering</a>
   </div>
 </div></section>
 </div>
 <div class="page" id="p-selections">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Selection Tool</b></nav>
-  <div class="plate">Selection Tool</div>
-  <h1 tabindex="-1">Run a preliminary selection</h1>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Heat Load Calculator</b></nav>
+  <div class="plate">Heat Load Calculator</div>
+  <h1 tabindex="-1">Calculate My Heat Load</h1>
   <p class="lede">Choose an equipment type and enter your operating conditions. The input set changes with the equipment &mdash; an evaporative tower asks for wet bulb, a dry cooler asks for dry bulb, an exchanger asks for both fluid streams. Coolant properties update live with glycol concentration.</p>
 </div></section>
 
@@ -1174,16 +1308,15 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request Service</a></div>
 </div></section>
 <section class="section section-dark blueprint-dark"><div class="wrap">
-  <div class="emergency-box">
-    <div class="plate plate--light">Equipment Down</div>
-    <h2>Emergency parts request</h2>
-    <p class="lede">Need a part fast and can&rsquo;t wait on a standard quote cycle? Reach our emergency parts line directly and we&rsquo;ll help identify what you need and get it moving.</p>
-    <div class="emergency-contacts">
-      <div class="ec-item"><span class="ec-label">Emergency Parts Line</span><span class="ec-value">[PLACEHOLDER PHONE]</span></div>
-      <div class="ec-item"><span class="ec-label">Emergency Parts Email</span><span class="ec-value">[PLACEHOLDER EMAIL]</span></div>
+  <div class="emergency-box emergency-box--compact">
+    <div class="emergency-box-row">
+      <div>
+        <div class="plate plate--light">Equipment Down</div>
+        <h2>Need emergency parts right now?</h2>
+        <p class="lede" style="margin-bottom:0">Get routed to the contact for your part of the country and reach us directly &mdash; no standard quote cycle.</p>
+      </div>
+      <div class="btn-row" style="margin-top:0;flex:0 0 auto"><a class="btn btn-primary" href="#/emergency-parts" data-nav>Emergency Parts Request &rarr;</a></div>
     </div>
-    <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Submit an Emergency Request</a></div>
-    <div class="placeholder" style="background:rgba(255,255,255,.07);border-left-color:rgba(255,255,255,.5);color:rgba(255,255,255,.88);margin-top:20px">[PLACEHOLDER] Send the real emergency parts phone number and email once confirmed &mdash; both go in the ec-value spans above, and the phone number should also become a tel: link once it&rsquo;s real. If this line runs 24/7, say so here too; that&rsquo;s a strong trust signal for down-equipment situations.</div>
   </div>
 </div></section>
 <section class="section section-light"><div class="wrap">
@@ -1210,23 +1343,39 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Contact Our Service Team</a></div>
 </div></section>
 </div>
-<div class="page" id="p-projects">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Projects</b></nav>
-  <div class="plate">Projects</div>
-  <h1 tabindex="-1">Projects &amp; case studies</h1>
-  <p class="lede">A look at how we&rsquo;ve helped facilities across Power, Steel, Oil &amp; Gas, and Process industries specify, install, and maintain cooling equipment.</p>
+<div class="page" id="p-emergency-parts">
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/parts-service" data-nav>Parts &amp; Service</a><i>/</i><b>Emergency Parts</b></nav>
+  <div class="plate">Emergency Parts</div>
+  <h1 tabindex="-1">Emergency parts request</h1>
+  <p class="lede">Equipment down and need a part fast? Enter your ZIP code and we&rsquo;ll route you to the contact for your part of the country &mdash; no standard quote cycle.</p>
 </div></section>
-<section class="section section-light"><div class="wrap">
-  <div class="placeholder">[PLACEHOLDER SECTION] Scaffolded and ready, but needs real project details to publish. For each case study send: client/industry (can be anonymized, e.g. &ldquo;Steel producer, Mid-Atlantic&rdquo;), the challenge, the equipment supplied, and the outcome if known (efficiency gain, downtime avoided, water savings).</div>
-  <div class="card-grid">
-    <div class="card"><div class="card-body"><h3>[Project Title / Industry]</h3><p><strong>Challenge:</strong> [placeholder]</p><p><strong>Solution:</strong> [placeholder]</p><p><strong>Result:</strong> [placeholder]</p></div></div>
-    <div class="card"><div class="card-body"><h3>[Project Title / Industry]</h3><p><strong>Challenge:</strong> [placeholder]</p><p><strong>Solution:</strong> [placeholder]</p><p><strong>Result:</strong> [placeholder]</p></div></div>
-    <div class="card"><div class="card-body"><h3>[Project Title / Industry]</h3><p><strong>Challenge:</strong> [placeholder]</p><p><strong>Solution:</strong> [placeholder]</p><p><strong>Result:</strong> [placeholder]</p></div></div>
+<section class="section"><div class="wrap split">
+  <div>
+    <div class="plate">Step 1</div>
+    <h2>Find your contact</h2>
+    <p style="margin-bottom:22px">We&rsquo;ll match your ZIP code to the territory that covers your location and show you the direct contact for that area.</p>
+    <form class="zip-lookup" id="ep-form">
+      <div class="field">
+        <label for="ep-zip">ZIP code</label>
+        <input type="text" id="ep-zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="e.g. 15632" autocomplete="postal-code">
+      </div>
+      <button class="btn btn-primary" type="submit">Find My Contact</button>
+    </form>
+    <div class="zip-result" id="ep-result"></div>
+    <div class="placeholder" style="margin-top:26px">[PLACEHOLDER] The ZIP-to-territory matching below uses standard public USPS ZIP-prefix ranges, not a verified list of your actual coverage boundaries &mdash; it&rsquo;s a reasonable approximation, but zips right on a territory line may not match perfectly. Send me the real territory boundaries (see the map on the Contact page) and I&rsquo;ll tighten this up. Also send the real emergency parts phone number and email for each territory &mdash; they currently show as placeholders below and in the <code>TERRITORIES</code> config block.</div>
   </div>
-</div></section>
-<section class="section text-center"><div class="wrap">
-  <h2>Have a project in mind?</h2>
-  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
+  <div>
+    <div class="plate">Can&rsquo;t wait on the lookup?</div>
+    <h2>Contact us directly</h2>
+    <div class="rating-plate"><hr class="hotcold"><div class="rp-body">
+      <dl>
+        <dt>Emergency parts line</dt><dd>[PLACEHOLDER]</dd><hr class="dash">
+        <dt>Emergency parts email</dt><dd>[PLACEHOLDER]</dd><hr class="dash">
+        <dt>Hours</dt><dd>[PLACEHOLDER]</dd>
+      </dl>
+    </div></div>
+    <div class="btn-row"><a class="btn btn-outline" href="#/contact" data-nav>General Contact Page</a></div>
+  </div>
 </div></section>
 </div>
 <div class="page" id="p-contact">
@@ -1290,7 +1439,7 @@ html.js .reveal.in{opacity:1;transform:none;
     </div></div>
     <div style="margin-top:26px">
       <h3>Working through a sizing?</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Rough out a heat load with the <a href="#/selections" data-nav style="color:var(--red);font-weight:600">selection tool</a>, or check the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">equations reference</a> and unit converter.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Rough out a heat load with the <a href="#/selections" data-nav style="color:var(--red);font-weight:600">heat load calculator</a>, or check the <a href="#/equations" data-nav style="color:var(--red);font-weight:600">equations reference</a> and unit converter.</p>
     </div>
   </div>
 </div></section>
@@ -1316,18 +1465,18 @@ html.js .reveal.in{opacity:1;transform:none;
         <li><a href="#/equipment" data-nav>View All &rarr;</a></li>
       </ul></div>
       <div><h4>Markets</h4><ul>
-        <li><a href="#/markets/power" data-nav>Power Generation</a></li>
-        <li><a href="#/markets/steel" data-nav>Steel</a></li>
-        <li><a href="#/markets/oil-gas" data-nav>Oil &amp; Gas</a></li>
-        <li><a href="#/markets/hydrogen" data-nav>Hydrogen</a></li>
+        <li><a href="#/markets/industrial" data-nav>Industrial Cooling</a></li>
+        <li><a href="#/markets/comfort" data-nav>Comfort Cooling</a></li>
+        <li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li>
+        <li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li>
         <li><a href="#/markets" data-nav>View All &rarr;</a></li>
       </ul></div>
       <div><h4>Company</h4><ul>
         <li><a href="#/about" data-nav>About</a></li>
         <li><a href="#/equations" data-nav>Equations</a></li>
-        <li><a href="#/selections" data-nav>Selections</a></li>
+        <li><a href="#/selections" data-nav>Heat Load Calculator</a></li>
         <li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li>
-        <li><a href="#/projects" data-nav>Projects</a></li>
+        <li><a href="#/emergency-parts" data-nav>Emergency Parts</a></li>
         <li><a href="#/contact" data-nav>Contact</a></li>
       </ul></div>
     </div>
@@ -1372,16 +1521,25 @@ window.HTT.ROUTES = {
   '/equipment/controls':'p-eq-controls',
   '/equipment/rental-equipment':'p-eq-rental-equipment',
   '/markets':'p-markets',
+  '/markets/industrial':'p-mk-industrial',
   '/markets/power':'p-mk-power',
   '/markets/steel':'p-mk-steel',
   '/markets/oil-gas':'p-mk-oil-gas',
   '/markets/process':'p-mk-process',
   '/markets/hydrogen':'p-mk-hydrogen',
   '/markets/carbon-capture':'p-mk-carbon-capture',
+  '/markets/comfort':'p-mk-comfort',
+  '/markets/comfort/commercial-institutional':'p-mk-comfort-commercial',
+  '/markets/comfort/healthcare':'p-mk-comfort-healthcare',
+  '/markets/comfort/hospitality':'p-mk-comfort-hospitality',
+  '/markets/comfort/data-centers':'p-mk-comfort-datacenters',
+  '/markets/manufacturing':'p-mk-manufacturing',
+  '/markets/refrigeration':'p-mk-refrigeration',
+  '/markets/food-process':'p-mk-food-process',
   '/equations':'p-equations',
   '/selections':'p-selections',
   '/parts-service':'p-parts-service',
-  '/projects':'p-projects',
+  '/emergency-parts':'p-emergency-parts',
   '/contact':'p-contact'
 };
 
@@ -1559,6 +1717,30 @@ window.HTT.STATES = [
   ['VA','Virginia','midatl'],         ['WA','Washington',null],
   ['WV','West Virginia','midatl'],    ['WI','Wisconsin',null],
   ['WY','Wyoming',null]
+];
+
+/* -------------------------------------------------- 7. ZIP3_RANGES
+   Standard public USPS three-digit ZIP-prefix ranges by state, used to
+   route an Emergency Parts Request to the right territory. This is an
+   approximation, not a verified list of actual coverage boundaries —
+   ZIPs right on a state line can fall on either side. [min3, max3, state
+   abbreviation]. Alaska/Hawaii/territory prefixes are intentionally
+   omitted since those states aren't in the STATES list above.          */
+window.HTT.ZIP3_RANGES = [
+  [10,27,'MA'],  [28,29,'RI'],  [30,38,'NH'],  [39,49,'ME'],
+  [50,59,'VT'],  [60,69,'CT'],  [70,89,'NJ'],  [100,149,'NY'],
+  [150,196,'PA'],[197,199,'DE'],[200,205,'DC'],[206,219,'MD'],
+  [220,246,'VA'],[247,268,'WV'],[270,289,'NC'],[290,299,'SC'],
+  [300,319,'GA'],[320,339,'FL'],[341,349,'FL'],[350,369,'AL'],
+  [370,385,'TN'],[386,397,'MS'],[398,399,'GA'],[400,427,'KY'],
+  [430,459,'OH'],[460,479,'IN'],[480,499,'MI'],[500,528,'IA'],
+  [530,549,'WI'],[550,567,'MN'],[570,577,'SD'],[580,588,'ND'],
+  [590,599,'MT'],[600,629,'IL'],[630,658,'MO'],[660,679,'KS'],
+  [680,693,'NE'],[700,714,'LA'],[716,729,'AR'],[730,731,'OK'],
+  [733,733,'TX'],[734,741,'OK'],[743,749,'OK'],[750,799,'TX'],
+  [800,816,'CO'],[820,831,'WY'],[832,838,'ID'],[840,847,'UT'],
+  [850,865,'AZ'],[870,884,'NM'],[885,885,'TX'],[889,898,'NV'],
+  [900,961,'CA'],[970,979,'OR'],[980,994,'WA']
 ];
 
 
@@ -2086,6 +2268,66 @@ window.HTT.STATES = [
       if(!it) return;
       $$('.st-sel', svg).forEach(function(s){ s.classList.remove('st-sel'); });
       show(it.getAttribute('data-t'), null);
+    });
+  })();
+
+  /* --------------------------------------------- emergency parts lookup */
+
+  (function emergencyLookup(){
+    var form = $('ep-form'), input = $('ep-zip'), result = $('ep-result');
+    if(!form || !input || !result) return;
+
+    var byAb = {};
+    H.STATES.forEach(function(s){ byAb[s[0]] = s; });
+
+    function stateForZip(zip){
+      var n = parseInt(zip.slice(0,3), 10);
+      if(isNaN(n)) return null;
+      for(var i=0; i<H.ZIP3_RANGES.length; i++){
+        var r = H.ZIP3_RANGES[i];
+        if(n >= r[0] && n <= r[1]) return r[2];
+      }
+      return null;
+    }
+
+    function render(zip){
+      var ab = stateForZip(zip);
+      var stateRec = ab ? byAb[ab] : null;
+      var terrKey = stateRec ? stateRec[2] : null;
+      var t = terrKey ? H.TERRITORIES[terrKey] : null;
+
+      if(!ab){
+        result.innerHTML = '<div class="zip-no-match">We couldn&rsquo;t match that ZIP code. Double-check it and try '+
+          'again, or use the <a href="#/contact" data-nav style="color:inherit;font-weight:600">general contact '+
+          'page</a> directly.</div>';
+      } else if(!t){
+        result.innerHTML = '<div class="zip-no-match">'+stateRec[1]+' isn&rsquo;t yet assigned to a confirmed '+
+          'territory in our system. <a href="#/contact" data-nav style="color:inherit;font-weight:600">Contact us '+
+          'directly</a> and we&rsquo;ll route your request by hand.</div>';
+      } else {
+        result.innerHTML =
+          '<div class="terr-panel"><hr class="hotcold"><div class="tp-body">'+
+          '<p class="terr-eyebrow" style="color:'+t.color+'">'+t.name+' Territory &mdash; '+stateRec[1]+'</p>'+
+          '<p class="terr-name">'+t.rep+'</p>'+
+          '<div class="terr-row"><span class="k">Title</span><span class="v">'+t.title+'</span></div>'+
+          '<div class="terr-row"><span class="k">Phone</span><span class="v">'+t.phone+'</span></div>'+
+          '<div class="terr-row"><span class="k">Email</span><span class="v">'+t.email+'</span></div>'+
+          '<div class="btn-row" style="margin-top:22px">'+
+          '<a class="btn btn-primary" href="#/contact" data-nav>Submit Request</a></div>'+
+          '</div></div>';
+      }
+      var announce = $('route-announce');
+      if(announce) announce.textContent = 'Emergency contact lookup updated.';
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var zip = (input.value || '').replace(/\D/g,'');
+      if(zip.length < 5){
+        result.innerHTML = '<div class="zip-no-match">Enter a full 5-digit ZIP code.</div>';
+        return;
+      }
+      render(zip);
     });
   })();
 
