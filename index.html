@@ -317,27 +317,47 @@ a.card:hover .goto{gap:11px}
    closer to a printed spec sheet than a landing-page card grid. Group
    headings, the converter tool, and the trailing engineering note span
    every column. */
-.eq-page{column-width:300px;column-gap:40px;orphans:1;widows:1}
-.eq-page > .eq-group-title,.eq-page > #converters,.eq-page > .placeholder{column-span:all}
+.eq-page{column-width:260px;column-gap:32px;orphans:1;widows:1}
+.eq-page > .eq-group-title,.eq-page > #converters,.eq-page > .placeholder,
+.eq-page > .tonnage-compare,.eq-page > .lede{column-span:all}
 
-.eq-group-title{margin:32px 0 2px;padding:0 0 7px;border-bottom:2px solid var(--ink);
-  font-family:var(--fb);font-size:.72rem;font-weight:700;letter-spacing:.13em;
+.eq-group-title{margin:20px 0 2px;padding:0 0 5px;border-bottom:2px solid var(--ink);
+  font-family:var(--fb);font-size:.7rem;font-weight:700;letter-spacing:.13em;
   text-transform:uppercase;color:var(--ink)}
 .eq-group-title:first-of-type{margin-top:0}
-.eq{border:none;background:none;padding:12px 0;margin:0;border-bottom:1px solid var(--hair-soft);
+.eq{border:none;background:none;padding:8px 0;margin:0;border-bottom:1px solid var(--hair-soft);
   break-inside:avoid;-webkit-column-break-inside:avoid}
 .eq:last-of-type{border-bottom:none}
 .eq .eq-body{padding:0}
-.eq h3{margin:0 0 4px;font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:0;
-  line-height:1.3;text-transform:none}
-.eq .formula{font-family:var(--fm);font-size:.92rem;font-weight:600;color:var(--navy);
-  background:none;padding:0;margin:0 0 5px;overflow-x:auto;white-space:normal;
-  line-height:1.4;border:none;border-radius:0;letter-spacing:-.01em}
-.eq .where{font-size:.72rem;color:var(--muted);margin-bottom:0;line-height:1.5}
-.eq .where b{font-family:var(--fm);color:var(--body);font-weight:500;font-size:.71rem}
-.eq .note{font-size:.72rem;color:var(--muted);border:none;padding:5px 0 0;margin:5px 0 0;
-  line-height:1.5;font-style:italic}
+.eq h3{margin:0 0 3px;font-size:.73rem;font-weight:600;color:var(--muted);letter-spacing:0;
+  line-height:1.28;text-transform:none}
+.eq .formula{font-family:var(--fm);font-size:.85rem;font-weight:600;color:var(--navy);
+  background:none;padding:0;margin:0 0 3px;overflow-x:auto;white-space:normal;
+  line-height:1.32;border:none;border-radius:0;letter-spacing:-.01em}
+.eq .where{font-size:.68rem;color:var(--muted);margin-bottom:0;line-height:1.42}
+.eq .where b{font-family:var(--fm);color:var(--body);font-weight:500;font-size:.67rem}
+.eq .note{font-size:.68rem;color:var(--muted);border:none;padding:3px 0 0;margin:3px 0 0;
+  line-height:1.42;font-style:italic}
 @media (max-width:560px){.eq-page{column-width:auto;column-count:1}}
+
+/* ------------------------------------------------------- tonnage compare */
+/* Makes the HVAC-ton vs. cooling-tower-ton distinction impossible to miss —
+   used on both the Equations page and the Heat Load Calculator page. */
+.tonnage-compare{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:stretch;
+  margin:18px 0 26px;padding:20px 22px;border:1.5px solid var(--hair);border-radius:var(--r);
+  background:var(--surface)}
+.tc-col{display:flex;flex-direction:column;gap:5px}
+.tc-eyebrow{font-family:var(--fb);font-size:.66rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin:0}
+.tc-value{font-family:var(--fh);font-size:1.15rem;font-weight:700;color:var(--ink);margin:0}
+.tc-value b{color:var(--red)}
+.tc-note{font-size:.76rem;color:var(--body);line-height:1.5;margin:0}
+.tc-div{display:flex;align-items:center;justify-content:center;font-family:var(--fh);
+  font-size:1.3rem;font-weight:700;color:var(--muted)}
+.tc-rule{grid-column:1/-1;margin:14px 0 0;padding-top:14px;border-top:1px solid var(--hair-soft);
+  font-size:.78rem;color:var(--body);line-height:1.55}
+.tc-rule b{color:var(--ink)}
+@media (max-width:640px){.tonnage-compare{grid-template-columns:1fr}.tc-div{padding:2px 0}}
 
 /* ---------------------------------------------------------------- tables */
 
@@ -351,19 +371,21 @@ table.spec td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
 
 /* ------------------------------------------------------------ converter */
 
-.conv{border:none;background:transparent;margin:0}
+#converters{column-width:270px;column-gap:30px}
+.conv{border:none;background:transparent;margin:0;break-inside:avoid;-webkit-column-break-inside:avoid}
 .conv + .conv{border-top:1px solid var(--hair-soft)}
-.conv-body{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:end;padding:22px 0}
-.conv-label{grid-column:1/-1;font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--ink);font-weight:600;margin-bottom:6px}
-.conv-side label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:7px;
+.conv-body{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;padding:10px 0}
+.conv-label{grid-column:1/-1;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);font-weight:600;margin-bottom:3px}
+.conv-side label{display:block;font-size:.68rem;color:var(--muted);margin-bottom:4px;
   text-transform:none;letter-spacing:0;font-family:var(--fb)}
-.conv-side input{width:100%;padding:13px 15px;border:1.5px solid var(--hair);
-  font-family:var(--fm);font-size:1rem;font-weight:500;color:var(--navy);
+.conv-side input{width:100%;padding:8px 9px;border:1.5px solid var(--hair);
+  font-family:var(--fm);font-size:.82rem;font-weight:500;color:var(--navy);
   background:var(--paper);border-radius:var(--r);transition:border-color .15s,box-shadow .15s}
 .conv-side input:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 4px rgba(20,64,111,.09)}
-.conv-eq{font-family:var(--fh);color:var(--muted);font-weight:600;font-size:1.05rem;padding-bottom:13px}
-@media (max-width:600px){.conv-body{grid-template-columns:1fr;gap:12px}.conv-eq{display:none}}
+.conv-eq{font-family:var(--fh);color:var(--muted);font-weight:600;font-size:.88rem;padding-bottom:8px}
+@media (max-width:600px){.conv-body{grid-template-columns:1fr;gap:8px}.conv-eq{display:none}}
+@media (max-width:560px){#converters{column-width:auto;column-count:1}}
 
 /* ---------------------------------------------------------------- forms */
 
@@ -428,15 +450,10 @@ table.spec td:first-child{color:var(--ink);font-weight:500;white-space:nowrap}
 
 .map-layout{display:grid;grid-template-columns:1.62fr 1fr;gap:38px;align-items:start}
 @media (max-width:980px){.map-layout{grid-template-columns:1fr;gap:28px}}
-.tilemap{display:grid;grid-template-columns:repeat(12,1fr);gap:5px;width:100%}
-.tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
-  font-family:var(--fb);font-size:.7rem;font-weight:600;letter-spacing:.01em;
-  border:none;background:#E7ECF1;color:#A4AFBB;border-radius:5px;cursor:default;user-select:none;
-  padding:0;transition:transform .16s cubic-bezier(.22,.61,.36,1),box-shadow .16s,filter .16s}
-.tile.t-active{cursor:pointer;color:#fff}
-.tile.t-active:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 8px 18px rgba(10,35,64,.26);filter:brightness(1.08)}
-.tile.t-sel{outline:2.5px solid var(--ink);outline-offset:2px;z-index:2;transform:scale(1.04)}
-@media (max-width:700px){.tile{font-size:.56rem;border-radius:3px}}
+/* (previous unused .tilemap/.tile placeholder rules removed — superseded
+   by the working #usmap tile-grid map defined in the TERRITORY MAP block
+   below, which reuses the .st/.st-active/.st-sel class names already
+   wired into the territory() interaction JS.) */
 .legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:20px}
 .legend-item{display:flex;align-items:center;gap:9px;font-size:.87rem;color:var(--body);cursor:pointer;
   transition:color .15s}
@@ -607,13 +624,20 @@ html.js .reveal.in{opacity:1;transform:none;
    TERRITORY MAP
    ========================================================================== */
 .usmap-wrap{width:100%}
-#usmap{width:100%;height:auto;display:block}
-#usmap path.st{fill:#DFE5EB;stroke:#fff;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;paint-order:stroke;transition:filter .14s}
-#usmap path.st-active{cursor:pointer}
-#usmap path.st-active:hover{filter:brightness(1.15)}
-#usmap path.st-sel,#usmap path.st-active:focus{stroke:var(--ink);stroke-width:2.2;outline:none}
-#usmap text.stl{font-family:var(--fb);font-size:14px;font-weight:600;fill:#8895A4;
-  text-anchor:middle;dominant-baseline:middle;pointer-events:none;user-select:none}
+/* Tile-grid map: every state is an independently-placed CSS Grid cell
+   (grid-column/grid-row set inline per tile from geographic centroids).
+   There are no shared borders between states, so there is no coordinate
+   for two neighbors to disagree on — this replaces the old hand-drawn
+   SVG polygon map entirely. */
+#usmap{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(8,1fr);
+  gap:4px;width:100%;aspect-ratio:12/8}
+#usmap .st{display:flex;align-items:center;justify-content:center;background:#DFE5EB;
+  border-radius:5px;font-family:var(--fb);font-size:.72rem;font-weight:700;color:#8895A4;
+  letter-spacing:.02em;user-select:none;transition:filter .14s,box-shadow .14s}
+#usmap .st-active{cursor:pointer;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+#usmap .st-active:hover{filter:brightness(1.15)}
+#usmap .st-sel,#usmap .st-active:focus{box-shadow:inset 0 0 0 2.5px var(--ink);outline:none}
+@media (max-width:640px){#usmap{gap:2px}#usmap .st{font-size:.62rem;border-radius:3px}}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px}
 .legend-item{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;color:var(--body);
   background:none;border:none;padding:4px 0;cursor:pointer;font-family:var(--fb)}
@@ -1224,6 +1248,7 @@ html.js .reveal.in{opacity:1;transform:none;
   <h1 tabindex="-1">Common heat transfer equations</h1>
   <p class="lede">A working reference for the relationships used most often in industrial cooling: heat balance, exchanger sizing, cooling tower performance, water balance, and pump/fan power &mdash; plus a live unit converter. U.S. customary units throughout unless noted.</p>
   <nav class="eq-nav">
+    <a href="#g-tonnage">HVAC vs. Tower Ton</a>
     <a href="#g-conversions">Unit Converter</a>
       <a href="#g-heat-balance">Heat Balance</a>
     <a href="#g-exchanger">Exchanger Sizing</a>
@@ -1233,6 +1258,21 @@ html.js .reveal.in{opacity:1;transform:none;
   </nav>
 </div></section>
 <section class="section"><div class="wrap eq-page">
+<h2 class="eq-group-title" id="g-tonnage">HVAC ton vs. cooling tower ton &mdash; these are not the same unit</h2>
+<div class="tonnage-compare" role="note" aria-label="HVAC ton versus cooling tower ton">
+  <div class="tc-col">
+    <p class="tc-eyebrow">HVAC &amp; refrigeration ton</p>
+    <p class="tc-value">1 ton = <b>12,000</b> BTU/hr</p>
+    <p class="tc-note">Rates chillers, compressors, and HVAC equipment. Based purely on the refrigeration effect &mdash; the heat absorbed at the evaporator. Symbol used on this site: <b>TR</b>.</p>
+  </div>
+  <div class="tc-div" aria-hidden="true">&ne;</div>
+  <div class="tc-col">
+    <p class="tc-eyebrow">Nominal cooling tower ton</p>
+    <p class="tc-value">1 ton = <b>15,000</b> BTU/hr</p>
+    <p class="tc-note">Rates cooling towers. Defined as rejecting the heat carried by 3 GPM of condenser water cooled through a 10&deg;F range &mdash; which also covers the compressor&rsquo;s heat of compression, not just the refrigeration effect. Symbol used on this site: <b>TT</b>.</p>
+  </div>
+  <p class="tc-rule"><b>Rule of thumb, not a conversion:</b> a typical chiller plant&rsquo;s nominal tower-ton requirement runs close to its refrigeration-ton load, because the units were historically calibrated to line up for that case. They are still two different units of BTU/hr &mdash; always check which one a spec sheet, quote, or calculation is using before sizing equipment. The Heat Load Calculator below labels every result with the correct one.</p>
+</div>
 <h2 class="eq-group-title" id="g-conversions">Unit converter</h2>
 <p class="lede" style="margin-bottom:26px">Type a value into either side of any row &mdash; the other side updates as you type. Rows are independent.</p>
 <div id="converters"></div>
@@ -1255,6 +1295,23 @@ html.js .reveal.in{opacity:1;transform:none;
   <div class="plate">Heat Load Calculator</div>
   <h1 tabindex="-1">Calculate My Heat Load</h1>
   <p class="lede">Choose an equipment type and enter your operating conditions. The input set changes with the equipment &mdash; an evaporative tower asks for wet bulb, a dry cooler asks for dry bulb, an exchanger asks for both fluid streams. Coolant properties update live with glycol concentration.</p>
+</div></section>
+
+<section class="section" style="padding-bottom:0"><div class="wrap">
+  <div class="tonnage-compare" role="note" aria-label="HVAC ton versus cooling tower ton">
+    <div class="tc-col">
+      <p class="tc-eyebrow">HVAC &amp; refrigeration ton</p>
+      <p class="tc-value">1 ton = <b>12,000</b> BTU/hr</p>
+      <p class="tc-note">Chiller / compressor capacity &mdash; the refrigeration effect only. Results below label this <b>&ldquo;refrigeration tons&rdquo;</b>.</p>
+    </div>
+    <div class="tc-div" aria-hidden="true">&ne;</div>
+    <div class="tc-col">
+      <p class="tc-eyebrow">Nominal cooling tower ton</p>
+      <p class="tc-value">1 ton = <b>15,000</b> BTU/hr</p>
+      <p class="tc-note">Cooling tower / condenser-water duty &mdash; includes the compressor&rsquo;s heat of compression. Results below label this <b>&ldquo;tower tons&rdquo;</b>.</p>
+    </div>
+    <p class="tc-rule">These are two different units of BTU/hr, not interchangeable. Every result below is labeled with the one it actually uses &mdash; see the <a href="#/equations" data-nav>full explanation on the Equations page</a>.</p>
+  </div>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -1391,7 +1448,7 @@ html.js .reveal.in{opacity:1;transform:none;
   <p class="lede">Select a state to see the territory it belongs to and the representative who covers it.</p>
   <div class="map-layout" style="margin-top:36px">
     <div>
-      <div class="usmap-wrap"><svg id="usmap" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Territory coverage map"><g><path class="st" data-ab="WA" d="M80.6 15.4L104.5 20.3L109.1 10L203.4 34.05L181.3 98.4L166.4 94.9L141.4 91.1L123.4 91.1L106.6 86.6L92.4 73.1L73 63.8L73 63.8Z"></path><path class="st" data-ab="OR" d="M73 63.8L73 63.8L92.4 73.1L106.6 86.6L123.4 91.1L141.4 91.1L166.4 94.9L181.3 98.4L178.4 120.9L161.4 187.1L113.1 175.4L42.3 155.4Z"></path><path class="st" data-ab="CA" d="M42.3 155.4L113.1 175.4L96 241.8L170 352.5L168.7 371.67L168.7 371.67L157.35 406L112.4 398.7L94.7 366.4L94.5 359.3L59.5 338.7L49.2 286.1L44.3 270.5L35.4 213L31.5 190.3Z"></path><path class="st" data-ab="NV" d="M113.1 175.4L210.1 197.3L181.77 327.23L181.77 327.23L170 352.5L96 241.8Z"></path><path class="st" data-ab="ID" d="M203.4 34.05L203.4 34.05L207.35 63.65L207.35 63.65L223 93.3L222.1 113.9L242 119.9L248.2 139.4L269.4 144.1L259.6 206L161.4 187.1L178.4 120.9L181.3 98.4Z"></path><path class="st" data-ab="MT" d="M203.4 34.05L389.1 62.2L381.5 152.1L269.4 144.1L269.4 144.1L248.2 139.4L242 119.9L222.1 113.9L223 93.3L207.35 63.65L207.35 63.65Z"></path><path class="st" data-ab="WY" d="M269.4 144.1L381.5 152.1L373.8 242.9L256 228.5Z"></path><path class="st" data-ab="UT" d="M210.1 197.3L259.6 206L256 228.5L289.5 233.5L277 324.2L188.6 309.6Z"></path><path class="st" data-ab="CO" d="M289.5 233.5L407.6 245.4L401.8 336.7L277 324.2Z"></path><path class="st" data-ab="AZ" d="M188.6 309.6L277 324.2L259.3 452.4L220.7 446.6L157.35 406L168.7 371.67L170 352.5L181.77 327.23Z"></path><path class="st" data-ab="NM" d="M277 324.2L384.4 341.3L376.4 449.5L308.02 445.65L308.02 445.65L276.8 444.4L275.5 454.5L259.3 452.4Z"></path><path class="st" data-ab="ND" d="M389.1 62.2L492.1 67.2L496.8 134.8L501.5 136.2L383.3 130.9Z"></path><path class="st" data-ab="SD" d="M383.3 130.9L501.5 136.2L503 150.7L502.8 191.6L477.2 202.7L377.6 197.4Z"></path><path class="st" data-ab="NE" d="M377.6 197.4L477.2 202.7L505.6 208.7L505.6 208.7L511.9 237.3L515.7 264.65L406.2 268.2L407.6 245.4L373.8 242.9Z"></path><path class="st" data-ab="KS" d="M406.2 268.2L534.2 271.4L535.3 340L401.8 336.7Z"></path><path class="st" data-ab="OK" d="M384.4 341.3L535.3 340L538.9 376.5L541.13 417.28L510.2 415.6L491.5 411L471.1 406.1L443.45 396.5L443.45 396.5L438 350.1L384.4 341.3Z"></path><path class="st" data-ab="TX" d="M384.4 341.3L438 350.1L443.45 396.5L443.45 396.5L471.1 406.1L491.5 411L510.2 415.6L541.13 417.28L541.13 417.28L548.1 476.7L556.25 499.25L556.25 499.25L530 517.9L500.2 536.1L481.7 567.5L485.5 590L459 580.5L439.5 555.1L415.2 515.6L382.5 500L371.4 517.4L336.8 482.6L308.02 445.65L308.02 445.65L376.4 449.5Z"></path><path class="st" data-ab="MN" d="M492.1 67.2L522.9 58.3L531.3 73.9L563.3 78.7L586.3 83.3L610.35 87.45L597.2 112L570.9 116.7L560.9 143.1L569.7 165.5L588.7 189.7L502.8 191.6L503 150.7L501.5 136.2L496.8 134.8Z"></path><path class="st" data-ab="IA" d="M502.8 191.6L588.7 189.7L602.27 211.73L600.15 237.58L600.15 237.58L588.6 255.9L515.7 264.65L511.9 237.3L505.6 208.7L505.6 208.7Z"></path><path class="st" data-ab="MO" d="M515.7 264.65L588.6 255.9L604.4 294L630.15 335.95L625.6 347.7L535.4 351.4L534.2 271.4L515.7 264.65Z"></path><path class="st" data-ab="AR" d="M535.4 351.4L625.6 347.7L621.85 360.6L612.25 382.95L602.7 429.2L547.07 431.2L541.13 417.28L538.9 376.5L535.3 340Z"></path><path class="st" data-ab="LA" d="M547.07 431.2L602.7 429.2L607 474.6L632.1 473.1L635.2 491.1L625 516.7L599.1 513.6L569.2 505.7L556.25 499.25L556.25 499.25L548.1 476.7L547.07 431.2Z"></path><path class="st" data-ab="MS" d="M612.25 382.95L653.6 380L664.9 470.75L660.23 484.67L635.2 491.1L632.1 473.1L607 474.6L601.9 452.1L602.7 429.2L605.2 406.2Z"></path><path class="st" data-ab="AL" d="M653.6 380L701.2 375.5L720.1 442.2L720.8 465L664.9 470.75L674.67 485.7L660.23 484.67L660.23 484.67L664.9 470.75Z"></path><path class="st" data-ab="TN" d="M612.25 382.95L653.6 380L701.2 375.5L724.6 372.7L744.6 370.15L766.3 362.5L768.47 334L731.3 335L654.4 345.6L625.6 347.7L621.85 360.6L612.25 382.95Z"></path><path class="st" data-ab="KY" d="M625.6 347.7L654.4 345.6L731.3 335L751.9 320.65L748.5 296.85L725.3 289.6L704.8 280.6L695.4 290.9L680.9 304L664.9 312.45L651.9 315.9L644.3 332.6L630.15 335.95Z"></path><path class="st" data-ab="IL" d="M588.6 255.9L604.4 294L630.15 335.95L630.15 335.95L644.3 332.6L651.9 315.9L664.9 312.45L652.7 226.3L646.1 208.6L602.27 211.73L600.15 237.58L600.15 237.58Z"></path><path class="st" data-ab="IN" d="M651.9 315.9L664.9 312.45L652.7 226.3L670.47 218.37L697.7 220.3L704.8 280.6L695.4 290.9L680.9 304L664.9 312.45Z"></path><path class="st" data-ab="OH" d="M697.7 220.3L722.17 213.7L737.8 216.4L764.2 198.7L764.2 198.7L772.9 235.5L774.63 251.53L762.45 271.65L762.45 271.65L748.5 296.85L725.3 289.6L704.8 280.6Z"></path><path class="st" data-ab="MI" d="M670.47 218.37L697.7 220.3L722.17 213.7L722.17 213.7L733.7 188.2L730.3 176L720.7 165.9L714.8 158.6L708 144.6L690.78 128.28L690.78 128.28L675.3 139.4L670.4 153.7L667.4 172.2L666.5 195.2L670.47 218.37Z"></path><path class="st" data-ab="MI" d="M597.2 112L620.2 127.4L637.25 132.9L637.25 132.9L653 140.6L690.78 128.28L690.78 128.28L695.9 111.9L681.2 108L658.6 116.2L642.8 115.4L625.9 99.8L610.35 87.45L597.2 112Z"></path><path class="st" data-ab="WI" d="M570.9 116.7L597.2 112L637.25 132.9L637.25 132.9L653 140.6L653.5 162.2L647.8 171.8L646.1 208.6L602.27 211.73L588.7 189.7L569.7 165.5L560.9 143.1Z"></path><path class="st" data-ab="NY" d="M779.7 198.57L779.7 198.57L790.3 176.6L811.8 166.7L826.5 156.8L828.5 142.4L843.6 120.8L869.2 114.3L876.7 145.5L882.57 163.97L882.6 180.4L882.08 206.08L882.08 206.08L881.95 212.1L866.7 200.6L852.8 188.7Z"></path><path class="st" data-ab="NY" d="M881.95 212.1L914.25 190.05L903.2 200.4L886.97 211.73L881.95 212.1Z"></path><path class="st" data-ab="PA" d="M764.2 198.7L779.7 198.57L852.8 188.7L866.7 200.6L866.3 232.3L859.88 243.03L774.63 251.53L772.9 235.5Z"></path><path class="st" data-ab="NJ" d="M866.3 232.3L866.7 200.6L882.08 206.08L881.95 212.1L886.97 211.73L881.1 240.6L875.03 261.83L859.88 243.03L862.83 243.3L862.83 243.3Z"></path><path class="st" data-ab="DE" d="M859.88 243.03L862.83 243.3L862.83 243.3L875.03 261.83L875.03 261.83L861.6 271.25Z"></path><path class="st" data-ab="MD" d="M796.85 257.27L859.88 243.03L861.6 271.25L875.03 261.83L861.73 286.77L861.6 271.25L853.2 267.9L839.38 267L837.13 261.75L824.2 256.3L813.85 256.65L796.85 257.27L796.85 257.27Z"></path><path class="st" data-ab="WV" d="M751.9 320.65L769.8 313.3L786.9 296.7L802.3 277.2L802.3 277.2L813.85 256.65L824.2 256.3L813.85 256.65L796.85 257.27L774.63 251.53L772.9 235.5L774.63 251.53L762.45 271.65L762.45 271.65L748.5 296.85L748.5 296.85L751.9 320.65Z"></path><path class="st" data-ab="VA" d="M731.3 335L768.47 334L869.05 312.5L861.73 286.77L861.73 286.77L861.6 271.25L839.38 267L837.13 261.75L824.2 256.3L813.85 256.65L802.3 277.2L802.3 277.2L786.9 296.7L769.8 313.3L751.9 320.65L742.9 327.7Z"></path><path class="st" data-ab="NC" d="M724.6 372.7L744.6 370.15L766.3 362.5L783.7 360.9L809.5 364.8L837.33 379.83L837.33 379.83L868.4 358.2L878.2 342.1L880.2 325.3L869.05 312.5L768.47 334L731.3 335Z"></path><path class="st" data-ab="SC" d="M744.6 370.15L766.3 362.5L783.7 360.9L809.5 364.8L837.33 379.83L821.8 413.6L797.8 431.5L790.7 461.4L762.4 413.8Z"></path><path class="st" data-ab="GA" d="M701.2 375.5L744.6 370.15L762.4 413.8L790.7 461.4L725.4 471.4L720.8 465L720.1 442.2Z"></path><path class="st" data-ab="FL" d="M664.9 470.75L720.8 465L725.4 471.4L790.7 461.4L798.7 500.3L833.5 545L832.3 581.6L816.3 586.5L801 568.4L777.3 533.2L775.2 503.8L750.9 486.5L728.1 493.9L718.3 495L695.2 481.5L674.67 485.7L674.67 485.7Z"></path><path class="st" data-ab="VT" d="M869.2 114.3L898.7 111.7L898.7 111.7L897.3 140.3L895.9 161.2L882.57 163.97L876.7 145.5Z"></path><path class="st" data-ab="NH" d="M898.7 111.7L902.7 99L921.7 145.7L921.78 152.38L895.9 161.2L897.3 140.3L898.7 111.7Z"></path><path class="st" data-ab="ME" d="M902.7 99L910.4 80.4L918 44.3L936.4 41.2L950.2 75.9L968.5 91.6L948.7 109.6L931.6 126.4L921.7 145.7Z"></path><path class="st" data-ab="MA" d="M882.57 163.97L921.78 152.38L921.78 152.38L921.78 152.38L922.2 167.7L940.2 168.9L925.43 182.75L925.43 182.75L914.25 190.05L910.4 174.2L882.6 180.4Z"></path><path class="st" data-ab="CT" d="M882.6 180.4L910.4 174.2L914.25 190.05L903.2 200.4L882.08 206.08L886.97 211.73Z"></path><path class="st" data-ab="RI" d="M910.4 174.2L922.2 167.7L925.43 182.75L925.43 182.75L914.25 190.05Z"></path><path class="st" data-ab="DC" d="M837.13 261.75L837.13 261.75L839.38 267L839.38 267Z"></path></g><g aria-hidden="true"><text class="stl" x="120.7" y="61.7">WA</text><text class="stl" x="121.0" y="108.5">OR</text><text class="stl" x="95.9" y="299.6">CA</text><text class="stl" x="158.2" y="270.2">NV</text><text class="stl" x="215.8" y="109.5">ID</text><text class="stl" x="260.9" y="102.9">MT</text><text class="stl" x="320.4" y="190.5">WY</text><text class="stl" x="246.8" y="249.8">UT</text><text class="stl" x="344.0" y="285.0">CO</text><text class="stl" x="203.2" y="374.3">AZ</text><text class="stl" x="308.1" y="419.0">NM</text><text class="stl" x="452.6" y="106.3">ND</text><text class="stl" x="457.6" y="168.3">SD</text><text class="stl" x="453.3" y="231.4">NE</text><text class="stl" x="469.4" y="304.1">KS</text><text class="stl" x="470.9" y="381.1">OK</text><text class="stl" x="452.9" y="469.5">TX</text><text class="stl" x="545.9" y="118.8">MN</text><text class="stl" x="552.3" y="223.5">IA</text><text class="stl" x="569.8" y="298.2">MO</text><text class="stl" x="570.5" y="382.1">AR</text><text class="stl" x="585.4" y="478.5">LA</text><text class="stl" x="626.8" y="444.5">MS</text><text class="stl" x="680.2" y="451.1">AL</text><text class="stl" x="685.7" y="362.4">TN</text><text class="stl" x="686.1" y="316.4">KY</text><text class="stl" x="625.8" y="275.3">IL</text><text class="stl" x="675.8" y="276.3">IN</text><text class="stl" x="744.0" y="245.3">OH</text><text class="stl" x="697.5" y="177.0">MI</text><text class="stl" x="613.5" y="158.0">WI</text><text class="stl" x="846.2" y="173.3">NY</text><text class="stl" x="817.4" y="219.5">PA</text><text class="stl" x="779.7" y="276.3">WV</text><text class="stl" x="807.6" y="293.0">VA</text><text class="stl" x="808.0" y="353.7">NC</text><text class="stl" x="789.7" y="395.6">SC</text><text class="stl" x="737.6" y="428.5">GA</text><text class="stl" x="752.1" y="506.7">FL</text><text class="stl" x="932.0" y="90.4">ME</text></g></svg></div>
+      <div class="usmap-wrap"><div id="usmap" role="group" aria-label="Territory coverage map"><div class="st" data-ab="WA" style="grid-column:1;grid-row:1">WA</div><div class="st" data-ab="OR" style="grid-column:1;grid-row:2">OR</div><div class="st" data-ab="CA" style="grid-column:1;grid-row:5">CA</div><div class="st" data-ab="NV" style="grid-column:2;grid-row:4">NV</div><div class="st" data-ab="ID" style="grid-column:2;grid-row:2">ID</div><div class="st" data-ab="MT" style="grid-column:3;grid-row:1">MT</div><div class="st" data-ab="WY" style="grid-column:4;grid-row:3">WY</div><div class="st" data-ab="UT" style="grid-column:3;grid-row:4">UT</div><div class="st" data-ab="AZ" style="grid-column:3;grid-row:6">AZ</div><div class="st" data-ab="CO" style="grid-column:4;grid-row:4">CO</div><div class="st" data-ab="NM" style="grid-column:4;grid-row:6">NM</div><div class="st" data-ab="ND" style="grid-column:5;grid-row:1">ND</div><div class="st" data-ab="SD" style="grid-column:5;grid-row:2">SD</div><div class="st" data-ab="NE" style="grid-column:5;grid-row:3">NE</div><div class="st" data-ab="KS" style="grid-column:6;grid-row:4">KS</div><div class="st" data-ab="OK" style="grid-column:6;grid-row:5">OK</div><div class="st" data-ab="TX" style="grid-column:6;grid-row:7">TX</div><div class="st" data-ab="MN" style="grid-column:7;grid-row:1">MN</div><div class="st" data-ab="IA" style="grid-column:7;grid-row:3">IA</div><div class="st" data-ab="MO" style="grid-column:7;grid-row:4">MO</div><div class="st" data-ab="AR" style="grid-column:7;grid-row:6">AR</div><div class="st" data-ab="LA" style="grid-column:6;grid-row:6">LA</div><div class="st" data-ab="WI" style="grid-column:8;grid-row:2">WI</div><div class="st" data-ab="IL" style="grid-column:8;grid-row:4">IL</div><div class="st" data-ab="MS" style="grid-column:7;grid-row:7">MS</div><div class="st" data-ab="MI" style="grid-column:9;grid-row:2">MI</div><div class="st" data-ab="IN" style="grid-column:7;grid-row:5">IN</div><div class="st" data-ab="KY" style="grid-column:8;grid-row:6">KY</div><div class="st" data-ab="TN" style="grid-column:8;grid-row:5">TN</div><div class="st" data-ab="AL" style="grid-column:8;grid-row:7">AL</div><div class="st" data-ab="OH" style="grid-column:9;grid-row:4">OH</div><div class="st" data-ab="GA" style="grid-column:8;grid-row:8">GA</div><div class="st" data-ab="FL" style="grid-column:9;grid-row:8">FL</div><div class="st" data-ab="WV" style="grid-column:9;grid-row:3">WV</div><div class="st" data-ab="NC" style="grid-column:9;grid-row:6">NC</div><div class="st" data-ab="SC" style="grid-column:9;grid-row:7">SC</div><div class="st" data-ab="VA" style="grid-column:10;grid-row:6">VA</div><div class="st" data-ab="PA" style="grid-column:10;grid-row:3">PA</div><div class="st" data-ab="NY" style="grid-column:11;grid-row:3">NY</div><div class="st" data-ab="MD" style="grid-column:9;grid-row:5">MD</div><div class="st" data-ab="DC" style="grid-column:10;grid-row:5">DC</div><div class="st" data-ab="DE" style="grid-column:11;grid-row:4">DE</div><div class="st" data-ab="NJ" style="grid-column:11;grid-row:5">NJ</div><div class="st" data-ab="CT" style="grid-column:10;grid-row:2">CT</div><div class="st" data-ab="RI" style="grid-column:12;grid-row:3">RI</div><div class="st" data-ab="MA" style="grid-column:10;grid-row:4">MA</div><div class="st" data-ab="VT" style="grid-column:11;grid-row:2">VT</div><div class="st" data-ab="NH" style="grid-column:10;grid-row:1">NH</div><div class="st" data-ab="ME" style="grid-column:12;grid-row:2">ME</div></div></div>
       <div class="legend" id="legend"></div>
       <div class="placeholder">[PLACEHOLDER] Territory boundaries below are a working assumption, not confirmed coverage. Send me the real state-by-state territory assignments and rep names and I&rsquo;ll drop them in &mdash; they live in one editable list at the top of the script.</div>
     </div>
@@ -1546,8 +1603,9 @@ window.HTT.ROUTES = {
 /* ---------------------------------------------------------- 2. CONVERTERS
    f = how many of unit B in one unit A. type:'temp' handled separately.    */
 window.HTT.CONVERTERS = [
-  {label:'Refrigeration capacity', a:'Tons refrigeration', b:'BTU/hr',      f:12000},
-  {label:'Refrigeration capacity', a:'Tons refrigeration', b:'kW (thermal)',f:3.516853},
+  {label:'Refrigeration capacity (HVAC ton)', a:'Tons refrigeration', b:'BTU/hr',      f:12000},
+  {label:'Refrigeration capacity (HVAC ton)', a:'Tons refrigeration', b:'kW (thermal)',f:3.516853},
+  {label:'Cooling tower capacity (tower ton)', a:'Nominal tower tons', b:'BTU/hr',     f:15000},
   {label:'Boiler output',          a:'Boiler horsepower',  b:'BTU/hr',      f:33475},
   {label:'Power',                  a:'Kilowatts',          b:'BTU/hr',      f:3412.142},
   {label:'Power',                  a:'Horsepower',         b:'BTU/hr',      f:2544.43},
@@ -1949,6 +2007,14 @@ window.HTT.ZIP3_RANGES = [
     var sel = $('s-equip');
     if(!sel) return;
     var EQ = H.EQUIPMENT;
+    // Two different "ton" units are both in play here — see the tonnage
+    // comparison panel on this page and on the Heat Transfer Equations page.
+    // TR = ton of refrigeration (12,000 BTU/hr) — the HVAC/chiller unit,
+    //      based purely on the refrigeration effect.
+    // TT = nominal cooling tower ton (15,000 BTU/hr) — the cooling-tower-
+    //      industry unit, sized to also reject a chiller's compressor
+    //      heat of compression, not just the refrigeration effect.
+    var TR = 12000, TT = 15000;
 
     EQ.forEach(function(e){
       var o = document.createElement('option');
@@ -2099,7 +2165,7 @@ window.HTT.ZIP3_RANGES = [
         if(E.length) return fail(E);
         var range = tin-tout, q = p.K*gpm*range;
         out += row('Heat load', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity', n(q/12000,1)+' tons');
+        out += row('Nominal capacity (tower tons)', n(q/TT,1)+' tower tons');
         out += row('Flow rate', n(gpm,0)+' GPM');
         out += row('Range', n(range,1)+' &deg;F');
         out += row('Approach to wet bulb', n(tout-wb,1)+' &deg;F');
@@ -2118,7 +2184,7 @@ window.HTT.ZIP3_RANGES = [
         var range = tin-tout, q = p.K*gpm*range;
         var cfm = q/(1.08*densRatio(0)*rise), mtd = lmtd(tin,tout,db,db+rise);
         out += row('Heat load', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity', n(q/12000,1)+' tons');
+        out += row('Nominal capacity (refrigeration tons)', n(q/TR,1)+' refrigeration tons');
         out += row('Flow rate', n(gpm,0)+' GPM');
         out += row('Range', n(range,1)+' &deg;F');
         out += row('Approach to dry bulb', n(tout-db,1)+' &deg;F');
@@ -2146,7 +2212,7 @@ window.HTT.ZIP3_RANGES = [
           'This duty cannot be achieved in a 1 shell / 2 tube pass arrangement. Use true counterflow or multiple shells in series.']);
         var mtd = lm*F;
         out += row('Heat duty', n(q)+' BTU/hr', 'big');
-        out += row('Nominal capacity', n(q/12000,1)+' tons');
+        out += row('Nominal capacity (refrigeration tons)', n(q/TR,1)+' refrigeration tons');
         out += row('Hot side in / out', n(T1,1)+' / '+n(T2,1)+' &deg;F');
         out += row('Cold side in / out', n(t1,1)+' / '+n(t2,1)+' &deg;F');
         out += row(cfg === '12' ? 'Corrected MTD' : 'LMTD', n(mtd,1)+' &deg;F');
@@ -2160,14 +2226,14 @@ window.HTT.ZIP3_RANGES = [
         if(!(tin > tout)) E.push('Return temperature must be warmer than supply temperature.');
         if(!(kwt > 0)) E.push('Efficiency must be greater than zero.');
         if(E.length) return fail(E);
-        var range = tin-tout, q = p.K*gpm*range, tons = q/12000;
+        var range = tin-tout, q = p.K*gpm*range, tons = q/TR;
         var kw = tons*kwt, hr = q + kw*3412.142;
         out += row('Cooling load', n(q)+' BTU/hr', 'big');
-        out += row('Capacity required', n(tons,1)+' tons');
+        out += row('Capacity required (refrigeration tons)', n(tons,1)+' refrigeration tons');
         out += row('Flow rate', n(gpm,0)+' GPM');
         out += row('Evaporator &Delta;T', n(range,1)+' &deg;F');
         out += row('Compressor power', n(kw,1)+' kW');
-        out += row('Heat of rejection', n(hr/12000,1)+' tons');
+        out += row('Heat of rejection (tower tons)', n(hr/TT,1)+' tower tons');
         out += row('Condenser', cond === 'water' ? 'Water-cooled' : 'Air-cooled');
       }
 
@@ -2193,16 +2259,15 @@ window.HTT.ZIP3_RANGES = [
     var byAb = {};
     H.STATES.forEach(function(s){ byAb[s[0]] = s; });
 
-    $$('path.st', svg).forEach(function(p){
+    $$('.st', svg).forEach(function(p){
       var rec = byAb[p.getAttribute('data-ab')];
       if(!rec) return;
       p.setAttribute('data-full', rec[1]);
       var terr = rec[2] ? H.TERRITORIES[rec[2]] : null;
       if(terr){
-        p.style.fill = terr.color; // inline style, not the "fill" attribute —
-        // a stylesheet rule (#usmap path.st{fill:...}) beats a plain SVG
-        // presentation attribute every time, which is why every state was
-        // rendering the same default gray regardless of territory.
+        p.style.background = terr.color; // per-tile inline style — each
+        // state is its own grid cell with no shared border to any other
+        // state, so there is no coordinate for two neighbors to disagree on.
         p.setAttribute('data-t', rec[2]);
         p.classList.add('st-active');
         p.setAttribute('tabindex','0');
@@ -2247,16 +2312,16 @@ window.HTT.ZIP3_RANGES = [
     }
 
     svg.addEventListener('click', function(e){
-      var p = e.target.closest && e.target.closest('path.st-active');
+      var p = e.target.closest && e.target.closest('.st-active');
       if(p) pick(p);
     });
     svg.addEventListener('keydown', function(e){
-      var p = e.target.closest && e.target.closest('path.st-active');
+      var p = e.target.closest && e.target.closest('.st-active');
       if(!p) return;
       if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(p); return; }
       if(e.key.indexOf('Arrow') === 0){
         e.preventDefault();
-        var all = $$('path.st-active', svg), i = all.indexOf(p);
+        var all = $$('.st-active', svg), i = all.indexOf(p);
         var nx = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? i+1 : i-1;
         if(nx < 0) nx = all.length-1;
         if(nx >= all.length) nx = 0;
