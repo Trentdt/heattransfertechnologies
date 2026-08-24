@@ -190,18 +190,6 @@ a.card:hover .goto{gap:11px}
   margin:22px 0;border-radius:0 var(--r) var(--r) 0}
 .section-dark .placeholder{background:rgba(255,255,255,.07);border-left-color:rgba(255,255,255,.5);
   color:rgba(255,255,255,.88)}
-/* ------------------------------------------------------ emergency callout */
-.emergency-box{background:rgba(196,38,46,.14);border:1.5px solid rgba(196,38,46,.45);
-  border-radius:10px;padding:26px 28px}
-.emergency-box h2{margin-bottom:8px;color:#fff}
-.emergency-box .lede{color:rgba(255,255,255,.8)}
-@media (max-width:560px){.emergency-box{padding:22px 20px}
-}
-.emergency-box--compact .emergency-box-row{display:flex;align-items:center;justify-content:space-between;
-  gap:24px;flex-wrap:wrap}
-.emergency-box--compact h2{font-size:1.35rem}
-@media (max-width:700px){.emergency-box--compact .emergency-box-row{flex-direction:column;align-items:flex-start}
-}
 /* --------------------------------------------------- zip lookup (emergency) */
 .zip-lookup{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;max-width:420px}
 .zip-lookup .field{margin-bottom:0;flex:1 1 180px}
@@ -533,101 +521,6 @@ a{color:#000;text-decoration:none}
 .res-grp{font-family:var(--fb);font-size:.66rem;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--muted);margin:22px 0 2px;padding-bottom:6px;
   border-bottom:1px solid var(--hair-soft)}
-/* ------------------------------------------------------------- verdict
-   The headline answer: is this a design point anyone can actually build?
-   Colour-coded, but never colour alone — each state carries its own mark
-   and its own wording, so it reads the same without colour vision. */
-.verdict{border-radius:var(--r);padding:16px 18px;margin-bottom:26px;border-left:3px solid}
-.v-top{display:flex;align-items:center;gap:10px}
-.v-mark{width:22px;height:22px;border-radius:50%;flex:0 0 auto;display:flex;
-  align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;
-  font-family:var(--fb);line-height:1}
-.v-head{font-family:var(--fh);font-size:1.06rem;font-weight:700;color:var(--ink);
-  letter-spacing:-.01em}
-.v-sub{margin:9px 0 0;font-size:.85rem;line-height:1.55;color:var(--body)}
-.verdict--ok{background:#F1F8F3;border-left-color:#2E7D48}
-.verdict--ok .v-mark{background:#2E7D48}
-.verdict--caution{background:#FFFBF2;border-left-color:#C9880F}
-.verdict--caution .v-mark{background:#C9880F}
-.verdict--fail{background:#FDF3F3;border-left-color:var(--red)}
-.verdict--fail .v-mark{background:var(--red)}
-/* --------------------------------------------------------- design checks */
-.checks{margin-bottom:8px}
-.chk{display:grid;grid-template-columns:18px 1fr auto;gap:2px 10px;align-items:baseline;
-  padding:11px 0;border-bottom:1px solid var(--hair-soft)}
-.chk:last-child{border-bottom:none}
-.chk-mark{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:.6rem;font-weight:700;color:#fff;font-family:var(--fb);
-  align-self:center;line-height:1}
-.chk--ok .chk-mark{background:#2E7D48}
-.chk--caution .chk-mark{background:#C9880F}
-.chk--fail .chk-mark{background:var(--red)}
-.chk-label{font-size:.87rem;color:var(--ink);font-weight:500}
-.chk-value{font-family:var(--fm);font-size:.83rem;color:var(--ink);text-align:right;
-  white-space:nowrap}
-.chk--caution .chk-value{color:#96650B}
-.chk--fail .chk-value{color:var(--red);font-weight:600}
-.chk-band{grid-column:2/-1;font-size:.75rem;color:var(--muted);font-family:var(--fb)}
-.chk-note{grid-column:2/-1;margin:6px 0 0;font-size:.79rem;line-height:1.5;color:var(--body)}
-.chk--ok .chk-note{color:var(--muted)}
-@media (max-width:600px){.chk{grid-template-columns:18px 1fr}
-.chk-value{grid-column:2;text-align:left;padding-top:2px}
-}
-/* ---------------------------------------------------------- solve-for panel
-   The calculator's core control: one row per variable, a radio marking the
-   one being solved for, and a greyed box wherever the value is computed
-   rather than entered. */
-.solve-panel{border:1.5px solid var(--hair);border-radius:var(--r);overflow:hidden;
-  background:var(--paper)}
-.solve-head{background:var(--navy);color:#fff;font-family:var(--fb);font-size:.7rem;
-  font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:11px 18px}
-.solve-rows{padding:6px 18px 4px}
-.srow{display:grid;grid-template-columns:18px 1fr 128px 96px;gap:0 12px;align-items:center;
-  padding:7px 0;border-bottom:1px solid var(--hair-soft)}
-.srow:last-child{border-bottom:none}
-.s-radio{width:16px;height:16px;margin:0;accent-color:var(--red);cursor:pointer}
-.s-radio-gap{display:block}
-.srow-label{font-size:.88rem;color:var(--ink);margin:0;cursor:pointer;line-height:1.35;
-  font-family:var(--fb);font-weight:400;letter-spacing:0;text-transform:none}
-.srow--der .srow-label{color:var(--muted)}
-.srow-input{width:100%;padding:8px 11px;border:1.5px solid var(--hair);border-radius:5px;
-  font-family:var(--fm);font-size:.92rem;font-weight:500;color:var(--navy);text-align:right;
-  background:var(--paper);min-height:0;transition:border-color .15s,box-shadow .15s}
-.srow-input:focus{border-color:var(--navy);outline:none;box-shadow:0 0 0 3px rgba(20,64,111,.1)}
-.srow-input.is-computed{background:var(--surface);border-color:var(--hair-soft);
-  color:var(--muted);cursor:default}
-.srow--target .srow-label{font-weight:700;color:var(--red)}
-.srow--target .srow-input{border-color:var(--red);border-style:dashed;color:var(--red);
-  background:#FEF6F6;font-weight:700}
-.srow-unit{font-size:.8rem;color:var(--muted);font-family:var(--fb)}
-.srow-hint{grid-column:2/-1;font-size:.79rem;color:var(--muted);line-height:1.45;padding-top:3px}
-.solve-note{margin:0;padding:12px 18px 14px;border-top:1px solid var(--hair-soft);
-  font-size:.8rem;color:var(--muted);line-height:1.5;background:var(--surface)}
-@media (max-width:600px){.srow{grid-template-columns:18px 1fr;gap:2px 10px}
-.srow-input{grid-column:2;width:auto;max-width:150px}
-.srow-unit{grid-column:2;padding-bottom:2px}
-.srow-hint{grid-column:2}
-}
-/* inline prose links — one rule instead of per-link inline styles, so every
-   cross-reference in body copy reads the same way on light and dark bands */
-.page section p a[href^="#/"]:not(.btn),.page section li a[href^="#/"]:not(.btn),
-.tc-rule a,.srow-hint a{color:var(--red);font-weight:600;
-  text-decoration:underline;text-underline-offset:2px;
-  text-decoration-color:rgba(196,38,46,.35);transition:text-decoration-color .15s}
-.page section p a[href^="#/"]:not(.btn):hover,
-.page section li a[href^="#/"]:not(.btn):hover,
-.tc-rule a:hover{text-decoration-color:var(--red)}
-.page section.section-dark p a[href^="#/"]:not(.btn){color:#FF8A90;
-  text-decoration-color:rgba(255,138,144,.4)}
-.page section.section-dark p a[href^="#/"]:not(.btn):hover{text-decoration-color:#FF8A90}
-/* utility classes replacing style attributes that repeated across the markup */
-.lede-cta{margin:0 auto 8px}
-.mt-0{margin-top:0}
-.mt-14{margin-top:14px}
-.mt-26{margin-top:26px}
-.mt-28{margin-top:28px}
-.on-dark{color:#fff}
-
 /* converter */
 .conv-factor{display:block;font-weight:400;text-transform:none;letter-spacing:0;
   color:var(--muted);font-size:.82rem;margin-top:3px}</style>
@@ -651,13 +544,12 @@ a{color:#000;text-decoration:none}
     <ul>
       <li><a href="#/" data-nav>Home</a></li>
       <li><a href="#/about" data-nav>About</a></li>
-      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field-Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/air-cooled" data-nav>Air-Cooled Heat Exchangers</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
+      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/field-erected-towers" data-nav>Field-Erected Towers</a></li><li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop &amp; Air-Cooled</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
       <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/industrial" data-nav>Industrial Cooling</a></li><li><a href="#/markets/comfort" data-nav>Comfort Cooling</a></li><li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li><li><a href="#/markets/refrigeration" data-nav>Refrigeration</a></li><li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li></ul></li>
     </ul>
     <p class="sn-label">Engineering Tools</p>
     <ul><li><a href="#/equations" data-nav>Heat Transfer Equations</a></li><li><a href="#/selections" data-nav>Heat Load Calculator</a></li></ul>
-    <p class="sn-label">Company</p>
-    <ul><li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li><li><a href="#/emergency-parts" data-nav>Emergency Parts</a></li><li><a href="#/contact" data-nav>Contact</a></li></ul>
+    <ul><li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li><li><a href="#/emergency-parts" data-nav>Emergency Parts</a></li><li><a href="#/contact" data-nav>Contact Us</a></li></ul>
   </nav>
   <div class="sn-foot">
     <a class="btn btn-primary sn-cta" href="#/contact" data-nav>Request a Quote</a>
@@ -716,7 +608,7 @@ a{color:#000;text-decoration:none}
   <div class="plate">Equipment</div>
   <h2>Equipment for every application</h2>
   <p class="lede">Eleven categories, from field-erected towers down to the instrumentation that ties a system together.</p>
-  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Built in place, for duties too large to ship.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chillers, specified for the duty they will actually run.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam heating with no exchanger surface in between.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration. The cheapest reliability you can buy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Packages, instrumentation, drives, and sequencing. The part that holds setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Towers, chillers, and pumps on short-term hire when something has to run now.</p><span class="goto">View &rarr;</span></div></a></div>
+  <div class="card-grid"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Built in place, for duties too large to ship.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop &amp; Air-Cooled</h3><p>Dry coolers and fin-fan exchangers. Sealed fluid, no makeup water, no treatment program.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chillers, specified for the duty they will actually run.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam heating with no exchanger surface in between.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration. The cheapest reliability you can buy.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Packages, instrumentation, drives, and sequencing. The part that holds setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Towers, chillers, and pumps on short-term hire when something has to run now.</p><span class="goto">View &rarr;</span></div></a></div>
   <div class="btn-row"><a class="btn btn-outline" href="#/equipment" data-nav>View All Equipment</a></div>
 </div></section>
 
@@ -821,7 +713,7 @@ a{color:#000;text-decoration:none}
   <p class="lede">Everything a facility needs to move heat and get rid of it, supplied and supported across Power, Steel, Oil &amp; Gas, Process, Hydrogen, and Carbon Capture.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section>
-<section class="section section-light"><div class="wrap"><div class="card-grid mt-0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop Coolers</h3><p>Closed-circuit systems that protect critical equipment from fouling, scaling, and contamination.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/air-cooled" data-nav><div class="card-body"><h3>Air-Cooled Heat Exchangers</h3><p>Fin-fan and air-cooled systems for water-limited, zero-discharge, or remote sites.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
+<section class="section section-light"><div class="wrap"><div class="card-grid mt-0"><a class="card" href="#/equipment/cooling-towers" data-nav><div class="card-body"><h3>Cooling Towers</h3><p>Open and closed circuit towers engineered for large-scale industrial heat rejection.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/field-erected-towers" data-nav><div class="card-body"><h3>Field-Erected Towers</h3><p>Custom, site-built towers for the largest heat rejection duties, engineered and constructed in place.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/closed-loop-coolers" data-nav><div class="card-body"><h3>Closed Loop &amp; Air-Cooled</h3><p>Dry coolers and fin-fan exchangers. Sealed fluid, no makeup water, no treatment program.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/heat-exchangers" data-nav><div class="card-body"><h3>Heat Exchangers</h3><p>Shell-and-tube, plate, and custom-engineered exchangers for demanding process conditions.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/chillers" data-nav><div class="card-body"><h3>Chillers</h3><p>Process and facility chilling systems sized and specified for your load requirements.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/direct-steam-injection" data-nav><div class="card-body"><h3>Direct Steam Injection</h3><p>In-line steam injection heaters for fast, efficient direct heating of process water and fluids.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/filtration" data-nav><div class="card-body"><h3>Filtration Systems</h3><p>Side-stream and full-flow filtration that protects cooling system performance and equipment life.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/pumps" data-nav><div class="card-body"><h3>Pumps</h3><p>Circulating and process pumping systems sized against the real system curve.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/controls" data-nav><div class="card-body"><h3>Controls</h3><p>Control packages, instrumentation, drives, and sequencing that hold setpoint.</p><span class="goto">View &rarr;</span></div></a><a class="card" href="#/equipment/rental-equipment" data-nav><div class="card-body"><h3>Rental Equipment</h3><p>Temporary cooling towers, chillers, and pumps to bridge outages, turnarounds, and unplanned downtime.</p><span class="goto">View &rarr;</span></div></a></div></div></section>
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Not sure which equipment fits your application?</h2>
   <p class="lede lede-cta">Send us the conditions and we&rsquo;ll tell you what fits. Or rough out the heat load yourself first and come to us with a number.</p>
@@ -869,20 +761,38 @@ a{color:#000;text-decoration:none}
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-eq-closed-loop-coolers">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Closed Loop Coolers</b></nav>
-  <div class="plate">Equipment / Closed Loop Coolers</div>
-  <h1 tabindex="-1">Closed loop coolers</h1>
-  <p class="lede">A closed loop cooler rejects heat like a tower but keeps the fluid sealed. Compressors, engines, and process equipment never see the fouling, scale, and corrosion that come with open recirculating water.</p>
-  
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Closed Loop &amp; Air-Cooled Coolers</b></nav>
+  <div class="plate">Equipment / Closed Loop &amp; Air-Cooled Coolers</div>
+  <h1 tabindex="-1">Closed loop and air-cooled coolers</h1>
+  <p class="lede">Process fluid runs through a finned coil and ambient air carries the heat away. No makeup water, no blowdown, no treatment program. The same equipment goes by several names depending on who you ask: closed loop cooler, fluid cooler, dry cooler, air-cooled heat exchanger, fin-fan.</p>
 </div></section>
-<section class="section"><div class="wrap"><h2>How closed loop systems protect your equipment</h2><p>The heat goes out through an external spray or air-cooled section while the process fluid stays inside the coil. Downstream maintenance drops accordingly. That trade pays off fastest where downtime is expensive, or where treating an open system would cost more than the cooler.</p></div></section>
-<section class="section section-light"><div class="wrap"><h2>Common applications</h2><p>Closed loop coolers are widely used for engine jacket water cooling, air compressor cooling, quench systems, and process equipment cooling across Power, Steel, and Process facilities.</p></div></section>
-<section class="section"><div class="wrap"><h2>Specification support</h2><p>Give us the plant conditions, the heat load, and a water analysis and we&rsquo;ll specify the system. We stay on it through startup and afterward.</p></div></section>
+
+<section class="section section-light"><div class="wrap">
+  <h2>What you gain and what you give up</h2>
+  <div class="split">
+    <p>The fluid stays sealed inside the coil for its whole trip. Compressors, engines, and process equipment never see the fouling, scale, and corrosion that come with open recirculating water, and there is no water treatment program to run.</p>
+    <p>The cost is the dry bulb. An evaporative device can approach the wet bulb, which on a summer design day sits well below the air temperature. A dry cooler has no such help. Everything it can do is measured against the dry bulb, and that ceiling drives the size of the unit.</p>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>Where these get specified</h2>
+  <p>Engine jacket water, air compressor cooling, quench systems, hydraulic and lube oil, and general process equipment cooling. On the industrial side they show up wherever water is scarce, expensive, or regulated, and anywhere a zero-discharge requirement applies.</p>
+  <p class="mt-14">Oil &amp; Gas, Hydrogen, and Carbon Capture projects keep landing on sites with no water to spare, and air-cooled equipment has become a much larger share of what we quote into those markets.</p>
+</div></section>
+
+<section class="section section-light"><div class="wrap">
+  <h2>Sizing considerations</h2>
+  <p>Design ambient sets the ceiling, and everything else follows from it. Footprint, sound limits, and fan energy usually decide the rest. Fan power is the number people underestimate most often, and on a large installation it can dominate the operating cost.</p>
+  <p class="mt-14">Send us the process conditions and the design ambient. The <a href="#/selections" data-nav>heat load calculator</a> will show you the air flow and surface area a given approach demands.</p>
+</div></section>
+
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
-  <h2>Need to keep a loop clean?</h2>
-  <p class="lede lede-cta">Tell us what the process fluid is and what it can&rsquo;t tolerate. That usually decides the configuration before anything else does.</p>
-  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
-</div></section></div>
+  <h2>Working without water?</h2>
+  <p class="lede lede-cta">Send the process conditions and your design ambient. We&rsquo;ll show you where the limits fall before you commit to a footprint.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Talk to Engineering</a></div>
+</div></section>
+</div>
 <div class="page" id="p-eq-heat-exchangers">
 <section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Heat Exchangers</b></nav>
   <div class="plate">Equipment / Heat Exchangers</div>
@@ -926,21 +836,6 @@ a{color:#000;text-decoration:none}
 <section class="section section-dark blueprint-dark text-center"><div class="wrap">
   <h2>Heating something with steam?</h2>
   <p class="lede lede-cta">Tell us the flow, the temperature rise, and the steam you have to work with. Direct injection isn&rsquo;t right for every application and we&rsquo;ll say so if it isn&rsquo;t.</p>
-  <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
-</div></section></div>
-<div class="page" id="p-eq-air-cooled">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><a href="#/equipment" data-nav>Equipment</a><i>/</i><b>Air-Cooled Heat Exchangers</b></nav>
-  <div class="plate">Equipment / Air-Cooled Heat Exchangers</div>
-  <h1 tabindex="-1">Air-cooled heat exchangers</h1>
-  <p class="lede">Fin-fan coolers reject heat straight to the air. No makeup water, no blowdown, no treatment program. The trade is that you are now limited by the dry bulb instead of the wet bulb, and that is a much harder limit.</p>
-  
-</div></section>
-<section class="section"><div class="wrap"><h2>When air cooling makes sense</h2><p>They make sense where water is scarce, expensive, or regulated, and anywhere zero-discharge applies. They also make sense on smaller systems where running a treatment program costs more than the efficiency it buys back.</p></div></section>
-<section class="section section-light"><div class="wrap"><h2>Design considerations</h2><p>Design ambient sets the ceiling on what the unit can do, and everything else follows from it. Footprint, sound limits, and fan energy usually decide the rest. Fan power is the number people underestimate most often.</p></div></section>
-<section class="section"><div class="wrap"><h2>Fit for remote &amp; water-limited sites</h2><p>Oil &amp; Gas, Hydrogen, and Carbon Capture projects keep landing on sites with no water to spare. Air-cooled equipment has become a much larger share of what we quote into those markets.</p></div></section>
-<section class="section section-dark blueprint-dark text-center"><div class="wrap">
-  <h2>Working without water?</h2>
-  <p class="lede lede-cta">Air-cooled changes what&rsquo;s possible on approach temperature. Send your process conditions and design ambient and we&rsquo;ll show you where the limits fall.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request a Quote</a></div>
 </div></section></div>
 <div class="page" id="p-eq-filtration">
@@ -1356,18 +1251,6 @@ a{color:#000;text-decoration:none}
   <p class="lede">Most places buy equipment from one company and get it serviced by another. We do both, which means repair, maintenance, performance checks, and service agreements all come from the people who know what was installed and why.</p>
   <div class="btn-row"><a class="btn btn-primary" href="#/contact" data-nav>Request Service</a></div>
 </div></section>
-<section class="section section-dark blueprint-dark"><div class="wrap">
-  <div class="emergency-box emergency-box--compact">
-    <div class="emergency-box-row">
-      <div>
-        <div class="plate plate--light">Equipment Down</div>
-        <h2>Need emergency parts right now?</h2>
-        <p class="lede" style="margin-bottom:0">Enter a ZIP code, get the direct contact for your region. No quote queue.</p>
-      </div>
-      <div class="btn-row" style="margin-top:0;flex:0 0 auto"><a class="btn btn-primary" href="#/emergency-parts" data-nav>Emergency Parts Request &rarr;</a></div>
-    </div>
-  </div>
-</div></section>
 <section class="section section-light"><div class="wrap">
   <div class="plate">Repair &amp; Maintenance</div>
   <h2>Repair and maintenance</h2>
@@ -1428,8 +1311,8 @@ a{color:#000;text-decoration:none}
 </div></section>
 </div>
 <div class="page" id="p-contact">
-<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Contact</b></nav>
-  <div class="plate">Contact</div>
+<section class="hero blueprint"><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="#/" data-nav>Home</a><i>/</i><b>Contact Us</b></nav>
+  <div class="plate">Contact Us</div>
   <h1 tabindex="-1">Request a quote or talk to our team</h1>
   <p class="lede">Find your territory rep on the map, or send us the application and we&rsquo;ll come back to you.</p>
 </div></section>
@@ -1508,7 +1391,7 @@ a{color:#000;text-decoration:none}
       </div>
       <div><h4>Equipment</h4><ul>
         <li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li>
-        <li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop Coolers</a></li>
+        <li><a href="#/equipment/closed-loop-coolers" data-nav>Closed Loop &amp; Air-Cooled</a></li>
         <li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li>
         <li><a href="#/equipment/chillers" data-nav>Chillers</a></li>
         <li><a href="#/equipment" data-nav>View All &rarr;</a></li>
@@ -1526,13 +1409,13 @@ a{color:#000;text-decoration:none}
         <li><a href="#/selections" data-nav>Heat Load Calculator</a></li>
         <li><a href="#/parts-service" data-nav>Parts &amp; Service</a></li>
         <li><a href="#/emergency-parts" data-nav>Emergency Parts</a></li>
-        <li><a href="#/contact" data-nav>Contact</a></li>
+        <li><a href="#/contact" data-nav>Contact Us</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom">
       <span>&copy; <span id="year"></span> Heat Transfer Technologies. All rights reserved.</span>
       <span>Industrial Heat Transfer &middot; Eastern United States
-        <span class="build-stamp" title="Build identifier — use this to confirm which version is live">b.2026-08-24.5</span></span>
+        <span class="build-stamp" title="Build identifier — use this to confirm which version is live">b.2026-08-24.6</span></span>
     </div>
   </div>
 </footer>
@@ -1565,7 +1448,7 @@ window.HTT.ROUTES = {
   '/equipment/heat-exchangers':'p-eq-heat-exchangers',
   '/equipment/chillers':'p-eq-chillers',
   '/equipment/direct-steam-injection':'p-eq-direct-steam-injection',
-  '/equipment/air-cooled':'p-eq-air-cooled',
+  '/equipment/air-cooled':'p-eq-closed-loop-coolers',   // merged; old path kept working
   '/equipment/filtration':'p-eq-filtration',
   '/equipment/pumps':'p-eq-pumps',
   '/equipment/controls':'p-eq-controls',
@@ -1686,8 +1569,10 @@ window.HTT.EQUIPMENT = [
      f.der('appr','Approach','&deg;F')
    ]},
 
-  {id:'dry-cooler', name:'Closed loop cooler (dry cooler)',
-   hint:'Sensible cooling only. Limited by ambient dry bulb, not wet bulb.',
+  // Closed loop cooler, fluid cooler, dry cooler, air-cooled heat exchanger,
+  // fin-fan: all the same device. Sensible only, limited by the dry bulb.
+  {id:'dry-cooler', name:'Closed loop / air-cooled cooler',
+   hint:'Also called a fluid cooler, dry cooler, or fin-fan. Sensible cooling only, limited by ambient dry bulb.',
    target:'q',
    fields:[
      f.fluid('fl','Loop fluid',false),
@@ -1696,27 +1581,13 @@ window.HTT.EQUIPMENT = [
      f.sv('tin','{f} entering unit',125,'&deg;F',null,'fl'),
      f.sv('tout','{f} leaving unit',110,'&deg;F',null,'fl'),
      f.der('range','Range','&deg;F'),
-     f.num('db','Design dry bulb',95,'&deg;F','Practical approach is usually 15 to 25 &deg;F.'),
-     f.der('appr','Approach','&deg;F'),
-     f.num('airrise','Air temperature rise',15,'&deg;F'),
-     f.der('cfm','Required air flow','CFM')
-   ]},
-
-  {id:'ache', name:'Air-cooled heat exchanger',
-   hint:'Process fluid cooled directly by ambient air.',
-   target:'q',
-   fields:[
-     f.fluid('fl','Process fluid',false),
-     f.sv('q','Heat duty',10000000,'BTU/hr'),
-     f.sv('gpm','Flow rate',400,'GPM'),
-     f.sv('tin','{f} inlet',180,'&deg;F',null,'fl'),
-     f.sv('tout','{f} outlet',130,'&deg;F',null,'fl'),
-     f.der('range','Range','&deg;F'),
      f.num('db','Design dry bulb',95,'&deg;F'),
-     f.num('airrise','Air temperature rise',30,'&deg;F'),
+     f.der('appr','Approach to dry bulb','&deg;F'),
+     f.num('airrise','Air temperature rise',15,'&deg;F'),
      f.der('cfm','Required air flow','CFM'),
-     f.sv('u','Overall coefficient U',85,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Typical air-cooled service runs 60 to 120.'),
-     f.sv('area','Surface area',2600,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
+     f.sv('u','Overall coefficient U',85,'BTU/hr&middot;ft&sup2;&middot;&deg;F'),
+     f.sv('area','Surface area',2600,'ft&sup2;'),
+     f.der('mtd','Mean temperature difference','&deg;F')
    ]},
 
   {id:'plate', name:'Plate heat exchanger',
@@ -1731,11 +1602,11 @@ window.HTT.EQUIPMENT = [
      f.fluid('flc','Cold side fluid',false),
      f.sv('cgpm','Cold side flow',500,'GPM'),
      f.sv('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
-     only(f.num('ctgt','Target cold side outlet',115,'&deg;F','The cold side flow needed to reach this outlet.'),'cgpm'),
+     only(f.num('ctgt','Target cold side outlet',115,'&deg;F','The calculator solves cold side flow from this value.'),'cgpm'),
      f.der('ctout','Cold side outlet','&deg;F'),
      f.der('mtd','Mean temperature difference','&deg;F'),
-     f.sv('u','Overall coefficient U',750,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Clean water service typically runs 600 to 1000.'),
-     f.sv('area','Surface area',360,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
+     f.sv('u','Overall coefficient U',750,'BTU/hr&middot;ft&sup2;&middot;&deg;F',''),
+     f.sv('area','Surface area',360,'ft&sup2;','')
    ]},
 
   {id:'shell', name:'Shell-and-tube heat exchanger',
@@ -1750,12 +1621,12 @@ window.HTT.EQUIPMENT = [
      f.fluid('flc','Tube side (cold) fluid',false),
      f.sv('cgpm','Cold side flow',600,'GPM'),
      f.sv('ctin','Cold side {f} inlet',85,'&deg;F',null,'flc'),
-     only(f.num('ctgt','Target cold side outlet',127,'&deg;F','The cold side flow needed to reach this outlet.'),'cgpm'),
+     only(f.num('ctgt','Target cold side outlet',127,'&deg;F','The calculator solves cold side flow from this value.'),'cgpm'),
      f.der('ctout','Cold side outlet','&deg;F'),
      f.sel('cfg','Configuration',[['cf','True counterflow'],['12','1 shell pass / 2 tube passes']]),
      f.der('mtd','Corrected MTD','&deg;F'),
-     f.sv('u','Overall coefficient U',180,'BTU/hr&middot;ft&sup2;&middot;&deg;F','Water to water typically runs 150 to 300.'),
-     f.sv('area','Surface area',1300,'ft&sup2;','Solve for U instead to check an installed unit for fouling.')
+     f.sv('u','Overall coefficient U',180,'BTU/hr&middot;ft&sup2;&middot;&deg;F',''),
+     f.sv('area','Surface area',1300,'ft&sup2;','')
    ]},
 
   {id:'chiller', name:'Process chiller',
@@ -1770,7 +1641,7 @@ window.HTT.EQUIPMENT = [
      f.der('range','Evaporator &Delta;T','&deg;F'),
      f.sel('cond','Condenser type',[['air','Air-cooled'],['water','Water-cooled']]),
      f.num('camb','Design ambient dry bulb',95,'&deg;F'),
-     f.sv('kwton','Efficiency',1.2,'kW/ton','Air-cooled 1.0 to 1.4; water-cooled 0.5 to 0.7.'),
+     f.num('kwton','Efficiency',1.2,'kW/ton'),
      f.der('kw','Compressor power','kW')
    ]}
 ];
@@ -2121,17 +1992,36 @@ window.HTT.ZIP3_RANGES = [
       function pos(k, msg){ if(!(V[k] > 0)) E.push(msg); }
 
       if(eq.id === 'open-tower' || eq.id === 'closed-tower' ||
-         eq.id === 'dry-cooler' || eq.id === 'ache' || eq.id === 'chiller'){
+         eq.id === 'dry-cooler' || eq.id === 'chiller'){
         var K = P.fl.K;
         if(t !== 'q' && !(V.q > 0)) E.push('Heat load must be greater than zero.');
         if(t !== 'gpm' && !(V.gpm > 0)) E.push('Flow rate must be greater than zero.');
         if((t === 'q' || t === 'gpm') && !(V.tin > V.tout))
           E.push('Inlet temperature must be higher than outlet temperature.');
         if(E.length) return {errors:E};
-        V[t] = heatBalance(t, V, K);
-        if(!isFinite(V[t])) return {errors:['That combination of inputs has no valid solution.']};
+        // Only q / gpm / tin / tout come from the heat balance. Surface area
+        // and U are solved further down from Q = U*A*MTD.
+        if(t === 'q' || t === 'gpm' || t === 'tin' || t === 'tout'){
+          V[t] = heatBalance(t, V, K);
+          if(!isFinite(V[t])) return {errors:['That combination of inputs has no valid solution.']};
+        } else if(!(V.q > 0)){
+          return {errors:['Enter a heat load before solving for this value.']};
+        }
         if(!(V.tin > V.tout))
           return {errors:['The solved result puts the outlet at or above the inlet. Check the heat load against the flow rate.'], physical:true};
+
+        // Ambient sets a floor the equipment physically cannot cross:
+        // the wet bulb for evaporative devices, the dry bulb for dry ones.
+        if((eq.id === 'open-tower' || eq.id === 'closed-tower') && isFinite(V.wb) && V.tout <= V.wb)
+          return {errors:['Leaving temperature (' + n(V.tout,1) + ' &deg;F) is at or below the ambient wet bulb (' +
+                          n(V.wb,1) + ' &deg;F). Evaporative equipment cannot cool below the wet bulb.'], physical:true};
+        if(eq.id === 'dry-cooler' && isFinite(V.db) && V.tout <= V.db)
+          return {errors:['Leaving temperature (' + n(V.tout,1) + ' &deg;F) is at or below the ambient dry bulb (' +
+                          n(V.db,1) + ' &deg;F). Dry equipment cannot cool below the dry bulb.'], physical:true};
+        // Water cannot be supplied below its freeze point.
+        if(eq.id === 'chiller' && P.fl.fz !== null && isFinite(V.tout) && V.tout <= P.fl.fz)
+          return {errors:['Leaving temperature (' + n(V.tout,1) + ' &deg;F) is at or below the freeze point of ' +
+                          P.fl.name + ' (' + Math.round(P.fl.fz) + ' &deg;F).'], physical:true};
       }
 
       else if(eq.id === 'plate' || eq.id === 'shell'){
@@ -2177,7 +2067,7 @@ window.HTT.ZIP3_RANGES = [
           return {errors:['Surface area and U cannot be resolved from these temperatures.']};
       }
 
-      if(eq.id === 'ache'){
+      if(eq.id === 'dry-cooler'){
         var mtdA = lmtd(V.tin, V.tout, V.db, V.db + V.airrise);
         V.mtd = mtdA;
         if(t === 'u')         V.u    = V.q / (V.area * mtdA);
@@ -2215,9 +2105,9 @@ window.HTT.ZIP3_RANGES = [
         D.annual = D.makeup * 60 * 8760;
       }
 
-      if(eq.id === 'dry-cooler' || eq.id === 'ache'){
+      if(eq.id === 'dry-cooler'){
         D.range = V.tin - V.tout;
-        if(eq.id === 'dry-cooler') D.appr = V.tout - V.db;
+        D.appr = V.tout - V.db;
         D.cfm  = V.q / (1.08 * densRatio(0) * V.airrise);
         D.gpt  = V.gpm / (V.q / TR);
         D.cfmTon = D.cfm / (V.q / TR);
@@ -2231,7 +2121,6 @@ window.HTT.ZIP3_RANGES = [
         D.eer   = 12 / V.kwton;             // BTU/hr per watt
         D.hr    = V.q + D.kw * 3412.142;
         D.gpt   = V.gpm / D.tons;
-        D.kwh   = D.kw * 2500;
         // Condenser water systems are conventionally sized at 3 GPM per ton
         // of rejection; that flow then fixes the condenser range.
         D.condGpm = (D.hr / TT) * 3;
@@ -2253,276 +2142,6 @@ window.HTT.ZIP3_RANGES = [
       }
 
       return D;
-    }
-
-    /* ------------------------------------------------------- design review
-       The calculator's job doesn't end at arithmetic. A number can be
-       perfectly correct and still describe equipment nobody can build, or a
-       design point that will cost far more than the engineer expects. This
-       grades the solved point against ordinary industry practice and returns
-       a verdict plus an itemised list of what was checked, so the answer is
-       "here is your load, and here is whether it is a sane place to operate"
-       rather than just a pile of figures.
-
-       Three outcomes:
-         ok      — inside normal design practice
-         caution — achievable, but it drives cost, size, or risk; review it
-         fail    — not achievable, or violates a physical limit
-
-       Every threshold is a published rule of thumb, not a manufacturer
-       selection. They exist to catch a design point that is obviously off
-       before it reaches a quote — not to replace a real selection.        */
-
-    function chk(status, label, value, band, note){
-      return {s:status, label:label, value:value, band:band||'', note:note||''};
-    }
-
-    // Shared check: is the loop actually protected at its coldest point?
-    function freezeCheck(p, coldest, label){
-      if(!p || p.fz === null || !isFinite(coldest)) return chk('ok', label, '&mdash;','','');
-      var margin = coldest - p.fz;
-      var v = p.name + ', freezes at ' + Math.round(p.fz) + ' &deg;F';
-      if(margin <= 0)
-        return chk('fail', label, v, 'freeze point above loop temperature',
-          'The loop runs at ' + n(coldest,1) + ' &deg;F, at or below the freeze point of this solution. Increase the glycol concentration.');
-      if(margin < 5)
-        // Bulk fluid temperature is not the whole story: heat transfer
-        // surfaces sit colder than the bulk, so a margin this thin freezes
-        // at the surface long before the bulk reaches its freeze point.
-        return chk('fail', label, v, 'only ' + n(margin,1) + ' &deg;F of margin',
-          'Far too little margin. Heat transfer surfaces always run colder than the bulk fluid. A loop this close to its freeze point will freeze on the surface, inside an evaporator or a coil, while your gauge still reads above freezing. Raise the concentration.');
-      if(margin < 10)
-        return chk('caution', label, v, 'only ' + n(margin,1) + ' &deg;F of margin',
-          'Normal practice is to keep the freeze point at least 10 &deg;F under the coldest fluid temperature you expect, and further still if the loop can sit idle outdoors through a winter.');
-      return chk('ok', label, v, n(margin,1) + ' &deg;F of margin',
-        'Comfortable margin against the coldest loop temperature.');
-    }
-
-    // Shared check: is the assumed overall coefficient realistic?
-    function uCheck(u, lo, hi, what){
-      if(u < lo * 0.6 || u > hi * 1.4)
-        return chk('caution','Overall coefficient U', n(u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F',
-          lo+'&ndash;'+hi+' typical for '+what,
-          'Well outside the usual range. If you solved for U rather than entering it, a low number here is the signature of a fouled or undersized unit. That is exactly what solving for U is good for.');
-      return chk('ok','Overall coefficient U', n(u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F',
-        lo+'&ndash;'+hi+' typical for '+what, '');
-    }
-
-    function evaluate(eq, V, P, D){
-      var C = [];
-
-      /* ---- evaporative equipment: the wet bulb is a hard physical floor */
-      if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
-        var closed = eq.id === 'closed-tower';
-        var appr = D.appr, range = D.range;
-        // A closed circuit tower puts a coil between the process fluid and
-        // the air, so it cannot hold as tight an approach as an open tower.
-        var tight = closed ? 7 : 5, easy = closed ? 15 : 12;
-
-        if(appr <= 0)
-          C.push(chk('fail','Approach to wet bulb', n(appr,1)+' &deg;F','must be greater than 0 &deg;F',
-            'The leaving temperature is at or below the ambient wet bulb. Nothing evaporative can do that. The wet bulb is a thermodynamic floor, not a design target.'));
-        else if(appr < tight - 1)
-          C.push(chk('fail','Approach to wet bulb', n(appr,1)+' &deg;F','practical floor about '+tight+' &deg;F',
-            'Below about '+tight+' &deg;F of approach, tower size runs away from you. Expect this to come back unquotable as written. Either raise the leaving temperature or plan on a lot more cells.'));
-        else if(appr < tight)
-          C.push(chk('caution','Approach to wet bulb', n(appr,1)+' &deg;F','tight (under '+tight+' &deg;F)',
-            'A very tight approach. It can be done, but cost and footprint climb steeply through this band.'));
-        else if(appr > easy + 8)
-          C.push(chk('caution','Approach to wet bulb', n(appr,1)+' &deg;F','wide (over '+(easy+8)+' &deg;F)',
-            'A very wide approach. This duty is easy, which usually means you could buy a smaller tower than the spec calls for. Worth asking where the leaving temperature requirement came from.'));
-        else
-          C.push(chk('ok','Approach to wet bulb', n(appr,1)+' &deg;F', tight+'&ndash;'+easy+' &deg;F typical',
-            'Within the band where standard product selects comfortably.'));
-
-        if(range < 5)
-          C.push(chk('caution','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',
-            'A low range means you are pumping a lot of water for the heat you are actually rejecting. Pump power usually dominates the operating cost here. Check whether the process can take a wider range.'));
-        else if(range > 30)
-          C.push(chk('caution','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',
-            'A high range. Workable, but tall fill sections and higher pump head are typical, and it moves the design away from catalogue selections.'));
-        else
-          C.push(chk('ok','Range', n(range,1)+' &deg;F','10&ndash;20 &deg;F typical',''));
-
-        // Nominal tower tonnage is defined at 3 GPM per ton, so flow per ton
-        // is a direct read on how far the point sits from nominal rating.
-        if(D.gpt < 2 || D.gpt > 4.5)
-          C.push(chk('caution','Flow per tower ton', n(D.gpt,2)+' GPM/ton','3 GPM/ton nominal',
-            'Nominal tower tonnage assumes 3 GPM per ton across a 10 &deg;F range. This point is well away from that, so catalog tonnage will not map onto it cleanly. Size against the duty instead.'));
-        else
-          C.push(chk('ok','Flow per tower ton', n(D.gpt,2)+' GPM/ton','3 GPM/ton nominal',''));
-
-        if(V.wb > 82)
-          C.push(chk('caution','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',
-            'Higher than the design wet bulb used almost anywhere in the continental US. Confirm this against ASHRAE data for the actual site.'));
-        else if(V.wb < 60)
-          C.push(chk('caution','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',
-            'Lower than a normal summer design wet bulb. If this is a winter or part-load case, make sure the tower is also checked at the summer design point.'));
-        else
-          C.push(chk('ok','Design wet bulb', n(V.wb,1)+' &deg;F','70&ndash;80 &deg;F typical',''));
-
-        if(closed && P.fl.glycol)
-          C.push(freezeCheck(P.fl, V.tout, 'Process loop freeze protection'));
-      }
-
-      /* ---- dry equipment: the DRY bulb is the floor, and it is far
-              harder to approach than a wet bulb                          */
-      if(eq.id === 'dry-cooler' || eq.id === 'ache'){
-        var apprD = V.tout - V.db;
-        if(apprD <= 0)
-          C.push(chk('fail','Approach to dry bulb', n(apprD,1)+' &deg;F','must be greater than 0 &deg;F',
-            'The leaving temperature is at or below the ambient dry bulb. Dry equipment moves heat by sensible transfer only. It cannot cool anything below the air it is rejecting into.'));
-        else if(apprD < 8)
-          C.push(chk('fail','Approach to dry bulb', n(apprD,1)+' &deg;F','practical floor about 10 &deg;F',
-            'Below about 10 &deg;F approach a dry cooler grows without bound. If the process genuinely needs this leaving temperature it needs evaporative equipment or an adiabatic pre-cooler, not a dry cooler.'));
-        else if(apprD < 15)
-          C.push(chk('caution','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
-            'That is a tight approach for dry equipment. Expect a large coil face and real fan power. Price an evaporative or adiabatic alternative before committing to this.'));
-        else if(apprD > 40)
-          C.push(chk('caution','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
-            'A very wide approach. Easy duty; the unit may be considerably smaller than expected.'));
-        else
-          C.push(chk('ok','Approach to dry bulb', n(apprD,1)+' &deg;F','15&ndash;25 &deg;F typical',
-            'Comfortably within normal dry cooler practice.'));
-
-        if(V.airrise > 0){
-          if(V.airrise < 8 || V.airrise > 40)
-            C.push(chk('caution','Air temperature rise', n(V.airrise,1)+' &deg;F','15&ndash;30 &deg;F typical',
-              'Outside the usual band. Low rise means very high air flow and fan power; high rise means the coil works against a rapidly warming air stream.'));
-          else
-            C.push(chk('ok','Air temperature rise', n(V.airrise,1)+' &deg;F','15&ndash;30 &deg;F typical',''));
-        }
-
-        if(isFinite(D.cfmTon))
-          C.push(chk(D.cfmTon > 1400 ? 'caution' : 'ok','Air flow per ton',
-            n(D.cfmTon)+' CFM/ton', '600&ndash;1,200 typical',
-            D.cfmTon > 1400 ? 'That is a lot of air per ton, which means a large fan array and a real electrical bill. Raising the air temperature rise or the approach brings it down.' : ''));
-
-        if(P.fl.glycol) C.push(freezeCheck(P.fl, V.tout, 'Loop freeze protection'));
-        if(eq.id === 'ache' && isFinite(V.u)) C.push(uCheck(V.u, 60, 120, 'air-cooled service'));
-      }
-
-      /* ---- liquid-to-liquid exchangers -------------------------------- */
-      if(eq.id === 'plate' || eq.id === 'shell'){
-        var hotEnd = V.htin - V.ctout, coldEnd = V.htout - V.ctin;
-        var tightest = Math.min(hotEnd, coldEnd);
-        var isPlate = eq.id === 'plate';
-        // A plate unit is true counterflow with very high surface density,
-        // so it holds a much closer approach than a shell-and-tube.
-        var floorT = isPlate ? 2 : 5;
-
-        if(tightest <= 0)
-          C.push(chk('fail','Closest temperature approach', n(tightest,1)+' &deg;F','must be greater than 0 &deg;F',
-            'The streams cross at one end. No exchanger of any size transfers heat against a negative temperature difference.'));
-        else if(tightest < floorT)
-          C.push(chk('caution','Closest temperature approach', n(tightest,1)+' &deg;F',
-            (isPlate ? 'at least 2 &deg;F for plate' : 'at least 5 &deg;F for shell-and-tube'),
-            'An extremely close approach. Surface area climbs steeply here, and the unit gets very sensitive to fouling and to any error in the assumed U. Build in margin.'));
-        else
-          C.push(chk('ok','Closest temperature approach', n(tightest,1)+' &deg;F',
-            (isPlate ? '2&ndash;10 &deg;F typical' : '5&ndash;20 &deg;F typical'),
-            'Leaves room for a realistic fouling allowance.'));
-
-        // A temperature cross is the classic shell-and-tube trap.
-        if(V.ctout > V.htout){
-          if(eq.id === 'shell' && gs('cfg') === '12')
-            C.push(chk('caution','Temperature cross','present','cold outlet above hot outlet',
-              'The cold outlet ends up above the hot outlet. A 1 shell / 2 tube pass unit handles that badly, and the F factor below is the measure of how badly. True counterflow or shells in series is the usual way out.'));
-          else
-            C.push(chk('ok','Temperature cross','present, handled','cold outlet above hot outlet',
-              'The cold outlet exceeds the hot outlet, which only true counterflow achieves. Fine here, but it does rule out a single 1-2 shell-and-tube arrangement.'));
-        }
-
-        if(eq.id === 'shell' && gs('cfg') === '12' && isFinite(V.F)){
-          if(V.F < 0.75)
-            C.push(chk('fail','TEMA correction factor F', n(V.F,3),'0.80 minimum',
-              'Below 0.75 the F curve is nearly vertical: a small shift in any inlet temperature produces a large shift in required area, so the design is unstable and standard practice rejects it. Use true counterflow or split the duty across shells in series.'));
-          else if(V.F < 0.85)
-            C.push(chk('caution','TEMA correction factor F', n(V.F,3),'0.85 preferred',
-              'Workable, but sitting on the steep part of the F curve. Small drifts in inlet temperature move the required area a long way. Check the whole operating envelope, not just this point.'));
-          else
-            C.push(chk('ok','TEMA correction factor F', n(V.F,3),'0.85 preferred',
-              'Comfortably on the flat part of the correction curve.'));
-        }
-
-        if(isFinite(V.mtd)){
-          if(V.mtd < 10)
-            C.push(chk('caution','Mean temperature difference', n(V.mtd,1)+' &deg;F','above 10 &deg;F preferred',
-              'A low driving force. Required surface area scales as 1/MTD, so small changes here move the size of the unit a great deal.'));
-          else
-            C.push(chk('ok','Mean temperature difference', n(V.mtd,1)+' &deg;F','above 10 &deg;F preferred',''));
-        }
-
-        if(isFinite(V.u))
-          C.push(isPlate ? uCheck(V.u, 600, 1000, 'clean water plate service')
-                         : uCheck(V.u, 150, 300, 'water-to-water shell-and-tube'));
-
-        if(P.flh && P.flh.glycol) C.push(freezeCheck(P.flh, V.htout, 'Hot side freeze protection'));
-        if(P.flc && P.flc.glycol) C.push(freezeCheck(P.flc, V.ctin,  'Cold side freeze protection'));
-      }
-
-      /* ---- chillers ---------------------------------------------------- */
-      if(eq.id === 'chiller'){
-        var dt = D.range, lwt = V.tout, water = gs('cond') === 'water';
-
-        if(dt < 6 || dt > 20)
-          C.push(chk('caution','Evaporator &Delta;T', n(dt,1)+' &deg;F','10&ndash;16 &deg;F typical',
-            dt < 6 ? 'A low &Delta;T means a lot of evaporator flow for the load. Plenty of machines have a minimum flow this would violate. Check it against the evaporator limits before going further.'
-                   : 'A high &Delta;T cuts flow and pumping cost. It also raises evaporator pressure drop and can push you outside a standard machine&rsquo;s selection range.'));
-        else
-          C.push(chk('ok','Evaporator &Delta;T', n(dt,1)+' &deg;F','10&ndash;16 &deg;F typical',''));
-
-        // Leaving fluid below ~40 F is where freeze protection stops being
-        // optional; below 32 F plain water is simply not an option.
-        if(lwt <= 32 && !P.fl.glycol)
-          C.push(chk('fail','Leaving fluid temperature', n(lwt,1)+' &deg;F','water freezes at 32 &deg;F',
-            'Plain water cannot be supplied at or below 32 &deg;F. This duty requires a glycol solution or another secondary refrigerant.'));
-        else if(lwt < 40 && !P.fl.glycol)
-          C.push(chk('caution','Leaving fluid temperature', n(lwt,1)+' &deg;F','glycol below 40 &deg;F',
-            'Below about 40 &deg;F the evaporator surface gets close to freezing even when the bulk fluid is nowhere near it. Standard practice is glycol, or dedicated low-temperature freeze protection.'));
-        else
-          C.push(chk('ok','Leaving fluid temperature', n(lwt,1)+' &deg;F',
-            P.fl.glycol ? 'glycol solution in use' : 'above the 40 &deg;F glycol threshold',''));
-
-        if(P.fl.glycol) C.push(freezeCheck(P.fl, lwt, 'Chilled loop freeze protection'));
-
-        var lo = water ? 0.5 : 1.0, hi = water ? 0.75 : 1.45;
-        var band = water ? 'water-cooled 0.50&ndash;0.75' : 'air-cooled 1.00&ndash;1.45';
-        if(V.kwton < lo * 0.8)
-          C.push(chk('caution','Efficiency', n(V.kwton,3)+' kW/ton', band,
-            'Better than production machines of this type manage at full load. If that number came off a part-load or IPLV rating, it understates full-load power, and with it the heat of rejection.'));
-        else if(V.kwton > hi * 1.15)
-          C.push(chk('caution','Efficiency', n(V.kwton,3)+' kW/ton', band,
-            'Poorer than a current machine of this type should manage. Fine if you are evaluating an older unit. Not fine for new equipment.'));
-        else
-          C.push(chk('ok','Efficiency', n(V.kwton,3)+' kW/ton', band,
-            water ? 'Normal for a water-cooled machine.' : 'Normal for an air-cooled machine.'));
-
-        if(!water && V.camb > 105)
-          C.push(chk('caution','Design ambient', n(V.camb,1)+' &deg;F','derates above about 95 &deg;F',
-            'Air-cooled capacity falls off as ambient climbs. At this design temperature, select the machine on its derated capacity rather than its nominal rating.'));
-      }
-
-      /* ---- roll the individual checks up into one verdict -------------- */
-      var nFail = 0, nCaut = 0;
-      C.forEach(function(c){ if(c.s === 'fail') nFail++; else if(c.s === 'caution') nCaut++; });
-      var verdict, head, sub;
-      if(nFail){
-        verdict = 'fail';
-        head = 'Not achievable as specified';
-        sub = nFail + (nFail === 1 ? ' condition below is' : ' conditions below are') +
-              ' outside what this equipment type can physically do. The arithmetic still resolves. No selection will meet it.';
-      } else if(nCaut){
-        verdict = 'caution';
-        head = 'Workable &mdash; review the flagged items';
-        sub = nCaut + (nCaut === 1 ? ' item sits' : ' items sit') +
-              ' outside routine practice. All of it is achievable. Each one costs you something in price, size, or risk. Worth a conversation before this becomes a specification.';
-      } else {
-        verdict = 'ok';
-        head = 'Sound design point';
-        sub = 'Everything checked here sits inside normal practice for this equipment type. Standard product should select against it without trouble.';
-      }
-      return {verdict:verdict, head:head, sub:sub, checks:C};
     }
 
     /* --------------------------------------------------------- rendering */
@@ -2690,23 +2309,12 @@ window.HTT.ZIP3_RANGES = [
       var box = $('s-results');
       if(box) box.innerHTML = '<p class="empty-state">Choose what to solve for, enter the rest, then select <b>Calculate</b>.</p>';
     }
-    // A solve that cannot complete is itself an engineering answer, so it
-    // gets the same verdict treatment as a design point that computes but
-    // doesn't stand up — not a lesser-looking "form error" box.
-    function fail(list, physical){
+    function fail(list){
       var box = $('s-results');
       $$('#s-fields .srow-input.is-computed').forEach(function(i){ i.value = ''; });
       if(!box) return;
-      box.innerHTML =
-        '<div class="verdict verdict--fail">'+
-          '<div class="v-top"><span class="v-mark" aria-hidden="true">&#10007;</span>'+
-          '<span class="v-head">'+(physical ? 'Not achievable as specified' : 'Cannot calculate yet')+'</span></div>'+
-          '<p class="v-sub">'+(physical
-            ? 'These conditions describe a duty this equipment type cannot perform. The detail below says which limit is in the way.'
-            : 'One or more inputs need attention before the calculator can solve this.')+'</p>'+
-        '</div>'+
-        '<div class="res-head">'+(physical ? 'Why' : 'What to fix')+'</div>'+
-        '<div class="res-error"><ul><li>' + list.join('</li><li>') + '</li></ul></div>';
+      box.innerHTML = '<div class="res-head">Cannot calculate</div>' +
+                      '<div class="res-error"><ul><li>' + list.join('</li><li>') + '</li></ul></div>';
     }
     function row(k,v,cls){
       return '<div class="result-line'+(cls?' '+cls:'')+'"><span class="k">'+k+
@@ -2741,7 +2349,7 @@ window.HTT.ZIP3_RANGES = [
       if(missing.length) return fail(missing);
 
       var r = solve(eq, target, V, P);
-      if(r.errors) return fail(r.errors, r.physical);
+      if(r.errors) return fail(r.errors);
       V = r.V;
       var D = derive(eq, V, P);
 
@@ -2752,32 +2360,8 @@ window.HTT.ZIP3_RANGES = [
 
       var out = '';
 
-      /* ---- the verdict, first thing the eye lands on ------------------ */
-      var E = evaluate(eq, V, P, D);
-      var ICON = {ok:'&#10003;', caution:'!', fail:'&#10007;'};
-      out += '<div class="verdict verdict--'+E.verdict+'">'+
-               '<div class="v-top"><span class="v-mark" aria-hidden="true">'+ICON[E.verdict]+'</span>'+
-               '<span class="v-head">'+E.head+'</span></div>'+
-               '<p class="v-sub">'+E.sub+'</p>'+
-             '</div>';
-
-      /* ---- itemised design review ------------------------------------- */
-      if(E.checks.length){
-        out += '<div class="res-head">Design checks</div><div class="checks">';
-        E.checks.forEach(function(c){
-          out += '<div class="chk chk--'+c.s+'">'+
-                   '<span class="chk-mark" aria-hidden="true">'+ICON[c.s]+'</span>'+
-                   '<span class="chk-label">'+c.label+'</span>'+
-                   '<span class="chk-value">'+c.value+'</span>'+
-                   '<span class="chk-band">'+(c.band||'')+'</span>'+
-                   (c.note ? '<p class="chk-note">'+c.note+'</p>' : '')+
-                 '</div>';
-        });
-        out += '</div>';
-      }
-
       /* ---- the numbers, grouped ---------------------------------------- */
-      out += '<div class="res-head">Solved for &mdash; ' +
+      out += '<div class="res-head">Calculated &mdash; solved for ' +
              (tf ? tf.label.replace('{f}','fluid') : target) + '</div>';
 
       if(eq.id === 'open-tower' || eq.id === 'closed-tower'){
@@ -2795,7 +2379,7 @@ window.HTT.ZIP3_RANGES = [
         out += row('Flow per tower ton', n(D.gpt,2)+' GPM/ton');
         out += grp('Water balance at ' + n(D.coc,0) + ' cycles of concentration');
         out += row('Evaporation', n(D.evap,1)+' GPM');
-        out += row('Drift loss', n(D.drift,2)+' GPM');
+        out += row('Drift loss at 0.005% of flow', n(D.drift,2)+' GPM');
         out += row('Blowdown', n(D.blow,1)+' GPM');
         out += row('Total makeup', n(D.makeup,1)+' GPM');
         out += row('Makeup as share of circulating flow', n(D.makeupPct,2)+' %');
@@ -2805,8 +2389,8 @@ window.HTT.ZIP3_RANGES = [
         if(P.fl.fz !== null) out += row('Freeze point', n(P.fl.fz,0)+' &deg;F');
       }
 
-      else if(eq.id === 'dry-cooler' || eq.id === 'ache'){
-        out += row(eq.id === 'ache' ? 'Heat duty' : 'Heat load', n(V.q)+' BTU/hr', 'big');
+      else if(eq.id === 'dry-cooler'){
+        out += row('Heat load', n(V.q)+' BTU/hr', 'big');
         out += row('Nominal capacity', n(V.q/TR,1)+' refrigeration tons');
         out += grp('Process side');
         out += row('Flow rate', n(V.gpm,0)+' GPM');
@@ -2821,7 +2405,7 @@ window.HTT.ZIP3_RANGES = [
         out += row('Required air flow', n(D.cfm)+' CFM');
         out += row('Air flow per ton', n(D.cfmTon)+' CFM/ton');
         out += row('Initial temperature difference', n(V.tin - V.db,1)+' &deg;F');
-        if(eq.id === 'ache'){
+        if(eq.id === 'dry-cooler'){
           out += grp('Surface');
           out += row('Mean temperature difference', n(V.mtd,1)+' &deg;F');
           out += row('Overall coefficient U', n(V.u,1)+' BTU/hr&middot;ft&sup2;&middot;&deg;F');
@@ -2878,7 +2462,6 @@ window.HTT.ZIP3_RANGES = [
         out += row('Compressor power', n(D.kw,1)+' kW');
         out += row('COP', n(D.cop,2));
         out += row('EER', n(D.eer,2)+' BTU/hr&middot;W');
-        out += row('Energy at 2,500 full-load hr', n(D.kwh)+' kWh/yr');
         out += grp('Heat rejection &mdash; ' + (wc ? 'water-cooled' : 'air-cooled'));
         out += row('Total heat of rejection', n(D.hr)+' BTU/hr');
         out += row('Heat of rejection', n(D.hr/TT,1)+' tower tons');

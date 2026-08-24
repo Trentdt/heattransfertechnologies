@@ -10,18 +10,20 @@ It's a single-page app. Every "page" is a `<div class="page" id="p-...">`
 in that one file, and navigation swaps which one is visible using URL
 hashes (`#/about`, `#/equipment/cooling-towers`). 35 routes in total:
 
-- 11 equipment categories, each with its own page
+- 10 equipment categories, each with its own page
 - Markets Served, two levels deep — five top-level categories, with
   Industrial Cooling and Comfort Cooling each fanning out to sub-pages
 - A heat transfer equations reference with a 14-row unit converter
-- A heat load calculator that solves for any variable and grades the result
+- A heat load calculator that solves for any variable in the governing
+  relationship and reports the result as data, with validation against
+  physical limits only
 - A geographic US territory map on the Contact page
 - An emergency parts page with ZIP-to-territory lookup
 
 ## Checking which version is live
 
 The footer carries a build stamp in small grey type on the right, next to
-the copyright: `b.2026-08-24.5`. If the live site shows that, it's current.
+the copyright: `b.2026-08-24.6`. If the live site shows that, it's current.
 If it shows an older stamp or nothing at all, the deploy didn't take.
 
 ## Previewing
@@ -117,8 +119,10 @@ Everything is inline in `index.html`:
   near the top of the `<script>`, with comments explaining each section.
 - **Calculator behavior** — to make a new variable solvable, mark its field
   `f.sv()` in `EQUIPMENT` and add the closed-form inverse to `solve()`.
-  Derived readouts use `f.der()` and compute in `derive()`. All the design
-  review thresholds are in `evaluate()`, one branch per equipment type.
+  Derived readouts use `f.der()` and compute in `derive()`. Input validation
+  lives in `solve()` and covers physical limits only: a leaving temperature
+  below the ambient wet or dry bulb, streams that cross, a fluid asked to run
+  below its freeze point.
 - **The territory map** — real SVG geography generated from US Census
   boundary data under an Albers projection, with label positions computed
   rather than hand-placed. Don't hand-adjust label coordinates; that's what
