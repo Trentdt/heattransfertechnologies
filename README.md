@@ -21,7 +21,7 @@ hashes (`#/about`, `#/equipment/cooling-towers`). 35 routes:
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-08-24.7`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-08-24.8`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
