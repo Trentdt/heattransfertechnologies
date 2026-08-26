@@ -23,7 +23,7 @@ hashes (`#/about`, `#/equipment/cooling-towers`). 55 routes:
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-08-25.2`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-08-25.3`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -126,5 +126,10 @@ All inline in `index.html`:
 - **Equipment structure** — three places to touch when a category changes:
   `ROUTES` at the top of the script, the `#g-equipment` list in the sidebar,
   and the 10-card grid, which appears twice (Home and the Equipment index)
-  with identical markup. Sidebar highlighting picks the longest matching
-  ancestor, so a sub-page lights up its parent link without extra wiring.
+  with identical markup.
+- **Sidebar** — nests three levels, and every page on the site has its own
+  link in it. A group opens when the current page is one of its descendants,
+  and that is worked out from the links themselves rather than from the URL.
+  That's the only way `/markets/power` opens under Industrial Cooling, since
+  it doesn't share that path. The current item scrolls itself into view on
+  navigation, because the tree is now taller than a short laptop screen.

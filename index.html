@@ -443,12 +443,21 @@ a{color:#000;text-decoration:none}
   display:grid;place-items:center;border-radius:6px;transition:color .13s,background-color .13s}
 .sn-tog:hover{color:#fff;background:rgba(255,255,255,.09)}
 .sn-tog svg{width:13px;height:13px;transition:transform .18s}
-.sn-grp.is-open .sn-tog svg{transform:rotate(180deg)}
+.sn-grp.is-open > .sn-row > .sn-tog svg{transform:rotate(180deg)}
 .sn-sub{margin:2px 0 4px 13px!important;padding-left:11px!important;
   border-left:1px solid rgba(255,255,255,.16)}
 .sn-sub a{font-size:.875rem;padding:8px 12px;color:#A9BDD2;font-weight:450}
 .sn-sub a:hover{color:#fff}
 .sn-sub a[aria-current="page"]::before{left:-12px;height:18px}
+.sn-sub .sn-row a{padding-right:4px}
+.sn-sub .sn-tog{width:28px}
+.sn-sub .sn-tog svg{width:11px;height:11px}
+.sn-sub-2{margin:1px 0 5px 12px!important;padding-left:10px!important;
+  border-left:1px solid rgba(255,255,255,.11)}
+.sn-sub-2 a{font-size:.83rem;padding:6px 11px;color:#93A9C1;font-weight:400}
+.sn-sub-2 a:hover{color:#fff}
+.sn-sub-2 a[aria-current="page"]{color:#fff;font-weight:600}
+.sn-sub-2 a[aria-current="page"]::before{left:-11px;height:15px}
 .sn-foot{flex:0 0 auto;padding:18px 22px 24px;border-top:1px solid rgba(255,255,255,.1)}
 .sn-cta{width:100%;font-size:.9rem;padding:12px 16px}
 .sn-note{margin:12px 0 0;font-size:.76rem;color:#7E96B2}
@@ -629,8 +638,8 @@ a{color:#000;text-decoration:none}
     <ul>
       <li><a href="#/" data-nav>Home</a></li>
       <li><a href="#/about" data-nav>About</a></li>
-      <li class="sn-grp" data-prefix="/equipment"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a></li><li><a href="#/equipment/closed-loop-cooling-towers" data-nav>Closed Loop Cooling Towers</a></li><li><a href="#/equipment/air-cooled-heat-exchangers" data-nav>Air Cooled Heat Exchangers</a></li><li><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li><a href="#/equipment/filtration" data-nav>Filtration Systems</a></li><li><a href="#/equipment/pumps" data-nav>Pumps</a></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
-      <li class="sn-grp" data-prefix="/markets"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li><a href="#/markets/industrial" data-nav>Industrial Cooling</a></li><li><a href="#/markets/comfort" data-nav>Comfort Cooling</a></li><li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li><li><a href="#/markets/refrigeration" data-nav>Refrigeration</a></li><li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li></ul></li>
+      <li class="sn-grp"><div class="sn-row"><a href="#/equipment" data-nav>Equipment</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-equipment" aria-label="Show Equipment pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-equipment" hidden><li class="sn-grp"><div class="sn-row"><a href="#/equipment/cooling-towers" data-nav>Cooling Towers</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-ct" aria-label="Show Cooling Towers pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-ct" hidden><li><a href="#/equipment/cooling-towers/modular-open" data-nav>Modular Open Towers</a></li><li><a href="#/equipment/cooling-towers/field-erected-open" data-nav>Field Erected Open Towers</a></li></ul></li><li class="sn-grp"><div class="sn-row"><a href="#/equipment/closed-loop-cooling-towers" data-nav>Closed Loop Cooling Towers</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-clt" aria-label="Show Closed Loop Cooling Towers pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-clt" hidden><li><a href="#/equipment/closed-loop-cooling-towers/wsac" data-nav>Wet Surface Air Cooler (WSAC)</a></li><li><a href="#/equipment/closed-loop-cooling-towers/modular-fluid-cooler" data-nav>Modular Fluid Cooler</a></li></ul></li><li class="sn-grp"><div class="sn-row"><a href="#/equipment/air-cooled-heat-exchangers" data-nav>Air Cooled Heat Exchangers</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-ache" aria-label="Show Air Cooled Heat Exchangers pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-ache" hidden><li><a href="#/equipment/air-cooled-heat-exchangers/vertical" data-nav>Vertical</a></li><li><a href="#/equipment/air-cooled-heat-exchangers/horizontal" data-nav>Horizontal</a></li><li><a href="#/equipment/air-cooled-heat-exchangers/multiple-fan" data-nav>Multiple Fan Design</a></li><li><a href="#/equipment/air-cooled-heat-exchangers/v-design" data-nav>V Design</a></li></ul></li><li class="sn-grp"><div class="sn-row"><a href="#/equipment/heat-exchangers" data-nav>Heat Exchangers</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-hx" aria-label="Show Heat Exchangers pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-hx" hidden><li><a href="#/equipment/heat-exchangers/plate-frame" data-nav>Plate &amp; Frame</a></li><li><a href="#/equipment/heat-exchangers/shell-tube" data-nav>Shell &amp; Tube</a></li><li><a href="#/equipment/heat-exchangers/spiral" data-nav>Spiral</a></li><li><a href="#/equipment/heat-exchangers/welded-hybrid" data-nav>Welded Hybrid</a></li><li><a href="#/equipment/heat-exchangers/welded-wide-gap" data-nav>Welded Wide Gap</a></li></ul></li><li><a href="#/equipment/chillers" data-nav>Chillers</a></li><li><a href="#/equipment/direct-steam-injection" data-nav>Direct Steam Injection</a></li><li class="sn-grp"><div class="sn-row"><a href="#/equipment/filtration" data-nav>Filtration Systems</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-filt" aria-label="Show Filtration Systems pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-filt" hidden><li><a href="#/equipment/filtration/cooling-water" data-nav>Cooling Water System</a></li><li><a href="#/equipment/filtration/process-water" data-nav>Process Water System</a></li><li><a href="#/equipment/filtration/side-stream-inline" data-nav>Side Stream &amp; Inline</a></li></ul></li><li class="sn-grp"><div class="sn-row"><a href="#/equipment/pumps" data-nav>Pumps</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-eq-pumps" aria-label="Show Pumps pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-eq-pumps" hidden><li><a href="#/equipment/pumps/cooling-water" data-nav>Cooling Water Pumps</a></li><li><a href="#/equipment/pumps/circulating-process" data-nav>Circulating &amp; Process</a></li><li><a href="#/equipment/pumps/skid-systems" data-nav>Modular Pump Skids</a></li><li><a href="#/equipment/pumps/dosing-skids" data-nav>Dosing Skids</a></li></ul></li><li><a href="#/equipment/controls" data-nav>Controls</a></li><li><a href="#/equipment/rental-equipment" data-nav>Rental Equipment</a></li></ul></li>
+      <li class="sn-grp"><div class="sn-row"><a href="#/markets" data-nav>Markets Served</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-markets" aria-label="Show Markets Served pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub" id="g-markets" hidden><li class="sn-grp"><div class="sn-row"><a href="#/markets/industrial" data-nav>Industrial Cooling</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-mk-ind" aria-label="Show Industrial Cooling pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-mk-ind" hidden><li><a href="#/markets/power" data-nav>Power Generation</a></li><li><a href="#/markets/steel" data-nav>Steel</a></li><li><a href="#/markets/oil-gas" data-nav>Oil &amp; Gas</a></li><li><a href="#/markets/process" data-nav>Process Industries</a></li><li><a href="#/markets/hydrogen" data-nav>Hydrogen</a></li><li><a href="#/markets/carbon-capture" data-nav>Carbon Capture</a></li></ul></li><li class="sn-grp"><div class="sn-row"><a href="#/markets/comfort" data-nav>Comfort Cooling</a><button class="sn-tog" type="button" aria-expanded="false" aria-controls="g-mk-comf" aria-label="Show Comfort Cooling pages"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><ul class="sn-sub sn-sub-2" id="g-mk-comf" hidden><li><a href="#/markets/comfort/commercial-institutional" data-nav>Commercial &amp; Institutional</a></li><li><a href="#/markets/comfort/healthcare" data-nav>Healthcare</a></li><li><a href="#/markets/comfort/hospitality" data-nav>Hospitality &amp; Entertainment</a></li><li><a href="#/markets/comfort/data-centers" data-nav>Data Centers</a></li></ul></li><li><a href="#/markets/manufacturing" data-nav>Manufacturing</a></li><li><a href="#/markets/refrigeration" data-nav>Refrigeration</a></li><li><a href="#/markets/food-process" data-nav>Food &amp; Process</a></li></ul></li>
     </ul>
     <p class="sn-label">Engineering Tools</p>
     <ul><li><a href="#/equations" data-nav>Heat Transfer Equations</a></li><li><a href="#/selections" data-nav>Heat Load Calculator</a></li></ul>
@@ -1759,7 +1768,7 @@ a{color:#000;text-decoration:none}
     <div class="footer-bottom">
       <span>&copy; <span id="year"></span> Heat Transfer Technologies. All rights reserved.</span>
       <span>Industrial Heat Transfer &middot; Eastern United States
-        <span class="build-stamp" title="Build identifier — use this to confirm which version is live">b.2026-08-25.2</span></span>
+        <span class="build-stamp" title="Build identifier — use this to confirm which version is live">b.2026-08-25.3</span></span>
     </div>
   </div>
 </footer>
@@ -2127,9 +2136,28 @@ window.HTT.ZIP3_RANGES = [
     });
     if(best) best.setAttribute('aria-current','page');
     $$('.sn-grp').forEach(function(g){
-      var prefix = g.getAttribute('data-prefix');
-      if(prefix && here.indexOf(prefix) === 0) setGroup(g,true);
+      var sub = g.querySelector(':scope > .sn-sub');
+      var own = g.querySelector(':scope > .sn-row > a');
+      var hit = !!(own && own.getAttribute('href').replace(/^#/,'') === here);
+      if(!hit && sub) hit = !!sub.querySelector('a[href="#' + here + '"]') ||
+                             !!(best && sub.contains(best));
+      setGroup(g, hit);
     });
+    var cur = best;
+    while(cur){
+      var grp = cur.closest ? cur.closest('.sn-grp') : null;
+      if(!grp) break;
+      setGroup(grp, true);
+      cur = grp.parentNode;
+    }
+    if(best){
+      var nav = document.querySelector('.sidenav');
+      if(nav && nav.scrollHeight > nav.clientHeight){
+        var top = best.offsetTop, h = best.offsetHeight;
+        if(top < nav.scrollTop || top + h > nav.scrollTop + nav.clientHeight)
+          nav.scrollTop = Math.max(0, top - nav.clientHeight / 2 + h);
+      }
+    }
   }
 
   var firstRoute = true;
@@ -2147,8 +2175,8 @@ window.HTT.ZIP3_RANGES = [
   /* ------------------------------------------------- sidebar behaviour */
 
   function setGroup(g, open){
-    var sub = g.querySelector('.sn-sub');
-    var tog = g.querySelector('.sn-tog');
+    var sub = g.querySelector(':scope > .sn-sub');
+    var tog = g.querySelector(':scope > .sn-row > .sn-tog');
     if(!sub || !tog) return;
     sub.hidden = !open;
     tog.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -2156,10 +2184,11 @@ window.HTT.ZIP3_RANGES = [
   }
 
   $$('.sn-grp').forEach(function(g){
-    var tog = g.querySelector('.sn-tog');
+    var tog = g.querySelector(':scope > .sn-row > .sn-tog');
     if(!tog) return;
-    tog.addEventListener('click', function(){
-      setGroup(g, g.querySelector('.sn-sub').hidden);
+    tog.addEventListener('click', function(e){
+      e.stopPropagation();
+      setGroup(g, g.querySelector(':scope > .sn-sub').hidden);
     });
   });
 
