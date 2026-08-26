@@ -8,9 +8,11 @@ Open it in a browser and the whole site works, navigation included.
 
 Single-page app. Every "page" is a `<div class="page" id="p-...">` inside
 that one file, and navigation just swaps which one is visible using URL
-hashes (`#/about`, `#/equipment/cooling-towers`). 35 routes:
+hashes (`#/about`, `#/equipment/cooling-towers`). 55 routes:
 
-- 10 equipment categories, each with its own page
+- 31 equipment pages: 10 categories, 20 sub-pages under the six categories
+  that have them, plus the index. Three levels deep, e.g.
+  `#/equipment/heat-exchangers/plate-frame`
 - Markets Served, two levels deep — five top-level categories, with
   Industrial Cooling and Comfort Cooling fanning out to sub-pages
 - Heat transfer equations reference with a 14-row unit converter
@@ -21,7 +23,7 @@ hashes (`#/about`, `#/equipment/cooling-towers`). 35 routes:
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-08-25.1`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-08-25.2`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -83,8 +85,9 @@ them while previewing.
 6. **Leadership bios** — one sample entry using my name as a format test.
 7. **Contact form** — dead. Wire it to Formspree, Netlify Forms, or Basin.
    Netlify Forms is free if I host there.
-8. **Supplier and manufacturer names** — several equipment pages flag where
-   naming lines I have display rights to would strengthen the page.
+8. **Supplier and manufacturer names** — one orange box per equipment
+   category, ten in total, in the "Lifecycle support" section near the bottom
+   of each. Sub-pages deliberately have none.
 9. **Sanitary certifications** — 3-A, NSF or equivalent for Food & Process,
    once I've checked which lines carry them.
 
@@ -120,3 +123,8 @@ All inline in `index.html`:
 - **Territory map** — real SVG geography from US Census boundary data under
   an Albers projection. Label positions are computed, not typed. Don't nudge
   them by eye; that's how CA ended up jammed against NV.
+- **Equipment structure** — three places to touch when a category changes:
+  `ROUTES` at the top of the script, the `#g-equipment` list in the sidebar,
+  and the 10-card grid, which appears twice (Home and the Equipment index)
+  with identical markup. Sidebar highlighting picks the longest matching
+  ancestor, so a sub-page lights up its parent link without extra wiring.
