@@ -1,18 +1,30 @@
 # HTT website — my notes
 
-One file: `index.html`. No build step, no dependencies, nothing to install.
-Styles, scripts, the logo, every page — all of it lives in that one file.
-Open it in a browser and the whole site works, navigation included.
+`index.html` plus an `images/` folder of photos. No build step, no
+dependencies, nothing to install. Styles, scripts, the logo, and every page
+live in `index.html`. Open it in a browser and the whole site works,
+navigation included.
+
+**Direction (Oct 2026): aftermarket only.** The site sells replacement parts,
+inspections and assessments, and cooling tower component replacement. We do
+not sell new equipment. Keep new-equipment language (sizing, selection,
+"we supply towers", and so on) off the site.
 
 ## How it's put together
 
 Single-page app. Every "page" is a `<div class="page" id="p-...">` inside
 that one file, and navigation just swaps which one is visible using URL
-hashes (`#/about`, `#/equipment/cooling-towers`). 55 routes:
+hashes (`#/about`, `#/parts/cooling-towers`). 37 pages:
 
-- 31 equipment pages: 10 categories, 20 sub-pages under the six categories
-  that have them, plus the index. Three levels deep, e.g.
-  `#/equipment/heat-exchangers/plate-frame`
+- Services: `#/service` index, plus Inspections & Assessments, Tower
+  Component Replacement, Service Agreements, and Emergency Parts
+- Parts: `#/parts` index plus 9 equipment types (cooling towers, closed
+  circuit and fluid coolers, ACHE, heat exchangers, chillers, direct steam
+  injection, filtration, pumps, controls). Page ids are still `p-eq-*`.
+- Old `#/equipment/...` and `#/parts-service` links redirect to the new pages
+  (`REDIRECTS` near the top of the script). The 20 equipment sub-pages and
+  Rental Equipment were removed in the aftermarket rebuild.
+- Photo Credits (`#/credits`), which is required by the photo licenses. Keep it.
 - Markets Served, two levels deep — five top-level categories, with
   Industrial Cooling and Comfort Cooling fanning out to sub-pages
 - Heat transfer equations reference with a 14-row unit converter
@@ -23,7 +35,7 @@ hashes (`#/about`, `#/equipment/cooling-towers`). 55 routes:
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-08-25.3`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.1`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -47,21 +59,25 @@ artifact, so uploads just sit in the repo and never go live. That already cost
 me a round of confusion. There's no build step here, so a workflow has nothing
 to do anyway.
 
-`index.html` has to be at the repo root, not in a subfolder.
+`index.html` and the `images/` folder have to be at the repo root, not in a
+subfolder.
 
 Pages sits behind a CDN. Hard-refresh (Ctrl+Shift+R) after deploying before
 deciding something is broken.
 
 ### Netlify
 
-Drag this folder onto `app.netlify.com/drop` for an instant URL, or connect
-the GitHub repo for auto-deploys. No build command. Publish directory is the
-repo root.
+The repo is connected to Netlify, so every commit auto-deploys. No build
+command. Publish directory is the repo root.
+
+Uploading through the GitHub website: Add file → Upload files, drag in
+`index.html` and the `images` folder, commit. Filenames must match exactly
+(`index.html`, not `index 3.html`).
 
 ### Anywhere else
 
 Plain static HTML. Vercel, Cloudflare Pages, S3, any host at all. Upload
-`index.html`.
+`index.html` and `images/`.
 
 ## Before this goes live — my punch list
 
@@ -85,11 +101,16 @@ them while previewing.
 6. **Leadership bios** — one sample entry using my name as a format test.
 7. **Contact form** — dead. Wire it to Formspree, Netlify Forms, or Basin.
    Netlify Forms is free if I host there.
-8. **Supplier and manufacturer names** — one orange box per equipment
-   category, ten in total, in the "Lifecycle support" section near the bottom
-   of each. Sub-pages deliberately have none.
-9. **Sanitary certifications** — 3-A, NSF or equivalent for Food & Process,
-   once I've checked which lines carry them.
+8. **Parts lines** — one orange box per parts page (nine), naming the parts
+   lines we carry once display rights are confirmed. Chillers also needs the
+   parts scope confirmed.
+9. **Sanitary materials** — 3-A, NSF, FDA-compliant or equivalent for Food &
+   Process, once I've checked which parts lines carry them.
+10. **Inspection scope** — what we inspect per equipment type, whether thermal
+    testing follows CTI ATC-105, and a sample report if we can share one.
+11. **Service agreement tiers** — response times, visits included, coverage.
+12. **Our own job photos** — before and after shots from our own tower jobs,
+    with permission. Better than any stock photo.
 
 ## Tradeoff I already decided on
 
@@ -102,6 +123,16 @@ itself, that's worth it for the depth and interactivity. If organic search for
 specific equipment or market terms ever becomes a priority, this is the first
 thing to revisit — either real URLs with server-rendered metadata, or a few
 lightweight static landing pages that link into the app.
+
+## Photos
+
+All in `images/`, about 1.6 MB total. Real photographs from Wikimedia Commons
+and the Library of Congress, each public domain, CC0, or CC BY-SA. No AI
+images, and none with a cooling tower maker's logo showing. License details
+for every photo are on the Photo Credits page (`PHOTOS` data is baked into
+that page). The CC BY-SA photos also carry a short credit line under the
+photo. If you add a photo, add it to the credits page too, and don't use
+anything without a clear license.
 
 ## Where things are
 
@@ -123,10 +154,10 @@ All inline in `index.html`:
 - **Territory map** — real SVG geography from US Census boundary data under
   an Albers projection. Label positions are computed, not typed. Don't nudge
   them by eye; that's how CA ended up jammed against NV.
-- **Equipment structure** — three places to touch when a category changes:
-  `ROUTES` at the top of the script, the `#g-equipment` list in the sidebar,
-  and the 10-card grid, which appears twice (Home and the Equipment index)
-  with identical markup.
+- **Parts structure** — three places to touch when a parts category changes:
+  `ROUTES` at the top of the script, the `#g-equipment` list in the sidebar
+  (now labeled Parts), and the 9-card grid, which appears twice (Home and
+  the Parts index) with identical markup.
 - **Sidebar** — nests three levels, and every page on the site has its own
   link in it. A group opens when the current page is one of its descendants,
   and that is worked out from the links themselves rather than from the URL.
