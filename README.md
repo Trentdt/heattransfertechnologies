@@ -24,6 +24,9 @@ hashes (`#/about`, `#/parts/cooling-towers`). 37 pages:
   (`REDIRECTS` near the top of the script). The 20 equipment sub-pages and
   Rental Equipment were removed in the aftermarket rebuild.
 - Photo Credits (`#/credits`), which is required by the photo licenses. Keep it.
+- Privacy Policy (`#/privacy`), Terms of Use (`#/terms`), Accessibility
+  (`#/accessibility`), linked from the footer. Drafts: fill the TODOs and have
+  counsel review before launch.
 - Find Your Representative (`#/representative`): territory map, request form,
   company info. Replaced Contact Us. The About page was removed (Oct 2026).
   `#/contact` and `#/about` redirect.
@@ -40,7 +43,7 @@ no rhetorical questions, no "X, not Y" lines.
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.2`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.3`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -111,6 +114,25 @@ them while previewing.
 10. **Our own job photos** — before and after shots from our own tower jobs,
     with permission. Better than any stock photo.
 
+13. **Legal entity details** — full legal name (LLC/Inc.), state, mailing
+    address, privacy contact email, and the governing-law state in the Terms.
+    Use the full legal name in the footer copyright too. Counsel review.
+14. **Make the GitHub repo private.** It's public now, so anyone can read this
+    README and the site source on GitHub. Netlify works fine with a private
+    repo. (`_redirects` already keeps `/README.md` off the live site.)
+15. **Sharing image** — a 1200x630 `og-image.jpg` at the repo root plus an
+    `og:image` tag, so links shared in email/Teams/LinkedIn show a picture.
+16. **Self-host the fonts** (optional) — removes the only third-party request
+    (Google Fonts) and the Google mention in the Privacy Policy.
+
+## Netlify files
+
+- `_headers` — security headers (Content-Security-Policy and friends). If the
+  form is wired to Formspree or similar, add that domain to `form-action` and
+  `connect-src` or the form will be blocked.
+- `_redirects` — keeps `README.md` and the old `images/` folder off the live
+  site.
+
 ## Tradeoff I already decided on
 
 Every page is one file with JavaScript swapping sections, so search engines
@@ -128,7 +150,9 @@ lightweight static landing pages that link into the app.
 Embedded in `index.html` as data in the CSS (`.ph-<name>` classes, one per
 photo, defined once near the end of the second `<style>` block). They were
 in an `images/` folder, but that depends on the folder making it into the
-repo, so they live in the file now. Total page is about 1.4 MB. Real photographs from Wikimedia Commons
+repo, so they live in the file now. Photos are WebP, about 900px wide, and the photo CSS sits at the end of the
+page so text renders first. Total page is about 1.4 MB. If weight becomes a
+problem, move photos back to real files. Real photographs from Wikimedia Commons
 and the Library of Congress, each public domain, CC0, or CC BY-SA. No AI
 images, and none with a cooling tower maker's logo showing. License details
 for every photo are on the Photo Credits page (`PHOTOS` data is baked into
