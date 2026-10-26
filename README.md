@@ -1,8 +1,7 @@
 # HTT website — my notes
 
-`index.html` plus an `images/` folder of photos. No build step, no
-dependencies, nothing to install. Styles, scripts, the logo, and every page
-live in `index.html`. Open it in a browser and the whole site works,
+One file: `index.html`. No build step, no dependencies, nothing to install.
+Styles, scripts, the logo, the photos, and every page live in that one file. Open it in a browser and the whole site works,
 navigation included.
 
 **Direction (Oct 2026): aftermarket only.** The site sells replacement parts,
@@ -25,6 +24,12 @@ hashes (`#/about`, `#/parts/cooling-towers`). 37 pages:
   (`REDIRECTS` near the top of the script). The 20 equipment sub-pages and
   Rental Equipment were removed in the aftermarket rebuild.
 - Photo Credits (`#/credits`), which is required by the photo licenses. Keep it.
+- Find Your Representative (`#/representative`): territory map, request form,
+  company info. Replaced Contact Us. The About page was removed (Oct 2026).
+  `#/contact` and `#/about` redirect.
+
+**Copy style:** short, plain, technical. Lists over paragraphs. No slogans,
+no rhetorical questions, no "X, not Y" lines.
 - Markets Served, two levels deep — five top-level categories, with
   Industrial Cooling and Comfort Cooling fanning out to sub-pages
 - Heat transfer equations reference with a 14-row unit converter
@@ -35,7 +40,7 @@ hashes (`#/about`, `#/parts/cooling-towers`). 37 pages:
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.1`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.2`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -59,8 +64,7 @@ artifact, so uploads just sit in the repo and never go live. That already cost
 me a round of confusion. There's no build step here, so a workflow has nothing
 to do anyway.
 
-`index.html` and the `images/` folder have to be at the repo root, not in a
-subfolder.
+`index.html` has to be at the repo root, not in a subfolder.
 
 Pages sits behind a CDN. Hard-refresh (Ctrl+Shift+R) after deploying before
 deciding something is broken.
@@ -71,13 +75,13 @@ The repo is connected to Netlify, so every commit auto-deploys. No build
 command. Publish directory is the repo root.
 
 Uploading through the GitHub website: Add file → Upload files, drag in
-`index.html` and the `images` folder, commit. Filenames must match exactly
+`index.html`, commit. Filenames must match exactly
 (`index.html`, not `index 3.html`).
 
 ### Anywhere else
 
 Plain static HTML. Vercel, Cloudflare Pages, S3, any host at all. Upload
-`index.html` and `images/`.
+`index.html`.
 
 ## Before this goes live — my punch list
 
@@ -85,31 +89,26 @@ Everything below shows an orange **TODO** box on the site, so I can't miss
 them while previewing.
 
 1. **Contact info** — address, city/state/ZIP, main phone, email, hours.
-   Shows on Contact Us and in the footer.
-2. **Company history** — About page has an "Our history" section written
-   deliberately vague. Need to decide how both legacy names get presented
-   publicly, founding and merger dates, years in business for each, who
-   carried over, whether either name stays in use.
-3. **Territory assignments** — the map is my working guess at four regions
+   Shows on Find Your Representative and in the footer.
+2. **Territory assignments** — the map is my working guess at four regions
    with my name as rep on all four. Needs real boundaries and real reps. One
    editable list near the top of the `<script>`; search `TERRITORIES` and
    `STATES`.
-4. **Emergency parts contacts** — phone and email per territory. Decide
+3. **Emergency parts contacts** — phone and email per territory. Decide
    whether to say 24/7.
-5. **ZIP-to-territory boundaries** — currently public USPS prefix ranges as
+4. **ZIP-to-territory boundaries** — currently public USPS prefix ranges as
    an approximation, not our confirmed coverage.
-6. **Leadership bios** — one sample entry using my name as a format test.
-7. **Contact form** — dead. Wire it to Formspree, Netlify Forms, or Basin.
+5. **Contact form** — dead. Wire it to Formspree, Netlify Forms, or Basin.
    Netlify Forms is free if I host there.
-8. **Parts lines** — one orange box per parts page (nine), naming the parts
+6. **Parts lines** — one orange box per parts page (nine), naming the parts
    lines we carry once display rights are confirmed. Chillers also needs the
    parts scope confirmed.
-9. **Sanitary materials** — 3-A, NSF, FDA-compliant or equivalent for Food &
+7. **Sanitary materials** — 3-A, NSF, FDA-compliant or equivalent for Food &
    Process, once I've checked which parts lines carry them.
-10. **Inspection scope** — what we inspect per equipment type, whether thermal
+8. **Inspection scope** — what we inspect per equipment type, whether thermal
     testing follows CTI ATC-105, and a sample report if we can share one.
-11. **Service agreement tiers** — response times, visits included, coverage.
-12. **Our own job photos** — before and after shots from our own tower jobs,
+9. **Service agreement tiers** — response times, visits included, coverage.
+10. **Our own job photos** — before and after shots from our own tower jobs,
     with permission. Better than any stock photo.
 
 ## Tradeoff I already decided on
@@ -126,7 +125,10 @@ lightweight static landing pages that link into the app.
 
 ## Photos
 
-All in `images/`, about 1.6 MB total. Real photographs from Wikimedia Commons
+Embedded in `index.html` as data in the CSS (`.ph-<name>` classes, one per
+photo, defined once near the end of the second `<style>` block). They were
+in an `images/` folder, but that depends on the folder making it into the
+repo, so they live in the file now. Total page is about 1.4 MB. Real photographs from Wikimedia Commons
 and the Library of Congress, each public domain, CC0, or CC BY-SA. No AI
 images, and none with a cooling tower maker's logo showing. License details
 for every photo are on the Photo Credits page (`PHOTOS` data is baked into
