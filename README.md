@@ -43,7 +43,7 @@ no rhetorical questions, no "X, not Y" lines.
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.4`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-10-27.1`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
@@ -124,6 +124,14 @@ them while previewing.
     `og:image` tag, so links shared in email/Teams/LinkedIn show a picture.
 16. **Self-host the fonts** (optional) — removes the only third-party request
     (Google Fonts) and the Google mention in the Privacy Policy.
+
+17. **Coverage is the contiguous United States** (Oct 2026). Site text is
+    updated. The territory map, `TERRITORIES`/`STATES`, and the ZIP lookup still
+    reflect the old eastern territories; redo them once territory lines are set.
+18. **Photos to supply** — home page is photo-free on purpose until these
+    arrive: a strong hero image, a BAC Series 3000 for Tower Component
+    Replacement (ours, or BAC-approved for our use), and an inspection photo.
+    No free-license source had a usable S3000 or inspection shot.
 
 ## Netlify files
 
