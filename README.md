@@ -43,7 +43,7 @@ no rhetorical questions, no "X, not Y" lines.
 
 ## Is the new version actually live?
 
-Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.3`.
+Footer, bottom right, small grey type next to the copyright: `b.2026-10-26.4`.
 If the live site shows that, I'm current. Older stamp or nothing at all means
 the deploy didn't take.
 
